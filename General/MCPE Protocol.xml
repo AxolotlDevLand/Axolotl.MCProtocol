@@ -140,6 +140,7 @@
 	</pdu>
 
 	<pdu id="0x05" online="false" client="false" server="true" name="MCPE_DISCONNECT">
+		<field name="DisconnectFailReason" type="UnsignedVarInt" />
 		<field name="Hide disconnect reason" type="bool" />
 		<field name="Message" type="string" />
 	</pdu>
@@ -1203,7 +1204,36 @@
 		<field name="Text" type="string" />
 		<field name="From server" type="bool"/>
 	</pdu>
-
+	<pdu id="0x8a" online="false" client="true" server="true" name="MCPE_EMOTE_PACKET">
+		<field name="runtimeEntityId" type="UnsignedVarLong" />
+		<field name="xuid" type="string"/>
+		<field name="platformId" type="string"/>
+		<field name="emoteId" type="string"/>
+		<field name="flags" type="byte"/>
+	</pdu>
+	<pdu id="0x98" online="false" client="true" server="true" name="MCPE_EMOTE_LIST">
+		<field name="runtimeEntityId" type="UnsignedVarLong" />
+		<field name="emoteids" type="EmoteIds"/>
+	</pdu>
+	<pdu id="0xb9" online="false" client="true" server="true" name="MCPE_PERMISSION_REQUEST">
+		<field name="runtimeEntityId" type="long" />
+		<field name="permission" type="UnsignedVarInt"/>
+		<field name="flagss" type="short"/>
+	</pdu>
+	<pdu id="0x133" online="false" client="true" server="true" name="MCPE_SET_INVENTORY_OPTIONS">
+		<field name="leftTab" type="SignedVarInt" />
+		<field name="rightTab" type="SignedVarInt"/>
+		<field name="filtering" type="bool"/>
+		<field name="inventoryLayout" type="SignedVarInt"/>
+		<field name="craftingLayout" type="SignedVarInt"/>
+	</pdu>
+	<pdu id="0xa0" online="false" client="true" server="true" name="MCPE_PLAYER_FOG">
+		<field name="fogStack" type="fogStack" />
+	</pdu>
+	<pdu id="0x8D" online="false" client="true" server="true" name="MCPE_ANVIL_DAMAGE">
+		<field name="damageAmount" type="byte" />
+		<field name="coordinates" type="BlockCoordinates"/>
+	</pdu>
 	<pdu id="0xac" online="false" client="true" server="true" name="MCPE_UPDATE_SUB_CHUNK_BLOCKS_PACKET">
 		<field name="Subchunk coordinates" type="BlockCoordinates"/>
 		<field name="Layer zero updates" type="UpdateSubChunkBlocksPacketEntry[]"/>

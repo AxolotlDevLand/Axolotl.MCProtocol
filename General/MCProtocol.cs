@@ -1127,54 +1127,61 @@ namespace Axolotl.MCProtocol.Packet
 	public partial class McpeDisconnect : Packet
 	{
 
-		public bool hideDisconnectReason; // = null;
-		public string message; // = null;
 
-		public McpeDisconnect()
-		{
-			Id = 0x05;
-			IsMcpe = true;
-		}
+        public bool hideDisconnectReason; // = null;
+        public string message; // = null;
+        public uint failReason; // = null;
+        public string filteredMessage; // = null
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        public McpeDisconnect()
+        {
+            Id = 0x05;
+            IsMcpe = true;
+        }
 
-			BeforeEncode();
+        protected override void EncodePacket()
+        {
+            base.EncodePacket();
 
-			Write(hideDisconnectReason);
-			Write(message);
+            BeforeEncode();
 
-			AfterEncode();
-		}
+            WriteUnsignedVarInt(0); //todo
+            Write(hideDisconnectReason);
+            Write(message);
+            
+            AfterEncode();
+        }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void DecodePacket()
+        {
+            base.DecodePacket();
 
-			BeforeDecode();
+            BeforeDecode();
 
-			hideDisconnectReason = ReadBool();
-			message = ReadString();
+            failReason = ReadUnsignedVarInt();
+            hideDisconnectReason = ReadBool();
+            message = ReadString();
+            filteredMessage = ReadString();
 
-			AfterDecode();
-		}
+            AfterDecode();
+        }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void ResetPacket()
+        {
+            base.ResetPacket();
 
-			hideDisconnectReason=default(bool);
-			message=default(string);
-		}
+            hideDisconnectReason = default(bool);
+            message = default(string);
+            failReason = default(int);
+        }
 
-	}
+    }
 
 	public partial class McpeResourcePacksInfo : Packet
 	{
@@ -8883,6 +8890,342 @@ namespace Axolotl.MCProtocol.Packet
 
 	}
 
+	public partial class McpeEmotePacket : Packet
+	{
+
+		public long runtimeentityid; // = null;
+		public string xuid; // = null;
+		public string platformid; // = null;
+		public string emoteid; // = null;
+		public byte flags; // = null;
+
+		public McpeEmotePacket()
+		{
+			Id = 0x8a;
+			IsMcpe = true;
+		}
+
+		protected override void EncodePacket()
+		{
+			base.EncodePacket();
+
+			BeforeEncode();
+
+			WriteUnsignedVarLong(runtimeentityid);
+			Write(xuid);
+			Write(platformid);
+			Write(emoteid);
+			Write(flags);
+
+			AfterEncode();
+		}
+
+		partial void BeforeEncode();
+		partial void AfterEncode();
+
+		protected override void DecodePacket()
+		{
+			base.DecodePacket();
+
+			BeforeDecode();
+
+			runtimeentityid = ReadUnsignedVarLong();
+			xuid = ReadString();
+			platformid = ReadString();
+			emoteid = ReadString();
+			flags = ReadByte();
+
+			AfterDecode();
+		}
+
+		partial void BeforeDecode();
+		partial void AfterDecode();
+
+		protected override void ResetPacket()
+		{
+			base.ResetPacket();
+
+			runtimeentityid=default(long);
+			xuid=default(string);
+			platformid=default(string);
+			emoteid=default(string);
+			flags=default(byte);
+		}
+
+	}
+
+	public partial class McpeEmoteList : Packet
+	{
+
+		public long runtimeentityid; // = null;
+		public EmoteIds emoteids; // = null;
+
+		public McpeEmoteList()
+		{
+			Id = 0x98;
+			IsMcpe = true;
+		}
+
+		protected override void EncodePacket()
+		{
+			base.EncodePacket();
+
+			BeforeEncode();
+
+			WriteUnsignedVarLong(runtimeentityid);
+			Write(emoteids);
+
+			AfterEncode();
+		}
+
+		partial void BeforeEncode();
+		partial void AfterEncode();
+
+		protected override void DecodePacket()
+		{
+			base.DecodePacket();
+
+			BeforeDecode();
+
+			runtimeentityid = ReadUnsignedVarLong();
+			emoteids = ReadEmoteId();
+
+			AfterDecode();
+		}
+
+		partial void BeforeDecode();
+		partial void AfterDecode();
+
+		protected override void ResetPacket()
+		{
+			base.ResetPacket();
+
+			runtimeentityid=default(long);
+			emoteids=default(EmoteIds);
+		}
+
+	}
+
+	public partial class McpePermissionRequest : Packet
+	{
+
+		public long runtimeentityid; // = null;
+		public uint permission; // = null;
+		public short flagss; // = null;
+
+		public McpePermissionRequest()
+		{
+			Id = 0xb9;
+			IsMcpe = true;
+		}
+
+		protected override void EncodePacket()
+		{
+			base.EncodePacket();
+
+			BeforeEncode();
+
+			Write(runtimeentityid);
+			WriteUnsignedVarInt(permission);
+			Write(flagss);
+
+			AfterEncode();
+		}
+
+		partial void BeforeEncode();
+		partial void AfterEncode();
+
+		protected override void DecodePacket()
+		{
+			base.DecodePacket();
+
+			BeforeDecode();
+
+			runtimeentityid = ReadLong();
+			permission = ReadUnsignedVarInt();
+			flagss = ReadShort();
+
+			AfterDecode();
+		}
+
+		partial void BeforeDecode();
+		partial void AfterDecode();
+
+		protected override void ResetPacket()
+		{
+			base.ResetPacket();
+
+			runtimeentityid=default(long);
+			permission=default(uint);
+			flagss=default(short);
+		}
+
+	}
+
+	public partial class McpeSetInventoryOptions : Packet
+	{
+
+		public int lefttab; // = null;
+		public int righttab; // = null;
+		public bool filtering; // = null;
+		public int inventorylayout; // = null;
+		public int craftinglayout; // = null;
+
+		public McpeSetInventoryOptions()
+		{
+			Id = 0x133;
+			IsMcpe = true;
+		}
+
+		protected override void EncodePacket()
+		{
+			base.EncodePacket();
+
+			BeforeEncode();
+
+			WriteSignedVarInt(lefttab);
+			WriteSignedVarInt(righttab);
+			Write(filtering);
+			WriteSignedVarInt(inventorylayout);
+			WriteSignedVarInt(craftinglayout);
+
+			AfterEncode();
+		}
+
+		partial void BeforeEncode();
+		partial void AfterEncode();
+
+		protected override void DecodePacket()
+		{
+			base.DecodePacket();
+
+			BeforeDecode();
+
+			lefttab = ReadSignedVarInt();
+			righttab = ReadSignedVarInt();
+			filtering = ReadBool();
+			inventorylayout = ReadSignedVarInt();
+			craftinglayout = ReadSignedVarInt();
+
+			AfterDecode();
+		}
+
+		partial void BeforeDecode();
+		partial void AfterDecode();
+
+		protected override void ResetPacket()
+		{
+			base.ResetPacket();
+
+			lefttab=default(int);
+			righttab=default(int);
+			filtering=default(bool);
+			inventorylayout=default(int);
+			craftinglayout=default(int);
+		}
+
+	}
+
+	public partial class McpePlayerFog : Packet
+	{
+
+		public fogStack fogstack; // = null;
+
+		public McpePlayerFog()
+		{
+			Id = 0xa0;
+			IsMcpe = true;
+		}
+
+		protected override void EncodePacket()
+		{
+			base.EncodePacket();
+
+			BeforeEncode();
+
+			Write(fogstack);
+
+			AfterEncode();
+		}
+
+		partial void BeforeEncode();
+		partial void AfterEncode();
+
+		protected override void DecodePacket()
+		{
+			base.DecodePacket();
+
+			BeforeDecode();
+
+			fogstack = Read();
+
+			AfterDecode();
+		}
+
+		partial void BeforeDecode();
+		partial void AfterDecode();
+
+		protected override void ResetPacket()
+		{
+			base.ResetPacket();
+
+			fogstack=default(fogStack);
+		}
+
+	}
+
+	public partial class McpeAnvilDamage : Packet
+	{
+
+		public byte damageamount; // = null;
+		public BlockCoordinates coordinates; // = null;
+
+		public McpeAnvilDamage()
+		{
+			Id = 0x8d;
+			IsMcpe = true;
+		}
+
+		protected override void EncodePacket()
+		{
+			base.EncodePacket();
+
+			BeforeEncode();
+
+			Write(damageamount);
+			Write(coordinates);
+
+			AfterEncode();
+		}
+
+		partial void BeforeEncode();
+		partial void AfterEncode();
+
+		protected override void DecodePacket()
+		{
+			base.DecodePacket();
+
+			BeforeDecode();
+
+			damageamount = ReadByte();
+			coordinates = ReadBlockCoordinates();
+
+			AfterDecode();
+		}
+
+		partial void BeforeDecode();
+		partial void AfterDecode();
+
+		protected override void ResetPacket()
+		{
+			base.ResetPacket();
+
+			damageamount=default(byte);
+			coordinates=default(BlockCoordinates);
+		}
+
+	}
+
 	public partial class McpeUpdateSubChunkBlocksPacket : Packet
 	{
 
@@ -9473,7 +9816,7 @@ namespace Axolotl.MCProtocol.Packet
 
 	public partial class McpeWrapper : Packet
 	{
-
+		
 
 		public McpeWrapper()
 		{

@@ -20,6 +20,7 @@ using Microsoft.IO;
 using Axolotl.Nbts;
 using VarInt = System.VarInt;
 using Newtonsoft.Json;
+using SixLabors.ImageSharp.Memory;
 
 namespace Axolotl.MCProtocol.Packet
 {
@@ -30,8 +31,8 @@ namespace Axolotl.MCProtocol.Packet
         protected MemoryStreamReader _reader; // new construct for reading
         protected private Stream _buffer;
         private BinaryWriter _writer;
+        public bool UsentEncode;
         public ReadOnlyMemory<byte> Bytes { get; private set; }
-
         public void Write(sbyte value)
         {
             _writer.Write(value);
@@ -3913,7 +3914,8 @@ namespace Axolotl.MCProtocol.Packet
 	        }
 		}
 
-        protected virtual void EncodePacket()
+		
+		protected virtual void EncodePacket()
         {
 	        _buffer.Position = 0;
 	        if (IsMcpe) WriteVarInt(Id);
@@ -3924,5 +3926,387 @@ namespace Axolotl.MCProtocol.Packet
         {
 	        Id = IsMcpe ? ReadVarInt() : ReadByte();
 		}
+		public virtual Packet Decode(ReadOnlyMemory<byte> buffer)
+		{
+			Bytes = buffer;
+			_reader = new MemoryStreamReader(buffer);
+
+			DecodePacket();
+
+			_reader.Dispose();
+			_reader = null;
+
+			return this;
+		}
+
+		public static Packet PacketFactory(int id,byte[] bytes)
+		{
+			switch (id)
+			{
+				case 0x01:
+					return new McpeLogin().Decode(bytes);
+				case 0x02:
+					return new McpePlayStatus().Decode(bytes);
+				case 0x03:
+					return new McpeServerToClientHandshake().Decode(bytes);
+				case 0x04:
+					return new McpeClientToServerHandshake().Decode(bytes);
+				case 0x05:
+					return new McpeDisconnect().Decode(bytes);
+				case 0x06:
+					return new McpeResourcePacksInfo().Decode(bytes);
+				case 0x07:
+					return new McpeResourcePackStack().Decode(bytes);
+				case 0x08:
+					return new McpeResourcePackClientResponse().Decode(bytes);
+				case 0x09:
+					return new McpeText().Decode(bytes);
+				case 0x0a:
+					return new McpeSetTime().Decode(bytes);
+				case 0x0b:
+					return new McpeStartGame().Decode(bytes);
+				case 0x0c:
+					return new McpeAddPlayer().Decode(bytes);
+				case 0x0d:
+					return new McpeAddEntity().Decode(bytes);
+				case 0x0e:
+					return new McpeRemoveEntity().Decode(bytes);
+				case 0x0f:
+					return new McpeAddItemEntity().Decode(bytes);
+				case 0x11:
+					return new McpeTakeItemEntity().Decode(bytes);
+				case 0x12:
+					return new McpeMoveEntity().Decode(bytes);
+				case 0x13:
+					return new McpeMovePlayer().Decode(bytes);
+				case 0x14:
+					return new McpeRiderJump().Decode(bytes);
+				case 0x15:
+					return new McpeUpdateBlock().Decode(bytes);
+				case 0x16:
+					return new McpeAddPainting().Decode(bytes);
+				case 0x17:
+				//Deprecated McpeTickSync
+				case 0x18:
+					return new McpeLevelSoundEventOld().Decode(bytes);
+				case 0x19:
+					return new McpeLevelEvent().Decode(bytes);
+				case 0x1a:
+					return new McpeBlockEvent().Decode(bytes);
+				case 0x1b:
+					return new McpeEntityEvent().Decode(bytes);
+				case 0x1c:
+					return new McpeMobEffect().Decode(bytes);
+				case 0x1d:
+					return new McpeUpdateAttributes().Decode(bytes);
+				case 0x1e:
+					return new McpeInventoryTransaction().Decode(bytes);
+				case 0x1f:
+					return new McpeMobEquipment().Decode(bytes);
+				case 0x20:
+					return new McpeMobArmorEquipment().Decode(bytes);
+				case 0x21:
+					return new McpeInteract().Decode(bytes);
+				case 0x22:
+					return new McpeBlockPickRequest().Decode(bytes);
+				case 0x23:
+					return new McpeEntityPickRequest().Decode(bytes);
+				case 0x24:
+					return new McpePlayerAction().Decode(bytes);
+				case 0x26:
+					return new McpeHurtArmor().Decode(bytes);
+				case 0x27:
+					return new McpeSetEntityData().Decode(bytes);
+				case 0x28:
+					return new McpeSetEntityMotion().Decode(bytes);
+				case 0x29:
+					return new McpeSetEntityLink().Decode(bytes);
+				case 0x2a:
+					return new McpeSetHealth().Decode(bytes);
+				case 0x2b:
+					return new McpeSetSpawnPosition().Decode(bytes);
+				case 0x2c:
+					return new McpeAnimate().Decode(bytes);
+				case 0x2d:
+					return new McpeRespawn().Decode(bytes);
+				case 0x2e:
+					return new McpeContainerOpen().Decode(bytes);
+				case 0x2f:
+					return new McpeContainerClose().Decode(bytes);
+				case 0x30:
+					return new McpePlayerHotbar().Decode(bytes);
+				case 0x31:
+					return new McpeInventoryContent().Decode(bytes);
+				case 0x32:
+					return new McpeInventorySlot().Decode(bytes);
+				case 0x33:
+					return new McpeContainerSetData().Decode(bytes);
+				case 0x34:
+					return new McpeCraftingData().Decode(bytes);
+				case 0x35:
+					return new McpeCraftingEvent().Decode(bytes);
+				case 0x36:
+					return new McpeGuiDataPickItem().Decode(bytes);
+				case 0x37:
+					return new McpeAdventureSettings().Decode(bytes);
+				case 0x38:
+					return new McpeBlockEntityData().Decode(bytes);
+				case 0x39:
+					return new McpePlayerInput().Decode(bytes);
+				case 0x3a:
+					return new McpeLevelChunk().Decode(bytes);
+				case 0x3b:
+					return new McpeSetCommandsEnabled().Decode(bytes);
+				case 0x3c:
+					return new McpeSetDifficulty().Decode(bytes);
+				case 0x3d:
+					return new McpeChangeDimension().Decode(bytes);
+				case 0x3e:
+					return new McpeSetPlayerGameType().Decode(bytes);
+				case 0x3f:
+					return new McpePlayerList().Decode(bytes);
+				case 0x40:
+					return new McpeSimpleEvent().Decode(bytes);
+				case 0x41:
+					return new McpeTelemetryEvent().Decode(bytes);
+				case 0x42:
+					return new McpeSpawnExperienceOrb().Decode(bytes);
+				case 0x43:
+					return new McpeClientboundMapItemData().Decode(bytes);
+				case 0x44:
+					return new McpeMapInfoRequest().Decode(bytes);
+				case 0x45:
+					return new McpeRequestChunkRadius().Decode(bytes);
+				case 0x46:
+					return new McpeChunkRadiusUpdate().Decode(bytes);
+				case 0x48:
+					return new McpeGameRulesChanged().Decode(bytes);
+				case 0x49:
+					return new McpeCamera().Decode(bytes);
+				case 0x4a:
+					return new McpeBossEvent().Decode(bytes);
+				case 0x4b:
+					return new McpeShowCredits().Decode(bytes);
+				case 0x4c:
+					return new McpeAvailableCommands().Decode(bytes);
+				case 0x4d:
+					return new McpeCommandRequest().Decode(bytes);
+				case 0x4e:
+					return new McpeCommandBlockUpdate().Decode(bytes);
+				case 0x4f:
+					return new McpeCommandOutput().Decode(bytes);
+				case 0x50:
+					return new McpeUpdateTrade().Decode(bytes);
+				case 0x51:
+					return new McpeUpdateEquipment().Decode(bytes);
+				case 0x52:
+					return new McpeResourcePackDataInfo().Decode(bytes);
+				case 0x53:
+					return new McpeResourcePackChunkData().Decode(bytes);
+				case 0x54:
+					return new McpeResourcePackChunkRequest().Decode(bytes);
+				case 0x55:
+					return new McpeTransfer().Decode(bytes);
+				case 0x56:
+					return new McpePlaySound().Decode(bytes);
+				case 0x57:
+					return new McpeStopSound().Decode(bytes);
+				case 0x58:
+					return new McpeSetTitle().Decode(bytes);
+				case 0x59:
+					return new McpeAddBehaviorTree().Decode(bytes);
+				case 0x5a:
+					return new McpeStructureBlockUpdate().Decode(bytes);
+				case 0x5b:
+					return new McpeShowStoreOffer().Decode(bytes);
+				case 0x5c:
+					return new McpePurchaseReceipt().Decode(bytes);
+				case 0x5d:
+					return new McpePlayerSkin().Decode(bytes);
+				case 0x5e:
+					return new McpeSubClientLogin().Decode(bytes);
+				case 0x5f:
+					return new McpeInitiateWebSocketConnection().Decode(bytes);
+				case 0x60:
+					return new McpeSetLastHurtBy().Decode(bytes);
+				case 0x61:
+					return new McpeBookEdit().Decode(bytes);
+				case 0x62:
+					return new McpeNpcRequest().Decode(bytes);
+				case 0x63:
+					return new McpePhotoTransfer().Decode(bytes);
+				case 0x64:
+					return new McpeModalFormRequest().Decode(bytes);
+				case 0x65:
+					return new McpeModalFormResponse().Decode(bytes);
+				case 0x66:
+					return new McpeServerSettingsRequest().Decode(bytes);
+				case 0x67:
+					return new McpeServerSettingsResponse().Decode(bytes);
+				case 0x68:
+					return new McpeShowProfile().Decode(bytes);
+				case 0x69:
+					return new McpeSetDefaultGameType().Decode(bytes);
+				case 0x6a:
+					return new McpeRemoveObjective().Decode(bytes);
+				case 0x6b:
+					return new McpeSetDisplayObjective().Decode(bytes);
+				case 0x6c:
+					return new McpeSetScore().Decode(bytes);
+				case 0x6d:
+					return new McpeLabTable().Decode(bytes);
+				case 0x6e:
+					return new McpeUpdateBlockSynced().Decode(bytes);
+				case 0x6f:
+					return new McpeMoveEntityDelta().Decode(bytes);
+				case 0x70:
+					return new McpeSetScoreboardIdentity().Decode(bytes);
+				case 0x71:
+					return new McpeSetLocalPlayerAsInitialized().Decode(bytes);
+				case 0x72:
+					return new McpeUpdateSoftEnum().Decode(bytes);
+				case 0x73:
+					return new McpeNetworkStackLatency().Decode(bytes);
+				case 0x75:
+					return new McpeScriptCustomEvent().Decode(bytes);
+				case 0x76:
+					return new McpeSpawnParticleEffect().Decode(bytes);
+				case 0x77:
+					return new McpeAvailableEntityIdentifiers().Decode(bytes);
+				case 0x78:
+					return new McpeLevelSoundEventV2().Decode(bytes);
+				case 0x79:
+					return new McpeNetworkChunkPublisherUpdate().Decode(bytes);
+				case 0x7a:
+					return new McpeBiomeDefinitionList().Decode(bytes);
+				case 0x7b:
+					return new McpeLevelSoundEvent().Decode(bytes);
+				case 0x7c:
+					return new McpeLevelEventGeneric().Decode(bytes);
+				case 0x7d:
+					return new McpeLecternUpdate().Decode(bytes);
+				case 0x7e:
+					return new McpeVideoStreamConnect().Decode(bytes);
+				case 0x81:
+					return new McpeClientCacheStatus().Decode(bytes);
+				case 0x82:
+					return new McpeOnScreenTextureAnimation().Decode(bytes);
+				case 0x83:
+					return new McpeMapCreateLockedCopy().Decode(bytes);
+				case 0x84:
+					return new McpeStructureTemplateDataExportRequest().Decode(bytes);
+				case 0x85:
+					return new McpeStructureTemplateDataExportResponse().Decode(bytes);
+				case 0x86:
+					return new McpeUpdateBlockProperties().Decode(bytes);
+				case 0x87:
+					return new McpeClientCacheBlobStatus().Decode(bytes);
+				case 0x88:
+					return new McpeClientCacheMissResponse().Decode(bytes);
+				case 0x8f:
+					return new McpeNetworkSettings().Decode(bytes);
+				case 0x90:
+					return new McpePlayerAuthInput().Decode(bytes);
+				case 0x91:
+					return new McpeCreativeContent().Decode(bytes);
+				case 0x92:
+					return new McpePlayerEnchantOptions().Decode(bytes);
+				case 0x93:
+					return new McpeItemStackRequest().Decode(bytes);
+				case 0x94:
+					return new McpeItemStackResponse().Decode(bytes);
+				case 0x97:
+					return new McpeUpdatePlayerGameType().Decode(bytes);
+				case 0x9c:
+					return new McpePacketViolationWarning().Decode(bytes);
+				case 0xa2:
+					return new McpeItemComponent().Decode(bytes);
+				case 0xa3:
+					return new McpeFilterTextPacket().Decode(bytes);
+				case 0xac:
+					return new McpeUpdateSubChunkBlocksPacket().Decode(bytes);
+				case 0xae:
+					return new McpeSubChunkPacket().Decode(bytes);
+				case 0xaf:
+					return new McpeSubChunkRequestPacket().Decode(bytes);
+				case 0xb4:
+					return new McpeDimensionData().Decode(bytes);
+				case 0xbb:
+					return new McpeUpdateAbilities().Decode(bytes);
+				case 0xbc:
+					return new McpeUpdateAdventureSettings().Decode(bytes);
+				case 0xb8:
+					return new McpeRequestAbility().Decode(bytes);
+				case 0xc1:
+					return new McpeRequestNetworkSettings().Decode(bytes);
+				case 0x12e:
+					return new McpeTrimData().Decode(bytes);
+				case 0x12f:
+					return new McpeOpenSign().Decode(bytes);
+				case 0xe0:
+					return new McpeAlexEntityAnimation().Decode(bytes);
+				case 0x8a:
+					return new McpeEmotePacket().Decode(bytes);
+				case 0x98:
+					return new McpeEmoteList().Decode(bytes);
+				case 0xb9:
+					return new McpePermissionRequest().Decode(bytes);
+				case 0x133:
+					return new McpeSetInventoryOptions().Decode(bytes);
+				case 0xa0:
+					return new McpePlayerFog().Decode(bytes);
+				case 0x8D:
+					return new McpeAnvilDamage().Decode(bytes);
+                default:
+					return null;
+			}
+		}
+        public static string HexDump(ReadOnlyMemory<byte> bytes, int bytesPerLine = 16, bool printLineCount = false)
+        {
+            var hexDump = HexDump(bytes.Span, bytesPerLine, printLineCount);
+            Console.WriteLine(hexDump);
+            return hexDump;
+        }
+
+        private static string HexDump(ReadOnlySpan<byte> bytes, in int bytesPerLine, in bool printLineCount)
+        {
+            var sb = new StringBuilder();
+            for (int line = 0; line < bytes.Length; line += bytesPerLine)
+            {
+                byte[] lineBytes = bytes.Slice(line).ToArray().Take(bytesPerLine).ToArray();
+                if (printLineCount) sb.AppendFormat("{0:x8} ", line);
+                sb.Append(string.Join(" ", lineBytes.Select(b => b.ToString("x2"))
+                        .ToArray())
+                    .PadRight(bytesPerLine * 3));
+                sb.Append(" ");
+                sb.Append(new string(lineBytes.Select(b => b < 32 ? '.' : (char)b)
+                    .ToArray()));
+                sb.AppendLine();
+            }
+            return sb.ToString();
+        }
+    }
+    public enum PacketID
+    {
+	    ConnectedPing = 0x00,
+	    UnconnectedPing1 = 0x01,
+	    UnconnectedPing2 = 0x02,
+	    ConnectedPong = 0x03,
+	    UnconnectedPong = 0x1c,
+	    OpenConnectionRequest1 = 0x05,
+	    OpenConnectionReply1 = 0x06,
+	    OpenConnectionRequest2 = 0x07,
+	    OpenConnectionReply2 = 0x08,
+	    ConnectionRequest = 0x09,
+	    ConnectionRequestAccepted = 0x10,
+	    AlreadyConnected = 0x12,
+	    NewIncomingConnection = 0x13,
+	    Disconnect = 0x15,
+	    IncompatibleProtocolVersion = 0x19,
+	    FrameSetPacketBegin = 0x80,
+	    FrameSetPacketEnd = 0x8d,
+	    Nack = 0xa0,
+	    Ack = 0xc0,
+	    Game = 0xfe,
     }
 }

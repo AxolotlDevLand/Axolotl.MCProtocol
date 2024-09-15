@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Axolotl.MCProtocol;
 using Axolotl.Auth;
+using Axolotl.Skins;
 
 namespace Axolotl.Util
 {
     public class PlayerInfo
-    {
-        public int ADRole { get; set; }
+	{
+		public Skin Skin { get; set; }
+		public int ADRole { get; set; }
         public CertificateData CertificateData { get; set; }
         public string Username { get; set; }
         public UUID ClientUuid { get; set; }
