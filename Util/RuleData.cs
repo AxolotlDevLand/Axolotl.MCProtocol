@@ -23,23 +23,20 @@
 
 #endregion
 
-using System.Collections.Generic;
+namespace Axolotl.Util;
 
-namespace Axolotl.Util
-{
-    public class Rules : List<RuleData>
+public class Rules : List<RuleData>
     {
     }
 
-    public class RuleData
+public class RuleData
     {
         public string Name { get; set; }
         public bool Unknown1 { get; set; }
         public bool Unknown2 { get; set; }
 
         public override string ToString()
-        {
-            return $"Name: {Name}, Unknown1: {Unknown1}, Unknown2: {Unknown2}";
-        }
+            {
+                return $"Name: {Name}, Unknown1: {Unknown1}, Unknown2: {Unknown2}";
+            }
     }
-}

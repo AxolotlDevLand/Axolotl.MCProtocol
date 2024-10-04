@@ -1,5 +1,7 @@
-﻿namespace fNbt {
-    internal enum NbtParseState {
+﻿namespace fNbt;
+
+internal enum NbtParseState
+    {
         AtStreamBeginning,
         AtCompoundBeginning,
         InCompound,
@@ -9,4 +11,3 @@
         AtStreamEnd,
         Error
     }
-}

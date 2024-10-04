@@ -1,9926 +1,9654 @@
-
 //
 // WARNING: T4 GENERATED CODE - DO NOT EDIT
 // 
 
-using System;
+// friendly name
+
+namespace Axolotl.MCProtocol.Packet;
+
 using System.Net;
 using System.Numerics;
-using System.Threading;
-using Axolotl.Items;
-using Axolotl.Util;
-using Axolotl.Nbts;
-using Axolotl.Metadata;
-using Axolotl.Skins;
-using little = Axolotl.Util.Int24;// friendly name
-using LongString = System.String;
-
-namespace Axolotl.MCProtocol.Packet
-{
-	public class McpeProtocolInfo
-	{
-		public const int ProtocolVersion = 582;
-		public const string GameVersion = "1.19.80";
-	}
-	public enum AdventureFlags
-	{
-		Mayfly = 0x40,
-		Noclip = 0x80,
-		Worldbuilder = 0x100,
-		Flying = 0x200,
-		Muted = 0x400,
-	}
-	public enum CommandPermission
-	{
-		Normal = 0,
-		Operator = 1,
-		Host = 2,
-		Automation = 3,
-		Admin = 4,
-	}
-	public enum PermissionLevel
-	{
-		Visitor = 0,
-		Member = 1,
-		Operator = 2,
-		Custom = 3,
-	}
-	public enum ActionPermissions
-	{
-		BuildAndMine = 0x1,
-		DoorsAndSwitches = 0x2,
-		OpenContainers = 0x4,
-		AttackPlayers = 0x8,
-		AttackMobs = 0x10,
-		Operator = 0x20,
-		Teleport = 0x80,
-		Default = (BuildAndMine | DoorsAndSwitches | OpenContainers | AttackPlayers | AttackMobs ),
-		All = (BuildAndMine | DoorsAndSwitches | OpenContainers | AttackPlayers | AttackMobs | Operator | Teleport),
-	}
-
-	public partial class ConnectedPing : Packet
-	{
-
-		public long sendpingtime; // = null;
-
-		public ConnectedPing()
-		{
-			Id = 0x00;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(sendpingtime);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			sendpingtime = ReadLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			sendpingtime=default(long);
-		}
-
-	}
-
-	public partial class UnconnectedPing : Packet
-	{
-
-		public long pingId; // = null;
-		public readonly byte[] offlineMessageDataId = new byte[]{ 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
-		public long guid; // = null;
-
-		public UnconnectedPing()
-		{
-			Id = 0x01;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(pingId);
-			Write(offlineMessageDataId);
-			Write(guid);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			pingId = ReadLong();
-			ReadBytes(offlineMessageDataId.Length);
-			guid = ReadLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			pingId=default(long);
-			guid=default(long);
-		}
-
-	}
-
-	public partial class ConnectedPong : Packet
-	{
-
-		public long sendpingtime; // = null;
-		public long sendpongtime; // = null;
-
-		public ConnectedPong()
-		{
-			Id = 0x03;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(sendpingtime);
-			Write(sendpongtime);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			sendpingtime = ReadLong();
-			sendpongtime = ReadLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			sendpingtime=default(long);
-			sendpongtime=default(long);
-		}
-
-	}
-
-	public partial class DetectLostConnections : Packet
-	{
-
-
-		public DetectLostConnections()
-		{
-			Id = 0x04;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-		}
-
-	}
-
-	public partial class UnconnectedPong : Packet
-	{
-
-		public long pingId; // = null;
-		public long serverId; // = null;
-		public readonly byte[] offlineMessageDataId = new byte[]{ 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
-		public string serverName; // = null;
-
-		public UnconnectedPong()
-		{
-			Id = 0x1c;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(pingId);
-			Write(serverId);
-			Write(offlineMessageDataId);
-			WriteFixedString(serverName);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			pingId = ReadLong();
-			serverId = ReadLong();
-			ReadBytes(offlineMessageDataId.Length);
-			serverName = ReadFixedString();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			pingId=default(long);
-			serverId=default(long);
-			serverName=default(string);
-		}
-
-	}
-
-	public partial class OpenConnectionRequest1 : Packet
-	{
-
-		public readonly byte[] offlineMessageDataId = new byte[]{ 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
-		public byte raknetProtocolVersion; // = null;
-
-		public OpenConnectionRequest1()
-		{
-			Id = 0x05;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(offlineMessageDataId);
-			Write(raknetProtocolVersion);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			ReadBytes(offlineMessageDataId.Length);
-			raknetProtocolVersion = ReadByte();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			raknetProtocolVersion=default(byte);
-		}
-
-	}
-
-	public partial class OpenConnectionReply1 : Packet
-	{
-
-		public readonly byte[] offlineMessageDataId = new byte[]{ 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
-		public long serverGuid; // = null;
-		public byte serverHasSecurity; // = null;
-		public short mtuSize; // = null;
-
-		public OpenConnectionReply1()
-		{
-			Id = 0x06;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(offlineMessageDataId);
-			Write(serverGuid);
-			Write(serverHasSecurity);
-			WriteBe(mtuSize);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			ReadBytes(offlineMessageDataId.Length);
-			serverGuid = ReadLong();
-			serverHasSecurity = ReadByte();
-			mtuSize = ReadShortBe();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			serverGuid=default(long);
-			serverHasSecurity=default(byte);
-			mtuSize=default(short);
-		}
-
-	}
-
-	public partial class OpenConnectionRequest2 : Packet
-	{
-
-		public readonly byte[] offlineMessageDataId = new byte[]{ 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
-		public IPEndPoint remoteBindingAddress; // = null;
-		public short mtuSize; // = null;
-		public long clientGuid; // = null;
-
-		public OpenConnectionRequest2()
-		{
-			Id = 0x07;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(offlineMessageDataId);
-			Write(remoteBindingAddress);
-			WriteBe(mtuSize);
-			Write(clientGuid);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			ReadBytes(offlineMessageDataId.Length);
-			remoteBindingAddress = ReadIPEndPoint();
-			mtuSize = ReadShortBe();
-			clientGuid = ReadLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			remoteBindingAddress=default(IPEndPoint);
-			mtuSize=default(short);
-			clientGuid=default(long);
-		}
-
-	}
-
-	public partial class OpenConnectionReply2 : Packet
-	{
-
-		public readonly byte[] offlineMessageDataId = new byte[]{ 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
-		public long serverGuid; // = null;
-		public IPEndPoint clientEndpoint; // = null;
-		public short mtuSize; // = null;
-		public byte[] doSecurityAndHandshake; // = null;
-
-		public OpenConnectionReply2()
-		{
-			Id = 0x08;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(offlineMessageDataId);
-			Write(serverGuid);
-			Write(clientEndpoint);
-			WriteBe(mtuSize);
-			Write(doSecurityAndHandshake);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			ReadBytes(offlineMessageDataId.Length);
-			serverGuid = ReadLong();
-			clientEndpoint = ReadIPEndPoint();
-			mtuSize = ReadShortBe();
-			doSecurityAndHandshake = ReadBytes(0, true);
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			serverGuid=default(long);
-			clientEndpoint=default(IPEndPoint);
-			mtuSize=default(short);
-			doSecurityAndHandshake=default(byte[]);
-		}
-
-	}
-
-	public partial class ConnectionRequest : Packet
-	{
-
-		public long clientGuid; // = null;
-		public long timestamp; // = null;
-		public byte doSecurity; // = null;
-
-		public ConnectionRequest()
-		{
-			Id = 0x09;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(clientGuid);
-			Write(timestamp);
-			Write(doSecurity);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			clientGuid = ReadLong();
-			timestamp = ReadLong();
-			doSecurity = ReadByte();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			clientGuid=default(long);
-			timestamp=default(long);
-			doSecurity=default(byte);
-		}
-
-	}
-
-	public partial class ConnectionRequestAccepted : Packet
-	{
-
-		public IPEndPoint systemAddress; // = null;
-		public short systemIndex; // = null;
-		public IPEndPoint[] systemAddresses; // = null;
-		public long incomingTimestamp; // = null;
-		public long serverTimestamp; // = null;
-
-		public ConnectionRequestAccepted()
-		{
-			Id = 0x10;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(systemAddress);
-			WriteBe(systemIndex);
-			Write(systemAddresses);
-			Write(incomingTimestamp);
-			Write(serverTimestamp);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			systemAddress = ReadIPEndPoint();
-			systemIndex = ReadShortBe();
-			systemAddresses = ReadIPEndPoints(20);
-			incomingTimestamp = ReadLong();
-			serverTimestamp = ReadLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			systemAddress=default(IPEndPoint);
-			systemIndex=default(short);
-			systemAddresses=default(IPEndPoint[]);
-			incomingTimestamp=default(long);
-			serverTimestamp=default(long);
-		}
-
-	}
-
-	public partial class NewIncomingConnection : Packet
-	{
-
-		public IPEndPoint clientendpoint; // = null;
-		public IPEndPoint[] systemAddresses; // = null;
-		public long incomingTimestamp; // = null;
-		public long serverTimestamp; // = null;
-
-		public NewIncomingConnection()
-		{
-			Id = 0x13;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(clientendpoint);
-			Write(systemAddresses);
-			Write(incomingTimestamp);
-			Write(serverTimestamp);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			clientendpoint = ReadIPEndPoint();
-			systemAddresses = ReadIPEndPoints(20);
-			incomingTimestamp = ReadLong();
-			serverTimestamp = ReadLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			clientendpoint=default(IPEndPoint);
-			systemAddresses=default(IPEndPoint[]);
-			incomingTimestamp=default(long);
-			serverTimestamp=default(long);
-		}
-
-	}
-
-	public partial class NoFreeIncomingConnections : Packet
-	{
-
-		public readonly byte[] offlineMessageDataId = new byte[]{ 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
-		public long serverGuid; // = null;
-
-		public NoFreeIncomingConnections()
-		{
-			Id = 0x14;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(offlineMessageDataId);
-			Write(serverGuid);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			ReadBytes(offlineMessageDataId.Length);
-			serverGuid = ReadLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			serverGuid=default(long);
-		}
-
-	}
-
-	public partial class DisconnectionNotification : Packet
-	{
-
-
-		public DisconnectionNotification()
-		{
-			Id = 0x15;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-		}
-
-	}
-
-	public partial class ConnectionBanned : Packet
-	{
-
-		public readonly byte[] offlineMessageDataId = new byte[]{ 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
-		public long serverGuid; // = null;
-
-		public ConnectionBanned()
-		{
-			Id = 0x17;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(offlineMessageDataId);
-			Write(serverGuid);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			ReadBytes(offlineMessageDataId.Length);
-			serverGuid = ReadLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			serverGuid=default(long);
-		}
-
-	}
-
-	public partial class IpRecentlyConnected : Packet
-	{
-
-		public readonly byte[] offlineMessageDataId = new byte[]{ 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
-
-		public IpRecentlyConnected()
-		{
-			Id = 0x1a;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(offlineMessageDataId);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			ReadBytes(offlineMessageDataId.Length);
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-		}
-
-	}
-
-	public partial class McpeLogin : Packet
-	{
-
-		public int protocolVersion; // = null;
-		public byte[] payload; // = null;
-
-		public McpeLogin()
-		{
-			Id = 0x01;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteBe(protocolVersion);
-			WriteByteArray(payload);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			protocolVersion = ReadIntBe();
-			payload = ReadByteArray();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			protocolVersion=default(int);
-			payload=default(byte[]);
-		}
-
-	}
-
-	public partial class McpePlayStatus : Packet
-	{
-		public enum PlayStatus
-		{
-			LoginSuccess = 0,
-			LoginFailedClient = 1,
-			LoginFailedServer = 2,
-			PlayerSpawn = 3,
-			LoginFailedInvalidTenant = 4,
-			LoginFailedVanillaEdu = 5,
-			LoginFailedEduVanilla = 6,
-			LoginFailedServerFull = 7,
-		}
-
-		public int status; // = null;
-
-		public McpePlayStatus()
-		{
-			Id = 0x02;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteBe(status);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			status = ReadIntBe();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			status=default(int);
-		}
-
-	}
-
-	public partial class McpeServerToClientHandshake : Packet
-	{
-
-		public string token; // = null;
-
-		public McpeServerToClientHandshake()
-		{
-			Id = 0x03;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(token);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			token = ReadString();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			token=default(string);
-		}
-
-	}
-
-	public partial class McpeClientToServerHandshake : Packet
-	{
-
-
-		public McpeClientToServerHandshake()
-		{
-			Id = 0x04;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-		}
-
-	}
-
-	public partial class McpeDisconnect : Packet
-	{
-
-
-        public bool hideDisconnectReason; // = null;
-        public string message; // = null;
-        public uint failReason; // = null;
-        public string filteredMessage; // = null
-
-        public McpeDisconnect()
-        {
-            Id = 0x05;
-            IsMcpe = true;
-        }
+using Items;
+using Metadata;
+using Nbts;
+using Skins;
+using Util;
+
+public class McpeProtocolInfo
+    {
+        public const int ProtocolVersion = 582;
+        public const string GameVersion = "1.19.80";
+    }
+
+public enum AdventureFlags
+    {
+        Mayfly = 0x40,
+        Noclip = 0x80,
+        Worldbuilder = 0x100,
+        Flying = 0x200,
+        Muted = 0x400
+    }
+
+public enum CommandPermission
+    {
+        Normal = 0,
+        Operator = 1,
+        Host = 2,
+        Automation = 3,
+        Admin = 4
+    }
+
+public enum PermissionLevel
+    {
+        Visitor = 0,
+        Member = 1,
+        Operator = 2,
+        Custom = 3
+    }
+
+public enum ActionPermissions
+    {
+        BuildAndMine = 0x1,
+        DoorsAndSwitches = 0x2,
+        OpenContainers = 0x4,
+        AttackPlayers = 0x8,
+        AttackMobs = 0x10,
+        Operator = 0x20,
+        Teleport = 0x80,
+        Default = BuildAndMine | DoorsAndSwitches | OpenContainers | AttackPlayers | AttackMobs,
+        All = BuildAndMine | DoorsAndSwitches | OpenContainers | AttackPlayers | AttackMobs | Operator | Teleport
+    }
+
+public partial class ConnectedPing : Packet
+    {
+        public long sendpingtime; // = null;
+
+        public ConnectedPing()
+            {
+                Id = 0x00;
+                IsMcpe = false;
+            }
 
         protected override void EncodePacket()
-        {
-            base.EncodePacket();
+            {
+                base.EncodePacket();
 
-            BeforeEncode();
+                BeforeEncode();
 
-            WriteUnsignedVarInt(0); //todo
-            Write(hideDisconnectReason);
-            Write(message);
-            
-            AfterEncode();
-        }
+                Write(sendpingtime);
+
+                AfterEncode();
+            }
 
         partial void BeforeEncode();
         partial void AfterEncode();
 
         protected override void DecodePacket()
-        {
-            base.DecodePacket();
+            {
+                base.DecodePacket();
 
-            BeforeDecode();
+                BeforeDecode();
 
-            failReason = ReadUnsignedVarInt();
-            hideDisconnectReason = ReadBool();
-            message = ReadString();
-            filteredMessage = ReadString();
+                sendpingtime = ReadLong();
 
-            AfterDecode();
-        }
+                AfterDecode();
+            }
 
         partial void BeforeDecode();
         partial void AfterDecode();
 
         protected override void ResetPacket()
-        {
-            base.ResetPacket();
+            {
+                base.ResetPacket();
 
-            hideDisconnectReason = default(bool);
-            message = default(string);
-            failReason = default(int);
-        }
-
+                sendpingtime = default;
+            }
     }
 
-	public partial class McpeResourcePacksInfo : Packet
-	{
-
-		public bool mustAccept; // = null;
-		public bool hasScripts; // = null;
-		public bool forceServerPacks; // = null;
-		public ResourcePackInfos behahaviorpackinfos; // = null;
-		public TexturePackInfos texturepacks; // = null;
-
-		public McpeResourcePacksInfo()
-		{
-			Id = 0x06;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(mustAccept);
-			Write(hasScripts);
-			Write(forceServerPacks);
-			Write(behahaviorpackinfos);
-			Write(texturepacks);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			mustAccept = ReadBool();
-			hasScripts = ReadBool();
-			forceServerPacks = ReadBool();
-			behahaviorpackinfos = ReadResourcePackInfos();
-			texturepacks = ReadTexturePackInfos();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			mustAccept=default(bool);
-			hasScripts=default(bool);
-			forceServerPacks=default(bool);
-			behahaviorpackinfos=default(ResourcePackInfos);
-			texturepacks=default(TexturePackInfos);
-		}
-
-	}
-
-	public partial class McpeResourcePackStack : Packet
-	{
-
-		public bool mustAccept; // = null;
-		public ResourcePackIdVersions behaviorpackidversions; // = null;
-		public ResourcePackIdVersions resourcepackidversions; // = null;
-		public string gameVersion; // = null;
-		public Experiments experiments; // = null;
-		public bool experimentsPreviouslyToggled; // = null;
-
-		public McpeResourcePackStack()
-		{
-			Id = 0x07;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(mustAccept);
-			Write(behaviorpackidversions);
-			Write(resourcepackidversions);
-			Write(gameVersion);
-			Write(experiments);
-			Write(experimentsPreviouslyToggled);
+public partial class UnconnectedPing : Packet
+    {
+        public readonly byte[] offlineMessageDataId =
+            {
+                0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78
+            }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
 
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			mustAccept = ReadBool();
-			behaviorpackidversions = ReadResourcePackIdVersions();
-			resourcepackidversions = ReadResourcePackIdVersions();
-			gameVersion = ReadString();
-			experiments = ReadExperiments();
-			experimentsPreviouslyToggled = ReadBool();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			mustAccept=default(bool);
-			behaviorpackidversions=default(ResourcePackIdVersions);
-			resourcepackidversions=default(ResourcePackIdVersions);
-			gameVersion=default(string);
-			experiments=default(Experiments);
-			experimentsPreviouslyToggled=default(bool);
-		}
-
-	}
-
-	public partial class McpeResourcePackClientResponse : Packet
-	{
-		public enum ResponseStatus
-		{
-			Refused = 1,
-			SendPacks = 2,
-			HaveAllPacks = 3,
-			Completed = 4,
-		}
-
-		public byte responseStatus; // = null;
-		public ResourcePackIds resourcepackids; // = null;
+        public long guid; // = null;
 
-		public McpeResourcePackClientResponse()
-		{
-			Id = 0x08;
-			IsMcpe = true;
-		}
+        public long pingId; // = null;
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        public UnconnectedPing()
+            {
+                Id = 0x01;
+                IsMcpe = false;
+            }
 
-			BeforeEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			Write(responseStatus);
-			Write(resourcepackids);
+                BeforeEncode();
 
-			AfterEncode();
-		}
+                Write(pingId);
+                Write(offlineMessageDataId);
+                Write(guid);
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterEncode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			responseStatus = ReadByte();
-			resourcepackids = ReadResourcePackIds();
+                BeforeDecode();
 
-			AfterDecode();
-		}
+                pingId = ReadLong();
+                ReadBytes(offlineMessageDataId.Length);
+                guid = ReadLong();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterDecode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			responseStatus=default(byte);
-			resourcepackids=default(ResourcePackIds);
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-	}
+                pingId = default;
+                guid = default;
+            }
+    }
 
-	public partial class McpeText : Packet
-	{
-		public enum ChatTypes
-		{
-			Raw = 0,
-			Chat = 1,
-			Translation = 2,
-			Popup = 3,
-			Jukeboxpopup = 4,
-			Tip = 5,
-			System = 6,
-			Whisper = 7,
-			Announcement = 8,
-			Json = 9,
-			Jsonwhisper = 10,
-			Jsonannouncement = 11,
-		}
+public partial class ConnectedPong : Packet
+    {
+        public long sendpingtime; // = null;
+        public long sendpongtime; // = null;
 
-		public byte type; // = null;
+        public ConnectedPong()
+            {
+                Id = 0x03;
+                IsMcpe = false;
+            }
 
-		public McpeText()
-		{
-			Id = 0x09;
-			IsMcpe = true;
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeEncode();
 
-			BeforeEncode();
+                Write(sendpingtime);
+                Write(sendpongtime);
 
-			Write(type);
+                AfterEncode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeDecode();
 
-			BeforeDecode();
+                sendpingtime = ReadLong();
+                sendpongtime = ReadLong();
 
-			type = ReadByte();
+                AfterDecode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                sendpingtime = default;
+                sendpongtime = default;
+            }
+    }
 
-			type=default(byte);
-		}
+public partial class DetectLostConnections : Packet
+    {
+        public DetectLostConnections()
+            {
+                Id = 0x04;
+                IsMcpe = false;
+            }
 
-	}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-	public partial class McpeSetTime : Packet
-	{
+                BeforeEncode();
 
-		public int time; // = null;
 
-		public McpeSetTime()
-		{
-			Id = 0x0a;
-			IsMcpe = true;
-		}
+                AfterEncode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			WriteSignedVarInt(time);
+                BeforeDecode();
 
-			AfterEncode();
-		}
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterDecode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-			time = ReadSignedVarInt();
+public partial class UnconnectedPong : Packet
+    {
+        public readonly byte[] offlineMessageDataId =
+            {
+                0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78
+            }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
 
-			AfterDecode();
-		}
+        public long pingId; // = null;
+        public long serverId; // = null;
+        public string serverName; // = null;
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        public UnconnectedPong()
+            {
+                Id = 0x1c;
+                IsMcpe = false;
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			time=default(int);
-		}
+                BeforeEncode();
 
-	}
+                Write(pingId);
+                Write(serverId);
+                Write(offlineMessageDataId);
+                WriteFixedString(serverName);
 
-	public partial class McpeStartGame : Packet
-	{
+                AfterEncode();
+            }
 
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public McpeStartGame()
-		{
-			Id = 0x0b;
-			IsMcpe = true;
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeDecode();
 
-			BeforeEncode();
+                pingId = ReadLong();
+                serverId = ReadLong();
+                ReadBytes(offlineMessageDataId.Length);
+                serverName = ReadFixedString();
 
+                AfterDecode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                pingId = default;
+                serverId = default;
+                serverName = default;
+            }
+    }
 
-			BeforeDecode();
-
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-		}
-
-	}
-
-	public partial class McpeAddPlayer : Packet
-	{
-
-		public UUID uuid; // = null;
-		public string username; // = null;
-		public long runtimeEntityId; // = null;
-		public string platformChatId; // = null;
-		public float x; // = null;
-		public float y; // = null;
-		public float z; // = null;
-		public float speedX; // = null;
-		public float speedY; // = null;
-		public float speedZ; // = null;
-		public float pitch; // = null;
-		public float yaw; // = null;
-		public float headYaw; // = null;
-		public Item item; // = null;
-		public uint gameType; // = null;
-		public MetadataDictionary metadata; // = null;
-		public PropertySyncData syncdata; // = null;
-		public long entityIdSelf; // = null;
-		public byte playerPermissions; // = null;
-		public byte commandPermissions; // = null;
-		public AbilityLayers layers; // = null;
-		public EntityLinks links; // = null;
-		public string deviceId; // = null;
-		public int deviceOs; // = null;
-
-		public McpeAddPlayer()
-		{
-			Id = 0x0c;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(uuid);
-			Write(username);
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(platformChatId);
-			Write(x);
-			Write(y);
-			Write(z);
-			Write(speedX);
-			Write(speedY);
-			Write(speedZ);
-			Write(pitch);
-			Write(yaw);
-			Write(headYaw);
-			Write(item);
-			WriteUnsignedVarInt(gameType);
-			Write(metadata);
-			Write(syncdata);
-			WriteSignedVarLong(entityIdSelf);
-			Write(playerPermissions);
-			Write(commandPermissions);
-			Write(layers);
-			Write(links);
-			Write(deviceId);
-			Write(deviceOs);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			uuid = ReadUUID();
-			username = ReadString();
-			runtimeEntityId = ReadUnsignedVarLong();
-			platformChatId = ReadString();
-			x = ReadFloat();
-			y = ReadFloat();
-			z = ReadFloat();
-			speedX = ReadFloat();
-			speedY = ReadFloat();
-			speedZ = ReadFloat();
-			pitch = ReadFloat();
-			yaw = ReadFloat();
-			headYaw = ReadFloat();
-			item = ReadItem();
-			gameType = ReadUnsignedVarInt();
-			metadata = ReadMetadataDictionary();
-			syncdata = ReadPropertySyncData();
-			entityIdSelf = ReadSignedVarLong();
-			playerPermissions = ReadByte();
-			commandPermissions = ReadByte();
-			layers = ReadAbilityLayers();
-			links = ReadEntityLinks();
-			deviceId = ReadString();
-			deviceOs = ReadInt();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			uuid=default(UUID);
-			username=default(string);
-			runtimeEntityId=default(long);
-			platformChatId=default(string);
-			x=default(float);
-			y=default(float);
-			z=default(float);
-			speedX=default(float);
-			speedY=default(float);
-			speedZ=default(float);
-			pitch=default(float);
-			yaw=default(float);
-			headYaw=default(float);
-			item=default(Item);
-			gameType=default(uint);
-			metadata=default(MetadataDictionary);
-			syncdata=default(PropertySyncData);
-			entityIdSelf=default(long);
-			playerPermissions=default(byte);
-			commandPermissions=default(byte);
-			layers=default(AbilityLayers);
-			links=default(EntityLinks);
-			deviceId=default(string);
-			deviceOs=default(int);
-		}
-
-	}
-
-	public partial class McpeAddEntity : Packet
-	{
-
-		public long entityIdSelf; // = null;
-		public long runtimeEntityId; // = null;
-		public string entityType; // = null;
-		public float x; // = null;
-		public float y; // = null;
-		public float z; // = null;
-		public float speedX; // = null;
-		public float speedY; // = null;
-		public float speedZ; // = null;
-		public float pitch; // = null;
-		public float yaw; // = null;
-		public float headYaw; // = null;
-		public float bodyYaw; // = null;
-		public EntityAttributes attributes; // = null;
-		public MetadataDictionary metadata; // = null;
-		public PropertySyncData syncdata; // = null;
-		public EntityLinks links; // = null;
-
-		public McpeAddEntity()
-		{
-			Id = 0x0d;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteSignedVarLong(entityIdSelf);
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(entityType);
-			Write(x);
-			Write(y);
-			Write(z);
-			Write(speedX);
-			Write(speedY);
-			Write(speedZ);
-			Write(pitch);
-			Write(yaw);
-			Write(headYaw);
-			Write(bodyYaw);
-			Write(attributes);
-			Write(metadata);
-			Write(syncdata);
-			Write(links);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			entityIdSelf = ReadSignedVarLong();
-			runtimeEntityId = ReadUnsignedVarLong();
-			entityType = ReadString();
-			x = ReadFloat();
-			y = ReadFloat();
-			z = ReadFloat();
-			speedX = ReadFloat();
-			speedY = ReadFloat();
-			speedZ = ReadFloat();
-			pitch = ReadFloat();
-			yaw = ReadFloat();
-			headYaw = ReadFloat();
-			bodyYaw = ReadFloat();
-			attributes = ReadEntityAttributes();
-			metadata = ReadMetadataDictionary();
-			syncdata = ReadPropertySyncData();
-			links = ReadEntityLinks();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			entityIdSelf=default(long);
-			runtimeEntityId=default(long);
-			entityType=default(string);
-			x=default(float);
-			y=default(float);
-			z=default(float);
-			speedX=default(float);
-			speedY=default(float);
-			speedZ=default(float);
-			pitch=default(float);
-			yaw=default(float);
-			headYaw=default(float);
-			bodyYaw=default(float);
-			attributes=default(EntityAttributes);
-			metadata=default(MetadataDictionary);
-			syncdata=default(PropertySyncData);
-			links=default(EntityLinks);
-		}
-
-	}
-
-	public partial class McpeRemoveEntity : Packet
-	{
-
-		public long entityIdSelf; // = null;
-
-		public McpeRemoveEntity()
-		{
-			Id = 0x0e;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteSignedVarLong(entityIdSelf);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			entityIdSelf = ReadSignedVarLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			entityIdSelf=default(long);
-		}
-
-	}
-
-	public partial class McpeAddItemEntity : Packet
-	{
-
-		public long entityIdSelf; // = null;
-		public long runtimeEntityId; // = null;
-		public Item item; // = null;
-		public float x; // = null;
-		public float y; // = null;
-		public float z; // = null;
-		public float speedX; // = null;
-		public float speedY; // = null;
-		public float speedZ; // = null;
-		public MetadataDictionary metadata; // = null;
-		public bool isFromFishing; // = null;
-
-		public McpeAddItemEntity()
-		{
-			Id = 0x0f;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteSignedVarLong(entityIdSelf);
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(item);
-			Write(x);
-			Write(y);
-			Write(z);
-			Write(speedX);
-			Write(speedY);
-			Write(speedZ);
-			Write(metadata);
-			Write(isFromFishing);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			entityIdSelf = ReadSignedVarLong();
-			runtimeEntityId = ReadUnsignedVarLong();
-			item = ReadItem();
-			x = ReadFloat();
-			y = ReadFloat();
-			z = ReadFloat();
-			speedX = ReadFloat();
-			speedY = ReadFloat();
-			speedZ = ReadFloat();
-			metadata = ReadMetadataDictionary();
-			isFromFishing = ReadBool();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			entityIdSelf=default(long);
-			runtimeEntityId=default(long);
-			item=default(Item);
-			x=default(float);
-			y=default(float);
-			z=default(float);
-			speedX=default(float);
-			speedY=default(float);
-			speedZ=default(float);
-			metadata=default(MetadataDictionary);
-			isFromFishing=default(bool);
-		}
-
-	}
-
-	public partial class McpeTakeItemEntity : Packet
-	{
-
-		public long runtimeEntityId; // = null;
-		public long target; // = null;
-
-		public McpeTakeItemEntity()
-		{
-			Id = 0x11;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteUnsignedVarLong(runtimeEntityId);
-			WriteUnsignedVarLong(target);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			runtimeEntityId = ReadUnsignedVarLong();
-			target = ReadUnsignedVarLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			runtimeEntityId=default(long);
-			target=default(long);
-		}
-
-	}
-
-	public partial class McpeMoveEntity : Packet
-	{
-
-		public long runtimeEntityId; // = null;
-		public byte flags; // = null;
-		public PlayerLocation position; // = null;
-
-		public McpeMoveEntity()
-		{
-			Id = 0x12;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(flags);
-			Write(position);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			runtimeEntityId = ReadUnsignedVarLong();
-			flags = ReadByte();
-			position = ReadPlayerLocation();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			runtimeEntityId=default(long);
-			flags=default(byte);
-			position=default(PlayerLocation);
-		}
-
-	}
-
-	public partial class McpeMovePlayer : Packet
-	{
-		public enum Mode
-		{
-			Normal = 0,
-			Reset = 1,
-			Teleport = 2,
-			Rotation = 3,
-		}
-		public enum Teleportcause
-		{
-			Unknown = 0,
-			Projectile = 1,
-			ChorusFruit = 2,
-			Command = 3,
-			Behavior = 4,
-			Count = 5,
-		}
-
-		public long runtimeEntityId; // = null;
-		public float x; // = null;
-		public float y; // = null;
-		public float z; // = null;
-		public float pitch; // = null;
-		public float yaw; // = null;
-		public float headYaw; // = null;
-		public byte mode; // = null;
-		public bool onGround; // = null;
-		public long otherRuntimeEntityId; // = null;
-
-		public McpeMovePlayer()
-		{
-			Id = 0x13;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(x);
-			Write(y);
-			Write(z);
-			Write(pitch);
-			Write(yaw);
-			Write(headYaw);
-			Write(mode);
-			Write(onGround);
-			WriteUnsignedVarLong(otherRuntimeEntityId);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			runtimeEntityId = ReadUnsignedVarLong();
-			x = ReadFloat();
-			y = ReadFloat();
-			z = ReadFloat();
-			pitch = ReadFloat();
-			yaw = ReadFloat();
-			headYaw = ReadFloat();
-			mode = ReadByte();
-			onGround = ReadBool();
-			otherRuntimeEntityId = ReadUnsignedVarLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			runtimeEntityId=default(long);
-			x=default(float);
-			y=default(float);
-			z=default(float);
-			pitch=default(float);
-			yaw=default(float);
-			headYaw=default(float);
-			mode=default(byte);
-			onGround=default(bool);
-			otherRuntimeEntityId=default(long);
-		}
-
-	}
-
-	public partial class McpeRiderJump : Packet
-	{
-
-		public int unknown; // = null;
-
-		public McpeRiderJump()
-		{
-			Id = 0x14;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteSignedVarInt(unknown);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			unknown = ReadSignedVarInt();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			unknown=default(int);
-		}
-
-	}
-
-	public partial class McpeUpdateBlock : Packet
-	{
-		public enum Flags
-		{
-			None = 0,
-			Neighbors = 1,
-			Network = 2,
-			Nographic = 4,
-			Priority = 8,
-			All = (Neighbors | Network),
-			AllPriority = (All | Priority),
-		}
-
-		public BlockCoordinates coordinates; // = null;
-		public uint blockRuntimeId; // = null;
-		public uint blockPriority; // = null;
-		public uint storage; // = null;
-
-		public McpeUpdateBlock()
-		{
-			Id = 0x15;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(coordinates);
-			WriteUnsignedVarInt(blockRuntimeId);
-			WriteUnsignedVarInt(blockPriority);
-			WriteUnsignedVarInt(storage);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			coordinates = ReadBlockCoordinates();
-			blockRuntimeId = ReadUnsignedVarInt();
-			blockPriority = ReadUnsignedVarInt();
-			storage = ReadUnsignedVarInt();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			coordinates=default(BlockCoordinates);
-			blockRuntimeId=default(uint);
-			blockPriority=default(uint);
-			storage=default(uint);
-		}
-
-	}
-
-	public partial class McpeAddPainting : Packet
-	{
-
-		public long entityIdSelf; // = null;
-		public long runtimeEntityId; // = null;
-		public BlockCoordinates coordinates; // = null;
-		public int direction; // = null;
-		public string title; // = null;
-
-		public McpeAddPainting()
-		{
-			Id = 0x16;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteSignedVarLong(entityIdSelf);
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(coordinates);
-			WriteSignedVarInt(direction);
-			Write(title);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			entityIdSelf = ReadSignedVarLong();
-			runtimeEntityId = ReadUnsignedVarLong();
-			coordinates = ReadBlockCoordinates();
-			direction = ReadSignedVarInt();
-			title = ReadString();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			entityIdSelf=default(long);
-			runtimeEntityId=default(long);
-			coordinates=default(BlockCoordinates);
-			direction=default(int);
-			title=default(string);
-		}
-
-	}
-
-	public partial class McpeTickSync : Packet
-	{
-
-		public long requestTime; // = null;
-		public long responseTime; // = null;
-
-		public McpeTickSync()
-		{
-			Id = 0x17;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(requestTime);
-			Write(responseTime);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			requestTime = ReadLong();
-			responseTime = ReadLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			requestTime=default(long);
-			responseTime=default(long);
-		}
-
-	}
-
-	public partial class McpeLevelSoundEventOld : Packet
-	{
-
-		public byte soundId; // = null;
-		public Vector3 position; // = null;
-		public int blockId; // = null;
-		public int entityType; // = null;
-		public bool isBabyMob; // = null;
-		public bool isGlobal; // = null;
-
-		public McpeLevelSoundEventOld()
-		{
-			Id = 0x18;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(soundId);
-			Write(position);
-			WriteSignedVarInt(blockId);
-			WriteSignedVarInt(entityType);
-			Write(isBabyMob);
-			Write(isGlobal);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			soundId = ReadByte();
-			position = ReadVector3();
-			blockId = ReadSignedVarInt();
-			entityType = ReadSignedVarInt();
-			isBabyMob = ReadBool();
-			isGlobal = ReadBool();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			soundId=default(byte);
-			position=default(Vector3);
-			blockId=default(int);
-			entityType=default(int);
-			isBabyMob=default(bool);
-			isGlobal=default(bool);
-		}
-
-	}
-
-	public partial class McpeLevelEvent : Packet
-	{
-
-		public int eventId; // = null;
-		public Vector3 position; // = null;
-		public int data; // = null;
-
-		public McpeLevelEvent()
-		{
-			Id = 0x19;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteSignedVarInt(eventId);
-			Write(position);
-			WriteSignedVarInt(data);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			eventId = ReadSignedVarInt();
-			position = ReadVector3();
-			data = ReadSignedVarInt();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			eventId=default(int);
-			position=default(Vector3);
-			data=default(int);
-		}
-
-	}
-
-	public partial class McpeBlockEvent : Packet
-	{
-
-		public BlockCoordinates coordinates; // = null;
-		public int case1; // = null;
-		public int case2; // = null;
-
-		public McpeBlockEvent()
-		{
-			Id = 0x1a;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(coordinates);
-			WriteSignedVarInt(case1);
-			WriteSignedVarInt(case2);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			coordinates = ReadBlockCoordinates();
-			case1 = ReadSignedVarInt();
-			case2 = ReadSignedVarInt();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			coordinates=default(BlockCoordinates);
-			case1=default(int);
-			case2=default(int);
-		}
-
-	}
-
-	public partial class McpeEntityEvent : Packet
-	{
-
-		public long runtimeEntityId; // = null;
-		public byte eventId; // = null;
-		public int data; // = null;
-
-		public McpeEntityEvent()
-		{
-			Id = 0x1b;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(eventId);
-			WriteSignedVarInt(data);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			runtimeEntityId = ReadUnsignedVarLong();
-			eventId = ReadByte();
-			data = ReadSignedVarInt();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			runtimeEntityId=default(long);
-			eventId=default(byte);
-			data=default(int);
-		}
-
-	}
-
-	public partial class McpeMobEffect : Packet
-	{
-
-		public long runtimeEntityId; // = null;
-		public byte eventId; // = null;
-		public int effectId; // = null;
-		public int amplifier; // = null;
-		public bool particles; // = null;
-		public int duration; // = null;
-
-		public McpeMobEffect()
-		{
-			Id = 0x1c;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(eventId);
-			WriteSignedVarInt(effectId);
-			WriteSignedVarInt(amplifier);
-			Write(particles);
-			WriteSignedVarInt(duration);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			runtimeEntityId = ReadUnsignedVarLong();
-			eventId = ReadByte();
-			effectId = ReadSignedVarInt();
-			amplifier = ReadSignedVarInt();
-			particles = ReadBool();
-			duration = ReadSignedVarInt();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			runtimeEntityId=default(long);
-			eventId=default(byte);
-			effectId=default(int);
-			amplifier=default(int);
-			particles=default(bool);
-			duration=default(int);
-		}
-
-	}
-
-	public partial class McpeUpdateAttributes : Packet
-	{
-
-		public long runtimeEntityId; // = null;
-		public PlayerAttributes attributes; // = null;
-		public long tick; // = null;
-
-		public McpeUpdateAttributes()
-		{
-			Id = 0x1d;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(attributes);
-			WriteUnsignedVarLong(tick);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			runtimeEntityId = ReadUnsignedVarLong();
-			attributes = ReadPlayerAttributes();
-			tick = ReadUnsignedVarLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			runtimeEntityId=default(long);
-			attributes=default(PlayerAttributes);
-			tick=default(long);
-		}
-
-	}
-
-	public partial class McpeInventoryTransaction : Packet
-	{
-		public enum TransactionType
-		{
-			Normal = 0,
-			InventoryMismatch = 1,
-			ItemUse = 2,
-			ItemUseOnEntity = 3,
-			ItemRelease = 4,
-		}
-		public enum InventorySourceType
-		{
-			Container = 0,
-			Global = 1,
-			WorldInteraction = 2,
-			Creative = 3,
-			Crafting = 100,
-			Unspecified = 99999,
-		}
-		public enum CraftingAction
-		{
-			CraftAddIngredient = -2,
-			CraftRemoveIngredient = -3,
-			CraftResult = -4,
-			CraftUseIngredient = -5,
-			AnvilInput = -10,
-			AnvilMaterial = -11,
-			AnvilResult = -12,
-			AnvilOutput = -13,
-			EnchantItem = -15,
-			EnchantLapis = -16,
-			EnchantResult = -17,
-			Drop = -100,
-		}
-		public enum ItemReleaseAction
-		{
-			Release = 0,
-			Use = 1,
-		}
-		public enum ItemUseAction
-		{
-			Place,Clickblock = 0,
-			Use,Clickair = 1,
-			Destroy = 2,
-		}
-		public enum ItemUseOnEntityAction
-		{
-			Interact = 0,
-			Attack = 1,
-			ItemInteract = 2,
-		}
-
-		public Transaction transaction; // = null;
-
-		public McpeInventoryTransaction()
-		{
-			Id = 0x1e;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(transaction);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			transaction = ReadTransaction();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			transaction=default(Transaction);
-		}
-
-	}
-
-	public partial class McpeMobEquipment : Packet
-	{
-
-		public long runtimeEntityId; // = null;
-		public Item item; // = null;
-		public byte slot; // = null;
-		public byte selectedSlot; // = null;
-		public byte windowsId; // = null;
-
-		public McpeMobEquipment()
-		{
-			Id = 0x1f;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(item);
-			Write(slot);
-			Write(selectedSlot);
-			Write(windowsId);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			runtimeEntityId = ReadUnsignedVarLong();
-			item = ReadItem();
-			slot = ReadByte();
-			selectedSlot = ReadByte();
-			windowsId = ReadByte();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			runtimeEntityId=default(long);
-			item=default(Item);
-			slot=default(byte);
-			selectedSlot=default(byte);
-			windowsId=default(byte);
-		}
-
-	}
-
-	public partial class McpeMobArmorEquipment : Packet
-	{
-
-		public long runtimeEntityId; // = null;
-		public Item helmet; // = null;
-		public Item chestplate; // = null;
-		public Item leggings; // = null;
-		public Item boots; // = null;
-
-		public McpeMobArmorEquipment()
-		{
-			Id = 0x20;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(helmet);
-			Write(chestplate);
-			Write(leggings);
-			Write(boots);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			runtimeEntityId = ReadUnsignedVarLong();
-			helmet = ReadItem();
-			chestplate = ReadItem();
-			leggings = ReadItem();
-			boots = ReadItem();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			runtimeEntityId=default(long);
-			helmet=default(Item);
-			chestplate=default(Item);
-			leggings=default(Item);
-			boots=default(Item);
-		}
-
-	}
-
-	public partial class McpeInteract : Packet
-	{
-		public enum Actions
-		{
-			RightClick = 1,
-			LeftClick = 2,
-			LeaveVehicle = 3,
-			MouseOver = 4,
-			OpenNpc = 5,
-			OpenInventory = 6,
-		}
-
-		public byte actionId; // = null;
-		public long targetRuntimeEntityId; // = null;
-
-		public McpeInteract()
-		{
-			Id = 0x21;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(actionId);
-			WriteUnsignedVarLong(targetRuntimeEntityId);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			actionId = ReadByte();
-			targetRuntimeEntityId = ReadUnsignedVarLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			actionId=default(byte);
-			targetRuntimeEntityId=default(long);
-		}
-
-	}
-
-	public partial class McpeBlockPickRequest : Packet
-	{
-
-		public int x; // = null;
-		public int y; // = null;
-		public int z; // = null;
-		public bool addUserData; // = null;
-		public byte selectedSlot; // = null;
-
-		public McpeBlockPickRequest()
-		{
-			Id = 0x22;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteSignedVarInt(x);
-			WriteSignedVarInt(y);
-			WriteSignedVarInt(z);
-			Write(addUserData);
-			Write(selectedSlot);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			x = ReadSignedVarInt();
-			y = ReadSignedVarInt();
-			z = ReadSignedVarInt();
-			addUserData = ReadBool();
-			selectedSlot = ReadByte();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			x=default(int);
-			y=default(int);
-			z=default(int);
-			addUserData=default(bool);
-			selectedSlot=default(byte);
-		}
-
-	}
-
-	public partial class McpeEntityPickRequest : Packet
-	{
-
-		public ulong runtimeEntityId; // = null;
-		public byte selectedSlot; // = null;
-		public bool addUserData; // = null;
-
-		public McpeEntityPickRequest()
-		{
-			Id = 0x23;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(runtimeEntityId);
-			Write(selectedSlot);
-			Write(addUserData);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			runtimeEntityId = ReadUlong();
-			selectedSlot = ReadByte();
-			addUserData = ReadBool();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			runtimeEntityId=default(ulong);
-			selectedSlot=default(byte);
-			addUserData=default(bool);
-		}
-
-	}
-
-	public partial class McpePlayerAction : Packet
-	{
-
-		public long runtimeEntityId; // = null;
-		public int actionId; // = null;
-		public BlockCoordinates coordinates; // = null;
-		public BlockCoordinates resultCoordinates; // = null;
-		public int face; // = null;
-
-		public McpePlayerAction()
-		{
-			Id = 0x24;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteUnsignedVarLong(runtimeEntityId);
-			WriteSignedVarInt(actionId);
-			Write(coordinates);
-			Write(resultCoordinates);
-			WriteSignedVarInt(face);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			runtimeEntityId = ReadUnsignedVarLong();
-			actionId = ReadSignedVarInt();
-			coordinates = ReadBlockCoordinates();
-			resultCoordinates = ReadBlockCoordinates();
-			face = ReadSignedVarInt();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			runtimeEntityId=default(long);
-			actionId=default(int);
-			coordinates=default(BlockCoordinates);
-			resultCoordinates=default(BlockCoordinates);
-			face=default(int);
-		}
-
-	}
-
-	public partial class McpeHurtArmor : Packet
-	{
-
-		public int cause; // = null;
-		public int health; // = null;
-		public long armorSlotFlags; // = null;
-
-		public McpeHurtArmor()
-		{
-			Id = 0x26;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteVarInt(cause);
-			WriteSignedVarInt(health);
-			WriteUnsignedVarLong(armorSlotFlags);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			cause = ReadVarInt();
-			health = ReadSignedVarInt();
-			armorSlotFlags = ReadUnsignedVarLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			cause=default(int);
-			health=default(int);
-			armorSlotFlags=default(long);
-		}
-
-	}
-
-	public partial class McpeSetEntityData : Packet
-	{
-
-		public long runtimeEntityId; // = null;
-		public MetadataDictionary metadata; // = null;
-		public PropertySyncData syncdata; // = null;
-		public long tick; // = null;
-
-		public McpeSetEntityData()
-		{
-			Id = 0x27;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(metadata);
-			Write(syncdata);
-			WriteUnsignedVarLong(tick);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			runtimeEntityId = ReadUnsignedVarLong();
-			metadata = ReadMetadataDictionary();
-			syncdata = ReadPropertySyncData();
-			tick = ReadUnsignedVarLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			runtimeEntityId=default(long);
-			metadata=default(MetadataDictionary);
-			syncdata=default(PropertySyncData);
-			tick=default(long);
-		}
-
-	}
-
-	public partial class McpeSetEntityMotion : Packet
-	{
-
-		public long runtimeEntityId; // = null;
-		public Vector3 velocity; // = null;
-
-		public McpeSetEntityMotion()
-		{
-			Id = 0x28;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(velocity);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			runtimeEntityId = ReadUnsignedVarLong();
-			velocity = ReadVector3();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			runtimeEntityId=default(long);
-			velocity=default(Vector3);
-		}
-
-	}
-
-	public partial class McpeSetEntityLink : Packet
-	{
-		public enum LinkActions
-		{
-			Remove = 0,
-			Ride = 1,
-			Passenger = 2,
-		}
-
-		public long riddenId; // = null;
-		public long riderId; // = null;
-		public byte linkType; // = null;
-		public byte unknown; // = null;
-
-		public McpeSetEntityLink()
-		{
-			Id = 0x29;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteSignedVarLong(riddenId);
-			WriteSignedVarLong(riderId);
-			Write(linkType);
-			Write(unknown);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			riddenId = ReadSignedVarLong();
-			riderId = ReadSignedVarLong();
-			linkType = ReadByte();
-			unknown = ReadByte();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			riddenId=default(long);
-			riderId=default(long);
-			linkType=default(byte);
-			unknown=default(byte);
-		}
-
-	}
-
-	public partial class McpeSetHealth : Packet
-	{
-
-		public int health; // = null;
-
-		public McpeSetHealth()
-		{
-			Id = 0x2a;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteSignedVarInt(health);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			health = ReadSignedVarInt();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			health=default(int);
-		}
-
-	}
-
-	public partial class McpeSetSpawnPosition : Packet
-	{
-
-		public int spawnType; // = null;
-		public BlockCoordinates coordinates; // = null;
-		public int dimension; // = null;
-		public BlockCoordinates unknownCoordinates; // = null;
-
-		public McpeSetSpawnPosition()
-		{
-			Id = 0x2b;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteSignedVarInt(spawnType);
-			Write(coordinates);
-			WriteSignedVarInt(dimension);
-			Write(unknownCoordinates);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			spawnType = ReadSignedVarInt();
-			coordinates = ReadBlockCoordinates();
-			dimension = ReadSignedVarInt();
-			unknownCoordinates = ReadBlockCoordinates();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			spawnType=default(int);
-			coordinates=default(BlockCoordinates);
-			dimension=default(int);
-			unknownCoordinates=default(BlockCoordinates);
-		}
-
-	}
-
-	public partial class McpeAnimate : Packet
-	{
-
-		public int actionId; // = null;
-		public long runtimeEntityId; // = null;
-
-		public McpeAnimate()
-		{
-			Id = 0x2c;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteSignedVarInt(actionId);
-			WriteUnsignedVarLong(runtimeEntityId);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			actionId = ReadSignedVarInt();
-			runtimeEntityId = ReadUnsignedVarLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			actionId=default(int);
-			runtimeEntityId=default(long);
-		}
-
-	}
-
-	public partial class McpeRespawn : Packet
-	{
-		public enum RespawnState
-		{
-			Search = 0,
-			Ready = 1,
-			ClientReady = 2,
-		}
-
-		public float x; // = null;
-		public float y; // = null;
-		public float z; // = null;
-		public byte state; // = null;
-		public long runtimeEntityId; // = null;
-
-		public McpeRespawn()
-		{
-			Id = 0x2d;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(x);
-			Write(y);
-			Write(z);
-			Write(state);
-			WriteUnsignedVarLong(runtimeEntityId);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			x = ReadFloat();
-			y = ReadFloat();
-			z = ReadFloat();
-			state = ReadByte();
-			runtimeEntityId = ReadUnsignedVarLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			x=default(float);
-			y=default(float);
-			z=default(float);
-			state=default(byte);
-			runtimeEntityId=default(long);
-		}
-
-	}
-
-	public partial class McpeContainerOpen : Packet
-	{
-
-		public byte windowId; // = null;
-		public byte type; // = null;
-		public BlockCoordinates coordinates; // = null;
-		public long runtimeEntityId; // = null;
-
-		public McpeContainerOpen()
-		{
-			Id = 0x2e;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(windowId);
-			Write(type);
-			Write(coordinates);
-			WriteSignedVarLong(runtimeEntityId);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			windowId = ReadByte();
-			type = ReadByte();
-			coordinates = ReadBlockCoordinates();
-			runtimeEntityId = ReadSignedVarLong();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			windowId=default(byte);
-			type=default(byte);
-			coordinates=default(BlockCoordinates);
-			runtimeEntityId=default(long);
-		}
-
-	}
-
-	public partial class McpeContainerClose : Packet
-	{
-
-		public byte windowId; // = null;
-		public bool server; // = null;
-
-		public McpeContainerClose()
-		{
-			Id = 0x2f;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(windowId);
-			Write(server);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			windowId = ReadByte();
-			server = ReadBool();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			windowId=default(byte);
-			server=default(bool);
-		}
-
-	}
-
-	public partial class McpePlayerHotbar : Packet
-	{
+public partial class OpenConnectionRequest1 : Packet
+    {
+        public readonly byte[] offlineMessageDataId =
+            {
+                0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78
+            }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
 
-		public uint selectedSlot; // = null;
-		public byte windowId; // = null;
-		public bool selectSlot; // = null;
+        public byte raknetProtocolVersion; // = null;
 
-		public McpePlayerHotbar()
-		{
-			Id = 0x30;
-			IsMcpe = true;
-		}
+        public OpenConnectionRequest1()
+            {
+                Id = 0x05;
+                IsMcpe = false;
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			BeforeEncode();
+                BeforeEncode();
 
-			WriteUnsignedVarInt(selectedSlot);
-			Write(windowId);
-			Write(selectSlot);
+                Write(offlineMessageDataId);
+                Write(raknetProtocolVersion);
 
-			AfterEncode();
-		}
+                AfterEncode();
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			BeforeDecode();
+                BeforeDecode();
 
-			selectedSlot = ReadUnsignedVarInt();
-			windowId = ReadByte();
-			selectSlot = ReadBool();
+                ReadBytes(offlineMessageDataId.Length);
+                raknetProtocolVersion = ReadByte();
 
-			AfterDecode();
-		}
+                AfterDecode();
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			selectedSlot=default(uint);
-			windowId=default(byte);
-			selectSlot=default(bool);
-		}
+                raknetProtocolVersion = default;
+            }
+    }
 
-	}
+public partial class OpenConnectionReply1 : Packet
+    {
+        public readonly byte[] offlineMessageDataId =
+            {
+                0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78
+            }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
 
-	public partial class McpeInventoryContent : Packet
-	{
+        public short mtuSize; // = null;
+        public long serverGuid; // = null;
+        public byte serverHasSecurity; // = null;
 
-		public uint inventoryId; // = null;
-		public ItemStacks input; // = null;
+        public OpenConnectionReply1()
+            {
+                Id = 0x06;
+                IsMcpe = false;
+            }
 
-		public McpeInventoryContent()
-		{
-			Id = 0x31;
-			IsMcpe = true;
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeEncode();
 
-			BeforeEncode();
+                Write(offlineMessageDataId);
+                Write(serverGuid);
+                Write(serverHasSecurity);
+                WriteBe(mtuSize);
 
-			WriteUnsignedVarInt(inventoryId);
-			Write(input);
+                AfterEncode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeDecode();
 
-			BeforeDecode();
+                ReadBytes(offlineMessageDataId.Length);
+                serverGuid = ReadLong();
+                serverHasSecurity = ReadByte();
+                mtuSize = ReadShortBe();
 
-			inventoryId = ReadUnsignedVarInt();
-			input = ReadItemStacks();
+                AfterDecode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                serverGuid = default;
+                serverHasSecurity = default;
+                mtuSize = default;
+            }
+    }
 
-			inventoryId=default(uint);
-			input=default(ItemStacks);
-		}
+public partial class OpenConnectionRequest2 : Packet
+    {
+        public readonly byte[] offlineMessageDataId =
+            {
+                0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78
+            }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
 
-	}
+        public long clientGuid; // = null;
+        public short mtuSize; // = null;
+        public IPEndPoint remoteBindingAddress; // = null;
 
-	public partial class McpeInventorySlot : Packet
-	{
+        public OpenConnectionRequest2()
+            {
+                Id = 0x07;
+                IsMcpe = false;
+            }
 
-		public uint inventoryId; // = null;
-		public uint slot; // = null;
-		public Item item; // = null;
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		public McpeInventorySlot()
-		{
-			Id = 0x32;
-			IsMcpe = true;
-		}
+                BeforeEncode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                Write(offlineMessageDataId);
+                Write(remoteBindingAddress);
+                WriteBe(mtuSize);
+                Write(clientGuid);
 
-			BeforeEncode();
+                AfterEncode();
+            }
 
-			WriteUnsignedVarInt(inventoryId);
-			WriteUnsignedVarInt(slot);
-			Write(item);
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			AfterEncode();
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                BeforeDecode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                ReadBytes(offlineMessageDataId.Length);
+                remoteBindingAddress = ReadIPEndPoint();
+                mtuSize = ReadShortBe();
+                clientGuid = ReadLong();
 
-			BeforeDecode();
+                AfterDecode();
+            }
 
-			inventoryId = ReadUnsignedVarInt();
-			slot = ReadUnsignedVarInt();
-			item = ReadItem();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterDecode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                remoteBindingAddress = default;
+                mtuSize = default;
+                clientGuid = default;
+            }
+    }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+public partial class OpenConnectionReply2 : Packet
+    {
+        public readonly byte[] offlineMessageDataId =
+            {
+                0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78
+            }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
 
-			inventoryId=default(uint);
-			slot=default(uint);
-			item=default(Item);
-		}
+        public IPEndPoint clientEndpoint; // = null;
+        public byte[] doSecurityAndHandshake; // = null;
+        public short mtuSize; // = null;
+        public long serverGuid; // = null;
 
-	}
+        public OpenConnectionReply2()
+            {
+                Id = 0x08;
+                IsMcpe = false;
+            }
 
-	public partial class McpeContainerSetData : Packet
-	{
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		public byte windowId; // = null;
-		public int property; // = null;
-		public int value; // = null;
+                BeforeEncode();
 
-		public McpeContainerSetData()
-		{
-			Id = 0x33;
-			IsMcpe = true;
-		}
+                Write(offlineMessageDataId);
+                Write(serverGuid);
+                Write(clientEndpoint);
+                WriteBe(mtuSize);
+                Write(doSecurityAndHandshake);
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                AfterEncode();
+            }
 
-			BeforeEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			Write(windowId);
-			WriteSignedVarInt(property);
-			WriteSignedVarInt(value);
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterEncode();
-		}
+                BeforeDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                ReadBytes(offlineMessageDataId.Length);
+                serverGuid = ReadLong();
+                clientEndpoint = ReadIPEndPoint();
+                mtuSize = ReadShortBe();
+                doSecurityAndHandshake = ReadBytes(0, true);
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterDecode();
+            }
 
-			BeforeDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			windowId = ReadByte();
-			property = ReadSignedVarInt();
-			value = ReadSignedVarInt();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			AfterDecode();
-		}
+                serverGuid = default;
+                clientEndpoint = default;
+                mtuSize = default;
+                doSecurityAndHandshake = default;
+            }
+    }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+public partial class ConnectionRequest : Packet
+    {
+        public long clientGuid; // = null;
+        public byte doSecurity; // = null;
+        public long timestamp; // = null;
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        public ConnectionRequest()
+            {
+                Id = 0x09;
+                IsMcpe = false;
+            }
 
-			windowId=default(byte);
-			property=default(int);
-			value=default(int);
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-	}
+                BeforeEncode();
 
-	public partial class McpeCraftingData : Packet
-	{
+                Write(clientGuid);
+                Write(timestamp);
+                Write(doSecurity);
 
-		public Recipes recipes; // = null;
-		public PotionTypeRecipe[] potionTypeRecipes; // = null;
-		public PotionContainerChangeRecipe[] potionContainerRecipes; // = null;
-		public MaterialReducerRecipe[] materialReducerRecipes; // = null;
-		public bool isClean; // = null;
+                AfterEncode();
+            }
 
-		public McpeCraftingData()
-		{
-			Id = 0x34;
-			IsMcpe = true;
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			BeforeEncode();
+                BeforeDecode();
+
+                clientGuid = ReadLong();
+                timestamp = ReadLong();
+                doSecurity = ReadByte();
 
-			Write(recipes);
-			Write(potionTypeRecipes);
-			Write(potionContainerRecipes);
-			Write(materialReducerRecipes);
-			Write(isClean);
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterEncode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                clientGuid = default;
+                timestamp = default;
+                doSecurity = default;
+            }
+    }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+public partial class ConnectionRequestAccepted : Packet
+    {
+        public long incomingTimestamp; // = null;
+        public long serverTimestamp; // = null;
 
-			BeforeDecode();
+        public IPEndPoint systemAddress; // = null;
+        public IPEndPoint[] systemAddresses; // = null;
+        public short systemIndex; // = null;
 
-			recipes = ReadRecipes();
-			potionTypeRecipes = ReadPotionTypeRecipes();
-			potionContainerRecipes = ReadPotionContainerChangeRecipes();
-			materialReducerRecipes = ReadMaterialReducerRecipes();
-			isClean = ReadBool();
+        public ConnectionRequestAccepted()
+            {
+                Id = 0x10;
+                IsMcpe = false;
+            }
 
-			AfterDecode();
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                BeforeEncode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                Write(systemAddress);
+                WriteBe(systemIndex);
+                Write(systemAddresses);
+                Write(incomingTimestamp);
+                Write(serverTimestamp);
+
+                AfterEncode();
+            }
 
-			recipes=default(Recipes);
-			potionTypeRecipes=default(PotionTypeRecipe[]);
-			potionContainerRecipes=default(PotionContainerChangeRecipe[]);
-			materialReducerRecipes=default(MaterialReducerRecipe[]);
-			isClean=default(bool);
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-	}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	public partial class McpeCraftingEvent : Packet
-	{
-		public enum RecipeTypes
-		{
-			Shapeless = 0,
-			Shaped = 1,
-			Furnace = 2,
-			FurnaceData = 3,
-			Multi = 4,
-			ShulkerBox = 5,
-			ChemistryShapeless = 6,
-			ChemistryShaped = 7,
-			SmithingTransform = 8,
-			SmithingTrim = 9,
-		}
+                BeforeDecode();
+
+                systemAddress = ReadIPEndPoint();
+                systemIndex = ReadShortBe();
+                systemAddresses = ReadIPEndPoints(20);
+                incomingTimestamp = ReadLong();
+                serverTimestamp = ReadLong();
 
-		public byte windowId; // = null;
-		public int recipeType; // = null;
-		public UUID recipeId; // = null;
-		public ItemStacks input; // = null;
-		public ItemStacks result; // = null;
+                AfterDecode();
+            }
 
-		public McpeCraftingEvent()
-		{
-			Id = 0x35;
-			IsMcpe = true;
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			BeforeEncode();
+                systemAddress = default;
+                systemIndex = default;
+                systemAddresses = default;
+                incomingTimestamp = default;
+                serverTimestamp = default;
+            }
+    }
 
-			Write(windowId);
-			WriteSignedVarInt(recipeType);
-			Write(recipeId);
-			Write(input);
-			Write(result);
+public partial class NewIncomingConnection : Packet
+    {
+        public IPEndPoint clientendpoint; // = null;
+        public long incomingTimestamp; // = null;
+        public long serverTimestamp; // = null;
+        public IPEndPoint[] systemAddresses; // = null;
 
-			AfterEncode();
-		}
+        public NewIncomingConnection()
+            {
+                Id = 0x13;
+                IsMcpe = false;
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeEncode();
 
-			BeforeDecode();
+                Write(clientendpoint);
+                Write(systemAddresses);
+                Write(incomingTimestamp);
+                Write(serverTimestamp);
 
-			windowId = ReadByte();
-			recipeType = ReadSignedVarInt();
-			recipeId = ReadUUID();
-			input = ReadItemStacks();
-			result = ReadItemStacks();
+                AfterEncode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeDecode();
 
-			windowId=default(byte);
-			recipeType=default(int);
-			recipeId=default(UUID);
-			input=default(ItemStacks);
-			result=default(ItemStacks);
-		}
+                clientendpoint = ReadIPEndPoint();
+                systemAddresses = ReadIPEndPoints(20);
+                incomingTimestamp = ReadLong();
+                serverTimestamp = ReadLong();
 
-	}
+                AfterDecode();
+            }
 
-	public partial class McpeGuiDataPickItem : Packet
-	{
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		public McpeGuiDataPickItem()
-		{
-			Id = 0x36;
-			IsMcpe = true;
-		}
+                clientendpoint = default;
+                systemAddresses = default;
+                incomingTimestamp = default;
+                serverTimestamp = default;
+            }
+    }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+public partial class NoFreeIncomingConnections : Packet
+    {
+        public readonly byte[] offlineMessageDataId =
+            {
+                0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78
+            }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
 
-			BeforeEncode();
+        public long serverGuid; // = null;
 
+        public NoFreeIncomingConnections()
+            {
+                Id = 0x14;
+                IsMcpe = false;
+            }
 
-			AfterEncode();
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                BeforeEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                Write(offlineMessageDataId);
+                Write(serverGuid);
 
-			BeforeDecode();
+                AfterEncode();
+            }
 
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			AfterDecode();
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                BeforeDecode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                ReadBytes(offlineMessageDataId.Length);
+                serverGuid = ReadLong();
 
-		}
+                AfterDecode();
+            }
 
-	}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-	public partial class McpeAdventureSettings : Packet
-	{
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		public uint flags; // = null;
-		public uint commandPermission; // = null;
-		public uint actionPermissions; // = null;
-		public uint permissionLevel; // = null;
-		public uint customStoredPermissions; // = null;
-		public long entityUniqueId; // = null;
+                serverGuid = default;
+            }
+    }
 
-		public McpeAdventureSettings()
-		{
-			Id = 0x37;
-			IsMcpe = true;
-		}
+public partial class DisconnectionNotification : Packet
+    {
+        public DisconnectionNotification()
+            {
+                Id = 0x15;
+                IsMcpe = false;
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			BeforeEncode();
+                BeforeEncode();
 
-			WriteUnsignedVarInt(flags);
-			WriteUnsignedVarInt(commandPermission);
-			WriteUnsignedVarInt(actionPermissions);
-			WriteUnsignedVarInt(permissionLevel);
-			WriteUnsignedVarInt(customStoredPermissions);
-			Write(entityUniqueId);
 
-			AfterEncode();
-		}
+                AfterEncode();
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			BeforeDecode();
+                BeforeDecode();
 
-			flags = ReadUnsignedVarInt();
-			commandPermission = ReadUnsignedVarInt();
-			actionPermissions = ReadUnsignedVarInt();
-			permissionLevel = ReadUnsignedVarInt();
-			customStoredPermissions = ReadUnsignedVarInt();
-			entityUniqueId = ReadLong();
 
-			AfterDecode();
-		}
+                AfterDecode();
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-			flags=default(uint);
-			commandPermission=default(uint);
-			actionPermissions=default(uint);
-			permissionLevel=default(uint);
-			customStoredPermissions=default(uint);
-			entityUniqueId=default(long);
-		}
+public partial class ConnectionBanned : Packet
+    {
+        public readonly byte[] offlineMessageDataId =
+            {
+                0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78
+            }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
 
-	}
+        public long serverGuid; // = null;
 
-	public partial class McpeBlockEntityData : Packet
-	{
+        public ConnectionBanned()
+            {
+                Id = 0x17;
+                IsMcpe = false;
+            }
 
-		public BlockCoordinates coordinates; // = null;
-		public Nbt namedtag; // = null;
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		public McpeBlockEntityData()
-		{
-			Id = 0x38;
-			IsMcpe = true;
-		}
+                BeforeEncode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                Write(offlineMessageDataId);
+                Write(serverGuid);
 
-			BeforeEncode();
+                AfterEncode();
+            }
 
-			Write(coordinates);
-			Write(namedtag);
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			AfterEncode();
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                BeforeDecode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                ReadBytes(offlineMessageDataId.Length);
+                serverGuid = ReadLong();
 
-			BeforeDecode();
+                AfterDecode();
+            }
 
-			coordinates = ReadBlockCoordinates();
-			namedtag = ReadNbt();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterDecode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                serverGuid = default;
+            }
+    }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+public partial class IpRecentlyConnected : Packet
+    {
+        public readonly byte[] offlineMessageDataId =
+            {
+                0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78
+            }; // = { 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 };
 
-			coordinates=default(BlockCoordinates);
-			namedtag=default(Nbt);
-		}
+        public IpRecentlyConnected()
+            {
+                Id = 0x1a;
+                IsMcpe = false;
+            }
 
-	}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-	public partial class McpePlayerInput : Packet
-	{
+                BeforeEncode();
 
-		public float motionX; // = null;
-		public float motionZ; // = null;
-		public bool jumping; // = null;
-		public bool sneaking; // = null;
+                Write(offlineMessageDataId);
 
-		public McpePlayerInput()
-		{
-			Id = 0x39;
-			IsMcpe = true;
-		}
+                AfterEncode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			Write(motionX);
-			Write(motionZ);
-			Write(jumping);
-			Write(sneaking);
+                BeforeDecode();
 
-			AfterEncode();
-		}
+                ReadBytes(offlineMessageDataId.Length);
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterDecode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-			motionX = ReadFloat();
-			motionZ = ReadFloat();
-			jumping = ReadBool();
-			sneaking = ReadBool();
+public partial class McpeLogin : Packet
+    {
+        public byte[] payload; // = null;
 
-			AfterDecode();
-		}
+        public int protocolVersion; // = null;
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        public McpeLogin()
+            {
+                Id = 0x01;
+                IsMcpe = true;
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			motionX=default(float);
-			motionZ=default(float);
-			jumping=default(bool);
-			sneaking=default(bool);
-		}
+                BeforeEncode();
 
-	}
+                WriteBe(protocolVersion);
+                WriteByteArray(payload);
 
-	public partial class McpeLevelChunk : Packet
-	{
+                AfterEncode();
+            }
 
-		public int chunkX; // = null;
-		public int chunkZ; // = null;
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public McpeLevelChunk()
-		{
-			Id = 0x3a;
-			IsMcpe = true;
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeDecode();
 
-			BeforeEncode();
+                protocolVersion = ReadIntBe();
+                payload = ReadByteArray();
 
-			WriteSignedVarInt(chunkX);
-			WriteSignedVarInt(chunkZ);
+                AfterDecode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                protocolVersion = default;
+                payload = default;
+            }
+    }
 
-			BeforeDecode();
+public partial class McpePlayStatus : Packet
+    {
+        public enum PlayStatus
+            {
+                LoginSuccess = 0,
+                LoginFailedClient = 1,
+                LoginFailedServer = 2,
+                PlayerSpawn = 3,
+                LoginFailedInvalidTenant = 4,
+                LoginFailedVanillaEdu = 5,
+                LoginFailedEduVanilla = 6,
+                LoginFailedServerFull = 7
+            }
 
-			chunkX = ReadSignedVarInt();
-			chunkZ = ReadSignedVarInt();
+        public int status; // = null;
 
-			AfterDecode();
-		}
+        public McpePlayStatus()
+            {
+                Id = 0x02;
+                IsMcpe = true;
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeEncode();
 
-			chunkX=default(int);
-			chunkZ=default(int);
-		}
+                WriteBe(status);
 
-	}
+                AfterEncode();
+            }
 
-	public partial class McpeSetCommandsEnabled : Packet
-	{
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public bool enabled; // = null;
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		public McpeSetCommandsEnabled()
-		{
-			Id = 0x3b;
-			IsMcpe = true;
-		}
+                BeforeDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                status = ReadIntBe();
 
-			BeforeEncode();
+                AfterDecode();
+            }
 
-			Write(enabled);
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterEncode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                status = default;
+            }
+    }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+public partial class McpeServerToClientHandshake : Packet
+    {
+        public string token; // = null;
 
-			BeforeDecode();
+        public McpeServerToClientHandshake()
+            {
+                Id = 0x03;
+                IsMcpe = true;
+            }
 
-			enabled = ReadBool();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterDecode();
-		}
+                BeforeEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                Write(token);
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterEncode();
+            }
 
-			enabled=default(bool);
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-	}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	public partial class McpeSetDifficulty : Packet
-	{
+                BeforeDecode();
 
-		public uint difficulty; // = null;
+                token = ReadString();
 
-		public McpeSetDifficulty()
-		{
-			Id = 0x3c;
-			IsMcpe = true;
-		}
+                AfterDecode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			WriteUnsignedVarInt(difficulty);
+                token = default;
+            }
+    }
 
-			AfterEncode();
-		}
+public partial class McpeClientToServerHandshake : Packet
+    {
+        public McpeClientToServerHandshake()
+            {
+                Id = 0x04;
+                IsMcpe = true;
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeEncode();
 
-			BeforeDecode();
 
-			difficulty = ReadUnsignedVarInt();
+                AfterEncode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeDecode();
 
-			difficulty=default(uint);
-		}
 
-	}
+                AfterDecode();
+            }
 
-	public partial class McpeChangeDimension : Packet
-	{
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		public int dimension; // = null;
-		public Vector3 position; // = null;
-		public bool respawn; // = null;
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-		public McpeChangeDimension()
-		{
-			Id = 0x3d;
-			IsMcpe = true;
-		}
+public partial class McpeDisconnect : Packet
+    {
+        public uint failReason; // = null;
+        public string filteredMessage; // = null
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        public bool hideDisconnectReason; // = null;
+        public string message; // = null;
 
-			BeforeEncode();
+        public McpeDisconnect()
+            {
+                Id = 0x05;
+                IsMcpe = true;
+            }
 
-			WriteSignedVarInt(dimension);
-			Write(position);
-			Write(respawn);
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterEncode();
-		}
+                BeforeEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                WriteUnsignedVarInt(0); //todo
+                Write(hideDisconnectReason);
+                Write(message);
+                Write(filteredMessage);
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterEncode();
+            }
 
-			BeforeDecode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			dimension = ReadSignedVarInt();
-			position = ReadVector3();
-			respawn = ReadBool();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterDecode();
-		}
+                BeforeDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                failReason = ReadUnsignedVarInt();
+                hideDisconnectReason = ReadBool();
+                message = ReadString();
+                filteredMessage = ReadString();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterDecode();
+            }
 
-			dimension=default(int);
-			position=default(Vector3);
-			respawn=default(bool);
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-	}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-	public partial class McpeSetPlayerGameType : Packet
-	{
+                hideDisconnectReason = default;
+                message = default;
+                failReason = default(int);
+            }
+    }
 
-		public int gamemode; // = null;
+public partial class McpeResourcePacksInfo : Packet
+    {
+        public uint cndUrls; // = null;
+        public bool hasAddons; // = null;
+        public bool hasScripts; // = null;
 
-		public McpeSetPlayerGameType()
-		{
-			Id = 0x3e;
-			IsMcpe = true;
-		}
+        public bool mustAccept; // = null;
+        public TexturePackInfos texturepacks; // = null;
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        public McpeResourcePacksInfo()
+            {
+                Id = 0x06;
+                IsMcpe = true;
+            }
 
-			BeforeEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			WriteSignedVarInt(gamemode);
+                BeforeEncode();
 
-			AfterEncode();
-		}
+                Write(mustAccept);
+                Write(false); //addons that we don't and won't have
+                Write(hasScripts);
+                Write(texturepacks);
+                WriteUnsignedVarInt(cndUrls);
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterEncode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			gamemode = ReadSignedVarInt();
+                BeforeDecode();
 
-			AfterDecode();
-		}
+                mustAccept = ReadBool();
+                hasAddons = ReadBool();
+                hasScripts = ReadBool();
+                texturepacks = ReadTexturePackInfos();
+                cndUrls = ReadUnsignedVarInt();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterDecode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			gamemode=default(int);
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-	}
+                mustAccept = default;
+                hasAddons = default;
+                hasScripts = default;
+                texturepacks = default;
+                cndUrls = default;
+            }
+    }
 
-	public partial class McpePlayerList : Packet
-	{
+public partial class McpeResourcePackStack : Packet
+    {
+        public ResourcePackIdVersions behaviorpackidversions; // = null;
+        public Experiments experiments; // = null;
+        public bool experimentsPreviouslyToggled; // = null;
+        public string gameVersion; // = null;
 
-		public PlayerRecords records; // = null;
+        public bool mustAccept; // = null;
+        public ResourcePackIdVersions resourcepackidversions; // = null;
 
-		public McpePlayerList()
-		{
-			Id = 0x3f;
-			IsMcpe = true;
-		}
+        public McpeResourcePackStack()
+            {
+                Id = 0x07;
+                IsMcpe = true;
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			BeforeEncode();
+                BeforeEncode();
 
-			Write(records);
+                Write(mustAccept);
+                Write(behaviorpackidversions);
+                Write(resourcepackidversions);
+                Write(gameVersion);
+                Write(experiments);
+                Write(experimentsPreviouslyToggled);
 
-			AfterEncode();
-		}
+                AfterEncode();
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			BeforeDecode();
+                BeforeDecode();
 
-			records = ReadPlayerRecords();
+                mustAccept = ReadBool();
+                behaviorpackidversions = ReadResourcePackIdVersions();
+                resourcepackidversions = ReadResourcePackIdVersions();
+                gameVersion = ReadString();
+                experiments = ReadExperiments();
+                experimentsPreviouslyToggled = ReadBool();
 
-			AfterDecode();
-		}
+                AfterDecode();
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			records=default(PlayerRecords);
-		}
+                mustAccept = default;
+                behaviorpackidversions = default;
+                resourcepackidversions = default;
+                gameVersion = default;
+                experiments = default;
+                experimentsPreviouslyToggled = default;
+            }
+    }
 
-	}
+public partial class McpeResourcePackClientResponse : Packet
+    {
+        public enum ResponseStatus
+            {
+                Refused = 1,
+                SendPacks = 2,
+                HaveAllPacks = 3,
+                Completed = 4
+            }
 
-	public partial class McpeSimpleEvent : Packet
-	{
+        public ResourcePackIds resourcepackids; // = null;
 
-		public ushort eventType; // = null;
+        public byte responseStatus; // = null;
 
-		public McpeSimpleEvent()
-		{
-			Id = 0x40;
-			IsMcpe = true;
-		}
+        public McpeResourcePackClientResponse()
+            {
+                Id = 0x08;
+                IsMcpe = true;
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			BeforeEncode();
+                BeforeEncode();
 
-			Write(eventType);
+                Write(responseStatus);
+                Write(resourcepackids);
 
-			AfterEncode();
-		}
+                AfterEncode();
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			BeforeDecode();
+                BeforeDecode();
 
-			eventType = ReadUshort();
+                responseStatus = ReadByte();
+                resourcepackids = ReadResourcePackIds();
 
-			AfterDecode();
-		}
+                AfterDecode();
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			eventType=default(ushort);
-		}
+                responseStatus = default;
+                resourcepackids = default;
+            }
+    }
 
-	}
+public partial class McpeText : Packet
+    {
+        public enum ChatTypes
+            {
+                Raw = 0,
+                Chat = 1,
+                Translation = 2,
+                Popup = 3,
+                Jukeboxpopup = 4,
+                Tip = 5,
+                System = 6,
+                Whisper = 7,
+                Announcement = 8,
+                Json = 9,
+                Jsonwhisper = 10,
+                Jsonannouncement = 11
+            }
 
-	public partial class McpeTelemetryEvent : Packet
-	{
+        public byte type; // = null;
 
-		public long runtimeEntityId; // = null;
-		public int eventData; // = null;
-		public byte eventType; // = null;
-		public byte[] auxData; // = null;
+        public McpeText()
+            {
+                Id = 0x09;
+                IsMcpe = true;
+            }
 
-		public McpeTelemetryEvent()
-		{
-			Id = 0x41;
-			IsMcpe = true;
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeEncode();
 
-			BeforeEncode();
+                Write(type);
 
-			WriteUnsignedVarLong(runtimeEntityId);
-			WriteSignedVarInt(eventData);
-			Write(eventType);
-			Write(auxData);
+                AfterEncode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeDecode();
 
-			BeforeDecode();
+                type = ReadByte();
 
-			runtimeEntityId = ReadUnsignedVarLong();
-			eventData = ReadSignedVarInt();
-			eventType = ReadByte();
-			auxData = ReadBytes(0, true);
+                AfterDecode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                type = default;
+            }
+    }
 
-			runtimeEntityId=default(long);
-			eventData=default(int);
-			eventType=default(byte);
-			auxData=default(byte[]);
-		}
+public partial class McpeSetTime : Packet
+    {
+        public int time; // = null;
 
-	}
+        public McpeSetTime()
+            {
+                Id = 0x0a;
+                IsMcpe = true;
+            }
 
-	public partial class McpeSpawnExperienceOrb : Packet
-	{
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		public Vector3 position; // = null;
-		public int count; // = null;
+                BeforeEncode();
 
-		public McpeSpawnExperienceOrb()
-		{
-			Id = 0x42;
-			IsMcpe = true;
-		}
+                WriteSignedVarInt(time);
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                AfterEncode();
+            }
 
-			BeforeEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			Write(position);
-			WriteSignedVarInt(count);
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterEncode();
-		}
+                BeforeDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                time = ReadSignedVarInt();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterDecode();
+            }
 
-			BeforeDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			position = ReadVector3();
-			count = ReadSignedVarInt();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			AfterDecode();
-		}
+                time = default;
+            }
+    }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+public partial class McpeStartGame : Packet
+    {
+        public McpeStartGame()
+            {
+                Id = 0x0b;
+                IsMcpe = true;
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			position=default(Vector3);
-			count=default(int);
-		}
+                BeforeEncode();
 
-	}
 
-	public partial class McpeClientboundMapItemData : Packet
-	{
+                AfterEncode();
+            }
 
-		public MapInfo mapinfo; // = null;
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public McpeClientboundMapItemData()
-		{
-			Id = 0x43;
-			IsMcpe = true;
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeDecode();
 
-			BeforeEncode();
 
-			Write(mapinfo);
+                AfterDecode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+public partial class McpeAddPlayer : Packet
+    {
+        public byte commandPermissions; // = null;
+        public string deviceId; // = null;
+        public int deviceOs; // = null;
+        public long entityIdSelf; // = null;
+        public uint gameType; // = null;
+        public float headYaw; // = null;
+        public Item item; // = null;
+        public AbilityLayers layers; // = null;
+        public EntityLinks links; // = null;
+        public MetadataDictionary metadata; // = null;
+        public float pitch; // = null;
+        public string platformChatId; // = null;
+        public byte playerPermissions; // = null;
+        public long runtimeEntityId; // = null;
+        public float speedX; // = null;
+        public float speedY; // = null;
+        public float speedZ; // = null;
+        public PropertySyncData syncdata; // = null;
+        public string username; // = null;
 
-			BeforeDecode();
+        public UUID uuid; // = null;
+        public float x; // = null;
+        public float y; // = null;
+        public float yaw; // = null;
+        public float z; // = null;
 
-			mapinfo = ReadMapInfo();
+        public McpeAddPlayer()
+            {
+                Id = 0x0c;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(uuid);
+                Write(username);
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(platformChatId);
+                Write(x);
+                Write(y);
+                Write(z);
+                Write(speedX);
+                Write(speedY);
+                Write(speedZ);
+                Write(pitch);
+                Write(yaw);
+                Write(headYaw);
+                Write(item);
+                WriteUnsignedVarInt(gameType);
+                Write(metadata);
+                Write(syncdata);
+                WriteSignedVarLong(entityIdSelf);
+                Write(playerPermissions);
+                Write(commandPermissions);
+                Write(layers);
+                Write(links);
+                Write(deviceId);
+                Write(deviceOs);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                uuid = ReadUUID();
+                username = ReadString();
+                runtimeEntityId = ReadUnsignedVarLong();
+                platformChatId = ReadString();
+                x = ReadFloat();
+                y = ReadFloat();
+                z = ReadFloat();
+                speedX = ReadFloat();
+                speedY = ReadFloat();
+                speedZ = ReadFloat();
+                pitch = ReadFloat();
+                yaw = ReadFloat();
+                headYaw = ReadFloat();
+                item = ReadItem();
+                gameType = ReadUnsignedVarInt();
+                metadata = ReadMetadataDictionary();
+                syncdata = ReadPropertySyncData();
+                entityIdSelf = ReadSignedVarLong();
+                playerPermissions = ReadByte();
+                commandPermissions = ReadByte();
+                layers = ReadAbilityLayers();
+                links = ReadEntityLinks();
+                deviceId = ReadString();
+                deviceOs = ReadInt();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                uuid = default;
+                username = default;
+                runtimeEntityId = default;
+                platformChatId = default;
+                x = default;
+                y = default;
+                z = default;
+                speedX = default;
+                speedY = default;
+                speedZ = default;
+                pitch = default;
+                yaw = default;
+                headYaw = default;
+                item = default;
+                gameType = default;
+                metadata = default;
+                syncdata = default;
+                entityIdSelf = default;
+                playerPermissions = default;
+                commandPermissions = default;
+                layers = default;
+                links = default;
+                deviceId = default;
+                deviceOs = default;
+            }
+    }
+
+public partial class McpeAddEntity : Packet
+    {
+        public EntityAttributes attributes; // = null;
+        public float bodyYaw; // = null;
+
+        public long entityIdSelf; // = null;
+        public string entityType; // = null;
+        public float headYaw; // = null;
+        public EntityLinks links; // = null;
+        public MetadataDictionary metadata; // = null;
+        public float pitch; // = null;
+        public long runtimeEntityId; // = null;
+        public float speedX; // = null;
+        public float speedY; // = null;
+        public float speedZ; // = null;
+        public PropertySyncData syncdata; // = null;
+        public float x; // = null;
+        public float y; // = null;
+        public float yaw; // = null;
+        public float z; // = null;
+
+        public McpeAddEntity()
+            {
+                Id = 0x0d;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteSignedVarLong(entityIdSelf);
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(entityType);
+                Write(x);
+                Write(y);
+                Write(z);
+                Write(speedX);
+                Write(speedY);
+                Write(speedZ);
+                Write(pitch);
+                Write(yaw);
+                Write(headYaw);
+                Write(bodyYaw);
+                Write(attributes);
+                Write(metadata);
+                Write(syncdata);
+                Write(links);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                entityIdSelf = ReadSignedVarLong();
+                runtimeEntityId = ReadUnsignedVarLong();
+                entityType = ReadString();
+                x = ReadFloat();
+                y = ReadFloat();
+                z = ReadFloat();
+                speedX = ReadFloat();
+                speedY = ReadFloat();
+                speedZ = ReadFloat();
+                pitch = ReadFloat();
+                yaw = ReadFloat();
+                headYaw = ReadFloat();
+                bodyYaw = ReadFloat();
+                attributes = ReadEntityAttributes();
+                metadata = ReadMetadataDictionary();
+                syncdata = ReadPropertySyncData();
+                links = ReadEntityLinks();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                entityIdSelf = default;
+                runtimeEntityId = default;
+                entityType = default;
+                x = default;
+                y = default;
+                z = default;
+                speedX = default;
+                speedY = default;
+                speedZ = default;
+                pitch = default;
+                yaw = default;
+                headYaw = default;
+                bodyYaw = default;
+                attributes = default;
+                metadata = default;
+                syncdata = default;
+                links = default;
+            }
+    }
+
+public partial class McpeRemoveEntity : Packet
+    {
+        public long entityIdSelf; // = null;
+
+        public McpeRemoveEntity()
+            {
+                Id = 0x0e;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteSignedVarLong(entityIdSelf);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                entityIdSelf = ReadSignedVarLong();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                entityIdSelf = default;
+            }
+    }
+
+public partial class McpeAddItemEntity : Packet
+    {
+        public long entityIdSelf; // = null;
+        public bool isFromFishing; // = null;
+        public Item item; // = null;
+        public MetadataDictionary metadata; // = null;
+        public long runtimeEntityId; // = null;
+        public float speedX; // = null;
+        public float speedY; // = null;
+        public float speedZ; // = null;
+        public float x; // = null;
+        public float y; // = null;
+        public float z; // = null;
+
+        public McpeAddItemEntity()
+            {
+                Id = 0x0f;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteSignedVarLong(entityIdSelf);
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(item);
+                Write(x);
+                Write(y);
+                Write(z);
+                Write(speedX);
+                Write(speedY);
+                Write(speedZ);
+                Write(metadata);
+                Write(isFromFishing);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                entityIdSelf = ReadSignedVarLong();
+                runtimeEntityId = ReadUnsignedVarLong();
+                item = ReadItem();
+                x = ReadFloat();
+                y = ReadFloat();
+                z = ReadFloat();
+                speedX = ReadFloat();
+                speedY = ReadFloat();
+                speedZ = ReadFloat();
+                metadata = ReadMetadataDictionary();
+                isFromFishing = ReadBool();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                entityIdSelf = default;
+                runtimeEntityId = default;
+                item = default;
+                x = default;
+                y = default;
+                z = default;
+                speedX = default;
+                speedY = default;
+                speedZ = default;
+                metadata = default;
+                isFromFishing = default;
+            }
+    }
+
+public partial class McpeTakeItemEntity : Packet
+    {
+        public long runtimeEntityId; // = null;
+        public long target; // = null;
+
+        public McpeTakeItemEntity()
+            {
+                Id = 0x11;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarLong(runtimeEntityId);
+                WriteUnsignedVarLong(target);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                runtimeEntityId = ReadUnsignedVarLong();
+                target = ReadUnsignedVarLong();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                runtimeEntityId = default;
+                target = default;
+            }
+    }
+
+public partial class McpeMoveEntity : Packet
+    {
+        public byte flags; // = null;
+        public PlayerLocation position; // = null;
+
+        public long runtimeEntityId; // = null;
+
+        public McpeMoveEntity()
+            {
+                Id = 0x12;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(flags);
+                Write(position);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                runtimeEntityId = ReadUnsignedVarLong();
+                flags = ReadByte();
+                position = ReadPlayerLocation();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                runtimeEntityId = default;
+                flags = default;
+                position = default;
+            }
+    }
+
+public partial class McpeMovePlayer : Packet
+    {
+        public enum Mode
+            {
+                Normal = 0,
+                Reset = 1,
+                Teleport = 2,
+                Rotation = 3
+            }
+
+        public enum Teleportcause
+            {
+                Unknown = 0,
+                Projectile = 1,
+                ChorusFruit = 2,
+                Command = 3,
+                Behavior = 4,
+                Count = 5
+            }
+
+        public float headYaw; // = null;
+        public byte mode; // = null;
+        public bool onGround; // = null;
+        public long otherRuntimeEntityId; // = null;
+        public float pitch; // = null;
+
+        public long runtimeEntityId; // = null;
+        public float x; // = null;
+        public float y; // = null;
+        public float yaw; // = null;
+        public float z; // = null;
+
+        public McpeMovePlayer()
+            {
+                Id = 0x13;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(x);
+                Write(y);
+                Write(z);
+                Write(pitch);
+                Write(yaw);
+                Write(headYaw);
+                Write(mode);
+                Write(onGround);
+                WriteUnsignedVarLong(otherRuntimeEntityId);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                runtimeEntityId = ReadUnsignedVarLong();
+                x = ReadFloat();
+                y = ReadFloat();
+                z = ReadFloat();
+                pitch = ReadFloat();
+                yaw = ReadFloat();
+                headYaw = ReadFloat();
+                mode = ReadByte();
+                onGround = ReadBool();
+                otherRuntimeEntityId = ReadUnsignedVarLong();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                runtimeEntityId = default;
+                x = default;
+                y = default;
+                z = default;
+                pitch = default;
+                yaw = default;
+                headYaw = default;
+                mode = default;
+                onGround = default;
+                otherRuntimeEntityId = default;
+            }
+    }
+
+public partial class McpeRiderJump : Packet
+    {
+        public int unknown; // = null;
+
+        public McpeRiderJump()
+            {
+                Id = 0x14;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteSignedVarInt(unknown);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                unknown = ReadSignedVarInt();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                unknown = default;
+            }
+    }
+
+public partial class McpeUpdateBlock : Packet
+    {
+        public enum Flags
+            {
+                None = 0,
+                Neighbors = 1,
+                Network = 2,
+                Nographic = 4,
+                Priority = 8,
+                All = Neighbors | Network,
+                AllPriority = All | Priority
+            }
+
+        public uint blockPriority; // = null;
+        public uint blockRuntimeId; // = null;
+
+        public BlockCoordinates coordinates; // = null;
+        public uint storage; // = null;
+
+        public McpeUpdateBlock()
+            {
+                Id = 0x15;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(coordinates);
+                WriteUnsignedVarInt(blockRuntimeId);
+                WriteUnsignedVarInt(blockPriority);
+                WriteUnsignedVarInt(storage);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                coordinates = ReadBlockCoordinates();
+                blockRuntimeId = ReadUnsignedVarInt();
+                blockPriority = ReadUnsignedVarInt();
+                storage = ReadUnsignedVarInt();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                coordinates = default;
+                blockRuntimeId = default;
+                blockPriority = default;
+                storage = default;
+            }
+    }
+
+public partial class McpeAddPainting : Packet
+    {
+        public BlockCoordinates coordinates; // = null;
+        public int direction; // = null;
+
+        public long entityIdSelf; // = null;
+        public long runtimeEntityId; // = null;
+        public string title; // = null;
+
+        public McpeAddPainting()
+            {
+                Id = 0x16;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteSignedVarLong(entityIdSelf);
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(coordinates);
+                WriteSignedVarInt(direction);
+                Write(title);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                entityIdSelf = ReadSignedVarLong();
+                runtimeEntityId = ReadUnsignedVarLong();
+                coordinates = ReadBlockCoordinates();
+                direction = ReadSignedVarInt();
+                title = ReadString();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                entityIdSelf = default;
+                runtimeEntityId = default;
+                coordinates = default;
+                direction = default;
+                title = default;
+            }
+    }
+
+public partial class McpeTickSync : Packet
+    {
+        public long requestTime; // = null;
+        public long responseTime; // = null;
+
+        public McpeTickSync()
+            {
+                Id = 0x17;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(requestTime);
+                Write(responseTime);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                requestTime = ReadLong();
+                responseTime = ReadLong();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                requestTime = default;
+                responseTime = default;
+            }
+    }
+
+public partial class McpeLevelSoundEventOld : Packet
+    {
+        public int blockId; // = null;
+        public int entityType; // = null;
+        public bool isBabyMob; // = null;
+        public bool isGlobal; // = null;
+        public Vector3 position; // = null;
+
+        public byte soundId; // = null;
+
+        public McpeLevelSoundEventOld()
+            {
+                Id = 0x18;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(soundId);
+                Write(position);
+                WriteSignedVarInt(blockId);
+                WriteSignedVarInt(entityType);
+                Write(isBabyMob);
+                Write(isGlobal);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                soundId = ReadByte();
+                position = ReadVector3();
+                blockId = ReadSignedVarInt();
+                entityType = ReadSignedVarInt();
+                isBabyMob = ReadBool();
+                isGlobal = ReadBool();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                soundId = default;
+                position = default;
+                blockId = default;
+                entityType = default;
+                isBabyMob = default;
+                isGlobal = default;
+            }
+    }
+
+public partial class McpeLevelEvent : Packet
+    {
+        public int data; // = null;
+
+        public int eventId; // = null;
+        public Vector3 position; // = null;
+
+        public McpeLevelEvent()
+            {
+                Id = 0x19;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteSignedVarInt(eventId);
+                Write(position);
+                WriteSignedVarInt(data);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                eventId = ReadSignedVarInt();
+                position = ReadVector3();
+                data = ReadSignedVarInt();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                eventId = default;
+                position = default;
+                data = default;
+            }
+    }
+
+public partial class McpeBlockEvent : Packet
+    {
+        public int case1; // = null;
+        public int case2; // = null;
+
+        public BlockCoordinates coordinates; // = null;
+
+        public McpeBlockEvent()
+            {
+                Id = 0x1a;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(coordinates);
+                WriteSignedVarInt(case1);
+                WriteSignedVarInt(case2);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                coordinates = ReadBlockCoordinates();
+                case1 = ReadSignedVarInt();
+                case2 = ReadSignedVarInt();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                coordinates = default;
+                case1 = default;
+                case2 = default;
+            }
+    }
+
+public partial class McpeEntityEvent : Packet
+    {
+        public int data; // = null;
+        public byte eventId; // = null;
+
+        public long runtimeEntityId; // = null;
+
+        public McpeEntityEvent()
+            {
+                Id = 0x1b;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(eventId);
+                WriteSignedVarInt(data);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                runtimeEntityId = ReadUnsignedVarLong();
+                eventId = ReadByte();
+                data = ReadSignedVarInt();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                runtimeEntityId = default;
+                eventId = default;
+                data = default;
+            }
+    }
+
+public partial class McpeMobEffect : Packet
+    {
+        public int amplifier; // = null;
+        public int duration; // = null;
+        public int effectId; // = null;
+        public byte eventId; // = null;
+        public bool particles; // = null;
+
+        public long runtimeEntityId; // = null;
+
+        public McpeMobEffect()
+            {
+                Id = 0x1c;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(eventId);
+                WriteSignedVarInt(effectId);
+                WriteSignedVarInt(amplifier);
+                Write(particles);
+                WriteSignedVarInt(duration);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                runtimeEntityId = ReadUnsignedVarLong();
+                eventId = ReadByte();
+                effectId = ReadSignedVarInt();
+                amplifier = ReadSignedVarInt();
+                particles = ReadBool();
+                duration = ReadSignedVarInt();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                runtimeEntityId = default;
+                eventId = default;
+                effectId = default;
+                amplifier = default;
+                particles = default;
+                duration = default;
+            }
+    }
+
+public partial class McpeUpdateAttributes : Packet
+    {
+        public PlayerAttributes attributes; // = null;
+
+        public long runtimeEntityId; // = null;
+        public long tick; // = null;
+
+        public McpeUpdateAttributes()
+            {
+                Id = 0x1d;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(attributes);
+                WriteUnsignedVarLong(tick);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                runtimeEntityId = ReadUnsignedVarLong();
+                attributes = ReadPlayerAttributes();
+                tick = ReadUnsignedVarLong();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                runtimeEntityId = default;
+                attributes = default;
+                tick = default;
+            }
+    }
+
+public partial class McpeInventoryTransaction : Packet
+    {
+        public enum CraftingAction
+            {
+                CraftAddIngredient = -2,
+                CraftRemoveIngredient = -3,
+                CraftResult = -4,
+                CraftUseIngredient = -5,
+                AnvilInput = -10,
+                AnvilMaterial = -11,
+                AnvilResult = -12,
+                AnvilOutput = -13,
+                EnchantItem = -15,
+                EnchantLapis = -16,
+                EnchantResult = -17,
+                Drop = -100
+            }
+
+        public enum InventorySourceType
+            {
+                Container = 0,
+                Global = 1,
+                WorldInteraction = 2,
+                Creative = 3,
+                Crafting = 100,
+                Unspecified = 99999
+            }
+
+        public enum ItemReleaseAction
+            {
+                Release = 0,
+                Use = 1
+            }
+
+        public enum ItemUseAction
+            {
+                Place,
+                Clickblock = 0,
+                Use,
+                Clickair = 1,
+                Destroy = 2
+            }
+
+        public enum ItemUseOnEntityAction
+            {
+                Interact = 0,
+                Attack = 1,
+                ItemInteract = 2
+            }
+
+        public enum TransactionType
+            {
+                Normal = 0,
+                InventoryMismatch = 1,
+                ItemUse = 2,
+                ItemUseOnEntity = 3,
+                ItemRelease = 4
+            }
+
+        public Transaction transaction; // = null;
+
+        public McpeInventoryTransaction()
+            {
+                Id = 0x1e;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(transaction);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                transaction = ReadTransaction();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                transaction = default;
+            }
+    }
+
+public partial class McpeMobEquipment : Packet
+    {
+        public Item item; // = null;
+
+        public long runtimeEntityId; // = null;
+        public byte selectedSlot; // = null;
+        public byte slot; // = null;
+        public byte windowsId; // = null;
+
+        public McpeMobEquipment()
+            {
+                Id = 0x1f;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(item);
+                Write(slot);
+                Write(selectedSlot);
+                Write(windowsId);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                runtimeEntityId = ReadUnsignedVarLong();
+                item = ReadItem();
+                slot = ReadByte();
+                selectedSlot = ReadByte();
+                windowsId = ReadByte();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                runtimeEntityId = default;
+                item = default;
+                slot = default;
+                selectedSlot = default;
+                windowsId = default;
+            }
+    }
+
+public partial class McpeMobArmorEquipment : Packet
+    {
+        public Item boots; // = null;
+        public Item chestplate; // = null;
+        public Item helmet; // = null;
+        public Item leggings; // = null;
+
+        public long runtimeEntityId; // = null;
+
+        public McpeMobArmorEquipment()
+            {
+                Id = 0x20;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(helmet);
+                Write(chestplate);
+                Write(leggings);
+                Write(boots);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                runtimeEntityId = ReadUnsignedVarLong();
+                helmet = ReadItem();
+                chestplate = ReadItem();
+                leggings = ReadItem();
+                boots = ReadItem();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                runtimeEntityId = default;
+                helmet = default;
+                chestplate = default;
+                leggings = default;
+                boots = default;
+            }
+    }
+
+public partial class McpeInteract : Packet
+    {
+        public enum Actions
+            {
+                RightClick = 1,
+                LeftClick = 2,
+                LeaveVehicle = 3,
+                MouseOver = 4,
+                OpenNpc = 5,
+                OpenInventory = 6
+            }
+
+        public byte actionId; // = null;
+        public long targetRuntimeEntityId; // = null;
+
+        public McpeInteract()
+            {
+                Id = 0x21;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(actionId);
+                WriteUnsignedVarLong(targetRuntimeEntityId);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                actionId = ReadByte();
+                targetRuntimeEntityId = ReadUnsignedVarLong();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                actionId = default;
+                targetRuntimeEntityId = default;
+            }
+    }
+
+public partial class McpeBlockPickRequest : Packet
+    {
+        public bool addUserData; // = null;
+        public byte selectedSlot; // = null;
+
+        public int x; // = null;
+        public int y; // = null;
+        public int z; // = null;
+
+        public McpeBlockPickRequest()
+            {
+                Id = 0x22;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteSignedVarInt(x);
+                WriteSignedVarInt(y);
+                WriteSignedVarInt(z);
+                Write(addUserData);
+                Write(selectedSlot);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                x = ReadSignedVarInt();
+                y = ReadSignedVarInt();
+                z = ReadSignedVarInt();
+                addUserData = ReadBool();
+                selectedSlot = ReadByte();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                x = default;
+                y = default;
+                z = default;
+                addUserData = default;
+                selectedSlot = default;
+            }
+    }
+
+public partial class McpeEntityPickRequest : Packet
+    {
+        public bool addUserData; // = null;
+
+        public ulong runtimeEntityId; // = null;
+        public byte selectedSlot; // = null;
+
+        public McpeEntityPickRequest()
+            {
+                Id = 0x23;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(runtimeEntityId);
+                Write(selectedSlot);
+                Write(addUserData);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                runtimeEntityId = ReadUlong();
+                selectedSlot = ReadByte();
+                addUserData = ReadBool();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                runtimeEntityId = default;
+                selectedSlot = default;
+                addUserData = default;
+            }
+    }
+
+public partial class McpePlayerAction : Packet
+    {
+        public int actionId; // = null;
+        public BlockCoordinates coordinates; // = null;
+        public int face; // = null;
+        public BlockCoordinates resultCoordinates; // = null;
+
+        public long runtimeEntityId; // = null;
+
+        public McpePlayerAction()
+            {
+                Id = 0x24;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarLong(runtimeEntityId);
+                WriteSignedVarInt(actionId);
+                Write(coordinates);
+                Write(resultCoordinates);
+                WriteSignedVarInt(face);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                runtimeEntityId = ReadUnsignedVarLong();
+                actionId = ReadSignedVarInt();
+                coordinates = ReadBlockCoordinates();
+                resultCoordinates = ReadBlockCoordinates();
+                face = ReadSignedVarInt();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                runtimeEntityId = default;
+                actionId = default;
+                coordinates = default;
+                resultCoordinates = default;
+                face = default;
+            }
+    }
+
+public partial class McpeHurtArmor : Packet
+    {
+        public long armorSlotFlags; // = null;
+
+        public int cause; // = null;
+        public int health; // = null;
+
+        public McpeHurtArmor()
+            {
+                Id = 0x26;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteVarInt(cause);
+                WriteSignedVarInt(health);
+                WriteUnsignedVarLong(armorSlotFlags);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                cause = ReadVarInt();
+                health = ReadSignedVarInt();
+                armorSlotFlags = ReadUnsignedVarLong();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                cause = default;
+                health = default;
+                armorSlotFlags = default;
+            }
+    }
+
+public partial class McpeSetEntityData : Packet
+    {
+        public MetadataDictionary metadata; // = null;
+
+        public long runtimeEntityId; // = null;
+        public PropertySyncData syncdata; // = null;
+        public long tick; // = null;
+
+        public McpeSetEntityData()
+            {
+                Id = 0x27;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(metadata);
+                Write(syncdata);
+                WriteUnsignedVarLong(tick);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                runtimeEntityId = ReadUnsignedVarLong();
+                metadata = ReadMetadataDictionary();
+                syncdata = ReadPropertySyncData();
+                tick = ReadUnsignedVarLong();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                runtimeEntityId = default;
+                metadata = default;
+                syncdata = default;
+                tick = default;
+            }
+    }
+
+public partial class McpeSetEntityMotion : Packet
+    {
+        public long runtimeEntityId; // = null;
+        public Vector3 velocity; // = null;
+
+        public McpeSetEntityMotion()
+            {
+                Id = 0x28;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(velocity);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                runtimeEntityId = ReadUnsignedVarLong();
+                velocity = ReadVector3();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                runtimeEntityId = default;
+                velocity = default;
+            }
+    }
+
+public partial class McpeSetEntityLink : Packet
+    {
+        public enum LinkActions
+            {
+                Remove = 0,
+                Ride = 1,
+                Passenger = 2
+            }
+
+        public byte linkType; // = null;
+
+        public long riddenId; // = null;
+        public long riderId; // = null;
+        public byte unknown; // = null;
+
+        public McpeSetEntityLink()
+            {
+                Id = 0x29;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteSignedVarLong(riddenId);
+                WriteSignedVarLong(riderId);
+                Write(linkType);
+                Write(unknown);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                riddenId = ReadSignedVarLong();
+                riderId = ReadSignedVarLong();
+                linkType = ReadByte();
+                unknown = ReadByte();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                riddenId = default;
+                riderId = default;
+                linkType = default;
+                unknown = default;
+            }
+    }
+
+public partial class McpeSetHealth : Packet
+    {
+        public int health; // = null;
+
+        public McpeSetHealth()
+            {
+                Id = 0x2a;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteSignedVarInt(health);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                health = ReadSignedVarInt();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                health = default;
+            }
+    }
+
+public partial class McpeSetSpawnPosition : Packet
+    {
+        public BlockCoordinates coordinates; // = null;
+        public int dimension; // = null;
+
+        public int spawnType; // = null;
+        public BlockCoordinates unknownCoordinates; // = null;
+
+        public McpeSetSpawnPosition()
+            {
+                Id = 0x2b;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteSignedVarInt(spawnType);
+                Write(coordinates);
+                WriteSignedVarInt(dimension);
+                Write(unknownCoordinates);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                spawnType = ReadSignedVarInt();
+                coordinates = ReadBlockCoordinates();
+                dimension = ReadSignedVarInt();
+                unknownCoordinates = ReadBlockCoordinates();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                spawnType = default;
+                coordinates = default;
+                dimension = default;
+                unknownCoordinates = default;
+            }
+    }
+
+public partial class McpeAnimate : Packet
+    {
+        public int actionId; // = null;
+        public long runtimeEntityId; // = null;
+
+        public McpeAnimate()
+            {
+                Id = 0x2c;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteSignedVarInt(actionId);
+                WriteUnsignedVarLong(runtimeEntityId);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                actionId = ReadSignedVarInt();
+                runtimeEntityId = ReadUnsignedVarLong();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                actionId = default;
+                runtimeEntityId = default;
+            }
+    }
+
+public partial class McpeRespawn : Packet
+    {
+        public enum RespawnState
+            {
+                Search = 0,
+                Ready = 1,
+                ClientReady = 2
+            }
+
+        public long runtimeEntityId; // = null;
+        public byte state; // = null;
+
+        public float x; // = null;
+        public float y; // = null;
+        public float z; // = null;
+
+        public McpeRespawn()
+            {
+                Id = 0x2d;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(x);
+                Write(y);
+                Write(z);
+                Write(state);
+                WriteUnsignedVarLong(runtimeEntityId);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                x = ReadFloat();
+                y = ReadFloat();
+                z = ReadFloat();
+                state = ReadByte();
+                runtimeEntityId = ReadUnsignedVarLong();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                x = default;
+                y = default;
+                z = default;
+                state = default;
+                runtimeEntityId = default;
+            }
+    }
+
+public partial class McpeContainerOpen : Packet
+    {
+        public BlockCoordinates coordinates; // = null;
+        public long runtimeEntityId; // = null;
+        public byte type; // = null;
+
+        public byte windowId; // = null;
+
+        public McpeContainerOpen()
+            {
+                Id = 0x2e;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(windowId);
+                Write(type);
+                Write(coordinates);
+                WriteSignedVarLong(runtimeEntityId);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                windowId = ReadByte();
+                type = ReadByte();
+                coordinates = ReadBlockCoordinates();
+                runtimeEntityId = ReadSignedVarLong();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                windowId = default;
+                type = default;
+                coordinates = default;
+                runtimeEntityId = default;
+            }
+    }
+
+public partial class McpeContainerClose : Packet
+    {
+        public bool server; // = null;
+
+        public byte windowId; // = null;
+
+        public McpeContainerClose()
+            {
+                Id = 0x2f;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(windowId);
+                Write(server);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                windowId = ReadByte();
+                server = ReadBool();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                windowId = default;
+                server = default;
+            }
+    }
+
+public partial class McpePlayerHotbar : Packet
+    {
+        public uint selectedSlot; // = null;
+        public bool selectSlot; // = null;
+        public byte windowId; // = null;
+
+        public McpePlayerHotbar()
+            {
+                Id = 0x30;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarInt(selectedSlot);
+                Write(windowId);
+                Write(selectSlot);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                selectedSlot = ReadUnsignedVarInt();
+                windowId = ReadByte();
+                selectSlot = ReadBool();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                selectedSlot = default;
+                windowId = default;
+                selectSlot = default;
+            }
+    }
+
+public partial class McpeInventoryContent : Packet
+    {
+        public ItemStacks input; // = null;
+
+        public uint inventoryId; // = null;
+
+        public McpeInventoryContent()
+            {
+                Id = 0x31;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarInt(inventoryId);
+                Write(input);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                inventoryId = ReadUnsignedVarInt();
+                input = ReadItemStacks();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                inventoryId = default;
+                input = default;
+            }
+    }
+
+public partial class McpeInventorySlot : Packet
+    {
+        public uint inventoryId; // = null;
+        public Item item; // = null;
+        public uint slot; // = null;
+
+        public McpeInventorySlot()
+            {
+                Id = 0x32;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarInt(inventoryId);
+                WriteUnsignedVarInt(slot);
+                Write(item);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                inventoryId = ReadUnsignedVarInt();
+                slot = ReadUnsignedVarInt();
+                item = ReadItem();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                inventoryId = default;
+                slot = default;
+                item = default;
+            }
+    }
+
+public partial class McpeContainerSetData : Packet
+    {
+        public int property; // = null;
+        public int value; // = null;
+
+        public byte windowId; // = null;
+
+        public McpeContainerSetData()
+            {
+                Id = 0x33;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(windowId);
+                WriteSignedVarInt(property);
+                WriteSignedVarInt(value);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                windowId = ReadByte();
+                property = ReadSignedVarInt();
+                value = ReadSignedVarInt();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                windowId = default;
+                property = default;
+                value = default;
+            }
+    }
+
+public partial class McpeCraftingData : Packet
+    {
+        public bool isClean; // = null;
+        public MaterialReducerRecipe[] materialReducerRecipes; // = null;
+        public PotionContainerChangeRecipe[] potionContainerRecipes; // = null;
+        public PotionTypeRecipe[] potionTypeRecipes; // = null;
+
+        public Recipes recipes; // = null;
+
+        public McpeCraftingData()
+            {
+                Id = 0x34;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(recipes);
+                Write(potionTypeRecipes);
+                Write(potionContainerRecipes);
+                Write(materialReducerRecipes);
+                Write(isClean);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                recipes = ReadRecipes();
+                potionTypeRecipes = ReadPotionTypeRecipes();
+                potionContainerRecipes = ReadPotionContainerChangeRecipes();
+                materialReducerRecipes = ReadMaterialReducerRecipes();
+                isClean = ReadBool();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                recipes = default;
+                potionTypeRecipes = default;
+                potionContainerRecipes = default;
+                materialReducerRecipes = default;
+                isClean = default;
+            }
+    }
+
+public partial class McpeCraftingEvent : Packet
+    {
+        public enum RecipeTypes
+            {
+                Shapeless = 0,
+                Shaped = 1,
+                Furnace = 2,
+                FurnaceData = 3,
+                Multi = 4,
+                ShulkerBox = 5,
+                ChemistryShapeless = 6,
+                ChemistryShaped = 7,
+                SmithingTransform = 8,
+                SmithingTrim = 9
+            }
+
+        public ItemStacks input; // = null;
+        public UUID recipeId; // = null;
+        public int recipeType; // = null;
+        public ItemStacks result; // = null;
+
+        public byte windowId; // = null;
+
+        public McpeCraftingEvent()
+            {
+                Id = 0x35;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(windowId);
+                WriteSignedVarInt(recipeType);
+                Write(recipeId);
+                Write(input);
+                Write(result);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                windowId = ReadByte();
+                recipeType = ReadSignedVarInt();
+                recipeId = ReadUUID();
+                input = ReadItemStacks();
+                result = ReadItemStacks();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                windowId = default;
+                recipeType = default;
+                recipeId = default;
+                input = default;
+                result = default;
+            }
+    }
+
+public partial class McpeGuiDataPickItem : Packet
+    {
+        public McpeGuiDataPickItem()
+            {
+                Id = 0x36;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
+
+public partial class McpeAdventureSettings : Packet
+    {
+        public uint actionPermissions; // = null;
+        public uint commandPermission; // = null;
+        public uint customStoredPermissions; // = null;
+        public long entityUniqueId; // = null;
+
+        public uint flags; // = null;
+        public uint permissionLevel; // = null;
+
+        public McpeAdventureSettings()
+            {
+                Id = 0x37;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarInt(flags);
+                WriteUnsignedVarInt(commandPermission);
+                WriteUnsignedVarInt(actionPermissions);
+                WriteUnsignedVarInt(permissionLevel);
+                WriteUnsignedVarInt(customStoredPermissions);
+                Write(entityUniqueId);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                flags = ReadUnsignedVarInt();
+                commandPermission = ReadUnsignedVarInt();
+                actionPermissions = ReadUnsignedVarInt();
+                permissionLevel = ReadUnsignedVarInt();
+                customStoredPermissions = ReadUnsignedVarInt();
+                entityUniqueId = ReadLong();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                flags = default;
+                commandPermission = default;
+                actionPermissions = default;
+                permissionLevel = default;
+                customStoredPermissions = default;
+                entityUniqueId = default;
+            }
+    }
+
+public partial class McpeBlockEntityData : Packet
+    {
+        public BlockCoordinates coordinates; // = null;
+        public Nbt namedtag; // = null;
+
+        public McpeBlockEntityData()
+            {
+                Id = 0x38;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(coordinates);
+                Write(namedtag);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                coordinates = ReadBlockCoordinates();
+                namedtag = ReadNbt();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                coordinates = default;
+                namedtag = default;
+            }
+    }
+
+public partial class McpePlayerInput : Packet
+    {
+        public bool jumping; // = null;
+
+        public float motionX; // = null;
+        public float motionZ; // = null;
+        public bool sneaking; // = null;
+
+        public McpePlayerInput()
+            {
+                Id = 0x39;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(motionX);
+                Write(motionZ);
+                Write(jumping);
+                Write(sneaking);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                motionX = ReadFloat();
+                motionZ = ReadFloat();
+                jumping = ReadBool();
+                sneaking = ReadBool();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                motionX = default;
+                motionZ = default;
+                jumping = default;
+                sneaking = default;
+            }
+    }
+
+public partial class McpeLevelChunk : Packet
+    {
+        public int chunkX; // = null;
+        public int chunkZ; // = null;
+
+        public McpeLevelChunk()
+            {
+                Id = 0x3a;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteSignedVarInt(chunkX);
+                WriteSignedVarInt(chunkZ);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                chunkX = ReadSignedVarInt();
+                chunkZ = ReadSignedVarInt();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                chunkX = default;
+                chunkZ = default;
+            }
+    }
+
+public partial class McpeSetCommandsEnabled : Packet
+    {
+        public bool enabled; // = null;
+
+        public McpeSetCommandsEnabled()
+            {
+                Id = 0x3b;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(enabled);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                enabled = ReadBool();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                enabled = default;
+            }
+    }
+
+public partial class McpeSetDifficulty : Packet
+    {
+        public uint difficulty; // = null;
+
+        public McpeSetDifficulty()
+            {
+                Id = 0x3c;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarInt(difficulty);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                difficulty = ReadUnsignedVarInt();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                difficulty = default;
+            }
+    }
+
+public partial class McpeChangeDimension : Packet
+    {
+        public int dimension; // = null;
+        public Vector3 position; // = null;
+        public bool respawn; // = null;
+        private byte fix = 0x00;
+        public McpeChangeDimension()
+            {
+                Id = 0x3d;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteSignedVarInt(dimension);
+                Write(position);
+                Write(respawn);
+                Write(fix);
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                dimension = ReadSignedVarInt();
+                position = ReadVector3();
+                respawn = ReadBool();
+            
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                dimension = default;
+                position = default;
+                respawn = default;
+             
+            }
+    }
+
+public partial class McpeSetPlayerGameType : Packet
+    {
+        public int gamemode; // = null;
+
+        public McpeSetPlayerGameType()
+            {
+                Id = 0x3e;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteSignedVarInt(gamemode);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                gamemode = ReadSignedVarInt();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                gamemode = default;
+            }
+    }
+
+public partial class McpePlayerList : Packet
+    {
+        public PlayerRecords records; // = null;
+
+        public McpePlayerList()
+            {
+                Id = 0x3f;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(records);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                records = ReadPlayerRecords();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                records = default;
+            }
+    }
+
+public partial class McpeSimpleEvent : Packet
+    {
+        public ushort eventType; // = null;
+
+        public McpeSimpleEvent()
+            {
+                Id = 0x40;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(eventType);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                eventType = ReadUshort();
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                eventType = default;
+            }
+    }
+
+public partial class McpeTelemetryEvent : Packet
+    {
+        public byte[] auxData; // = null;
+        public int eventData; // = null;
+        public byte eventType; // = null;
+
+        public long runtimeEntityId; // = null;
+
+        public McpeTelemetryEvent()
+            {
+                Id = 0x41;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                WriteUnsignedVarLong(runtimeEntityId);
+                WriteSignedVarInt(eventData);
+                Write(eventType);
+                Write(auxData);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                runtimeEntityId = ReadUnsignedVarLong();
+                eventData = ReadSignedVarInt();
+                eventType = ReadByte();
+                auxData = ReadBytes(0, true);
+
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                runtimeEntityId = default;
+                eventData = default;
+                eventType = default;
+                auxData = default;
+            }
+    }
+
+public partial class McpeSpawnExperienceOrb : Packet
+    {
+        public int count; // = null;
+
+        public Vector3 position; // = null;
+
+        public McpeSpawnExperienceOrb()
+            {
+                Id = 0x42;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
+
+                Write(position);
+                WriteSignedVarInt(count);
+
+                AfterEncode();
+            }
+
+        partial void BeforeEncode();
+        partial void AfterEncode();
+
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
+
+                BeforeDecode();
+
+                position = ReadVector3();
+                count = ReadSignedVarInt();
 
-			AfterDecode();
-		}
+                AfterDecode();
+            }
+
+        partial void BeforeDecode();
+        partial void AfterDecode();
+
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+
+                position = default;
+                count = default;
+            }
+    }
+
+public partial class McpeClientboundMapItemData : Packet
+    {
+        public MapInfo mapinfo; // = null;
+
+        public McpeClientboundMapItemData()
+            {
+                Id = 0x43;
+                IsMcpe = true;
+            }
+
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
+
+                BeforeEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                Write(mapinfo);
+
+                AfterEncode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			mapinfo=default(MapInfo);
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	}
+                BeforeDecode();
 
-	public partial class McpeMapInfoRequest : Packet
-	{
+                mapinfo = ReadMapInfo();
 
-		public long mapId; // = null;
+                AfterDecode();
+            }
 
-		public McpeMapInfoRequest()
-		{
-			Id = 0x44;
-			IsMcpe = true;
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			BeforeEncode();
+                mapinfo = default;
+            }
+    }
 
-			WriteSignedVarLong(mapId);
+public partial class McpeMapInfoRequest : Packet
+    {
+        public long mapId; // = null;
 
-			AfterEncode();
-		}
+        public McpeMapInfoRequest()
+            {
+                Id = 0x44;
+                IsMcpe = true;
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeEncode();
 
-			BeforeDecode();
+                WriteSignedVarLong(mapId);
 
-			mapId = ReadSignedVarLong();
+                AfterEncode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeDecode();
 
-			mapId=default(long);
-		}
+                mapId = ReadSignedVarLong();
 
-	}
+                AfterDecode();
+            }
 
-	public partial class McpeRequestChunkRadius : Packet
-	{
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		public int chunkRadius; // = null;
-		public byte maxRadius; // = null;
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		public McpeRequestChunkRadius()
-		{
-			Id = 0x45;
-			IsMcpe = true;
-		}
+                mapId = default;
+            }
+    }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+public partial class McpeRequestChunkRadius : Packet
+    {
+        public int chunkRadius; // = null;
+        public byte maxRadius; // = null;
 
-			BeforeEncode();
+        public McpeRequestChunkRadius()
+            {
+                Id = 0x45;
+                IsMcpe = true;
+            }
 
-			WriteSignedVarInt(chunkRadius);
-			Write(maxRadius);
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterEncode();
-		}
+                BeforeEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                WriteSignedVarInt(chunkRadius);
+                Write(maxRadius);
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterEncode();
+            }
 
-			BeforeDecode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			chunkRadius = ReadSignedVarInt();
-			maxRadius = ReadByte();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterDecode();
-		}
+                BeforeDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                chunkRadius = ReadSignedVarInt();
+                maxRadius = ReadByte();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterDecode();
+            }
 
-			chunkRadius=default(int);
-			maxRadius=default(byte);
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-	}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-	public partial class McpeChunkRadiusUpdate : Packet
-	{
+                chunkRadius = default;
+                maxRadius = default;
+            }
+    }
 
-		public int chunkRadius; // = null;
+public partial class McpeChunkRadiusUpdate : Packet
+    {
+        public int chunkRadius; // = null;
 
-		public McpeChunkRadiusUpdate()
-		{
-			Id = 0x46;
-			IsMcpe = true;
-		}
+        public McpeChunkRadiusUpdate()
+            {
+                Id = 0x46;
+                IsMcpe = true;
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			BeforeEncode();
+                BeforeEncode();
 
-			WriteSignedVarInt(chunkRadius);
+                WriteSignedVarInt(chunkRadius);
 
-			AfterEncode();
-		}
+                AfterEncode();
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			BeforeDecode();
+                BeforeDecode();
 
-			chunkRadius = ReadSignedVarInt();
+                chunkRadius = ReadSignedVarInt();
 
-			AfterDecode();
-		}
+                AfterDecode();
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			chunkRadius=default(int);
-		}
+                chunkRadius = default;
+            }
+    }
 
-	}
+public partial class McpeItemFrameDropItem : Packet
+    {
+        public BlockCoordinates coordinates; // = null;
 
-	public partial class McpeItemFrameDropItem : Packet
-	{
+        public McpeItemFrameDropItem()
+            {
+                Id = 0x47;
+                IsMcpe = true;
+            }
 
-		public BlockCoordinates coordinates; // = null;
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		public McpeItemFrameDropItem()
-		{
-			Id = 0x47;
-			IsMcpe = true;
-		}
+                BeforeEncode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                Write(coordinates);
 
-			BeforeEncode();
+                AfterEncode();
+            }
 
-			Write(coordinates);
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			AfterEncode();
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                BeforeDecode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                coordinates = ReadBlockCoordinates();
 
-			BeforeDecode();
+                AfterDecode();
+            }
 
-			coordinates = ReadBlockCoordinates();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterDecode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                coordinates = default;
+            }
+    }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+public partial class McpeGameRulesChanged : Packet
+    {
+        public GameRules rules; // = null;
 
-			coordinates=default(BlockCoordinates);
-		}
+        public McpeGameRulesChanged()
+            {
+                Id = 0x48;
+                IsMcpe = true;
+            }
 
-	}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-	public partial class McpeGameRulesChanged : Packet
-	{
+                BeforeEncode();
 
-		public GameRules rules; // = null;
+                Write(rules);
 
-		public McpeGameRulesChanged()
-		{
-			Id = 0x48;
-			IsMcpe = true;
-		}
+                AfterEncode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			Write(rules);
+                BeforeDecode();
 
-			AfterEncode();
-		}
+                rules = ReadGameRules();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterDecode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			rules = ReadGameRules();
+                rules = default;
+            }
+    }
 
-			AfterDecode();
-		}
+public partial class McpeCamera : Packet
+    {
+        public long unknown1; // = null;
+        public long unknown2; // = null;
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        public McpeCamera()
+            {
+                Id = 0x49;
+                IsMcpe = true;
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			rules=default(GameRules);
-		}
+                BeforeEncode();
 
-	}
+                WriteSignedVarLong(unknown1);
+                WriteSignedVarLong(unknown2);
 
-	public partial class McpeCamera : Packet
-	{
+                AfterEncode();
+            }
 
-		public long unknown1; // = null;
-		public long unknown2; // = null;
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public McpeCamera()
-		{
-			Id = 0x49;
-			IsMcpe = true;
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeDecode();
 
-			BeforeEncode();
+                unknown1 = ReadSignedVarLong();
+                unknown2 = ReadSignedVarLong();
 
-			WriteSignedVarLong(unknown1);
-			WriteSignedVarLong(unknown2);
+                AfterDecode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                unknown1 = default;
+                unknown2 = default;
+            }
+    }
 
-			BeforeDecode();
+public partial class McpeBossEvent : Packet
+    {
+        public enum Type
+            {
+                AddBoss = 0,
+                AddPlayer = 1,
+                RemoveBoss = 2,
+                RemovePlayer = 3,
+                UpdateProgress = 4,
+                UpdateName = 5,
+                UpdateOptions = 6,
+                UpdateStyle = 7,
+                Query = 8
+            }
 
-			unknown1 = ReadSignedVarLong();
-			unknown2 = ReadSignedVarLong();
+        public long bossEntityId; // = null;
+        public uint eventType; // = null;
 
-			AfterDecode();
-		}
+        public McpeBossEvent()
+            {
+                Id = 0x4a;
+                IsMcpe = true;
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeEncode();
 
-			unknown1=default(long);
-			unknown2=default(long);
-		}
+                WriteSignedVarLong(bossEntityId);
+                WriteUnsignedVarInt(eventType);
 
-	}
+                AfterEncode();
+            }
 
-	public partial class McpeBossEvent : Packet
-	{
-		public enum Type
-		{
-			AddBoss = 0,
-			AddPlayer = 1,
-			RemoveBoss = 2,
-			RemovePlayer = 3,
-			UpdateProgress = 4,
-			UpdateName = 5,
-			UpdateOptions = 6,
-			UpdateStyle = 7,
-			Query = 8,
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public long bossEntityId; // = null;
-		public uint eventType; // = null;
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		public McpeBossEvent()
-		{
-			Id = 0x4a;
-			IsMcpe = true;
-		}
+                BeforeDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                bossEntityId = ReadSignedVarLong();
+                eventType = ReadUnsignedVarInt();
 
-			BeforeEncode();
+                AfterDecode();
+            }
 
-			WriteSignedVarLong(bossEntityId);
-			WriteUnsignedVarInt(eventType);
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterEncode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                bossEntityId = default;
+                eventType = default;
+            }
+    }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+public partial class McpeShowCredits : Packet
+    {
+        public long runtimeEntityId; // = null;
+        public int status; // = null;
 
-			BeforeDecode();
+        public McpeShowCredits()
+            {
+                Id = 0x4b;
+                IsMcpe = true;
+            }
 
-			bossEntityId = ReadSignedVarLong();
-			eventType = ReadUnsignedVarInt();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterDecode();
-		}
+                BeforeEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                WriteUnsignedVarLong(runtimeEntityId);
+                WriteSignedVarInt(status);
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterEncode();
+            }
 
-			bossEntityId=default(long);
-			eventType=default(uint);
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-	}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	public partial class McpeShowCredits : Packet
-	{
+                BeforeDecode();
 
-		public long runtimeEntityId; // = null;
-		public int status; // = null;
+                runtimeEntityId = ReadUnsignedVarLong();
+                status = ReadSignedVarInt();
 
-		public McpeShowCredits()
-		{
-			Id = 0x4b;
-			IsMcpe = true;
-		}
+                AfterDecode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			WriteUnsignedVarLong(runtimeEntityId);
-			WriteSignedVarInt(status);
+                runtimeEntityId = default;
+                status = default;
+            }
+    }
 
-			AfterEncode();
-		}
+public partial class McpeAvailableCommands : Packet
+    {
+        public McpeAvailableCommands()
+            {
+                Id = 0x4c;
+                IsMcpe = true;
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeEncode();
 
-			BeforeDecode();
 
-			runtimeEntityId = ReadUnsignedVarLong();
-			status = ReadSignedVarInt();
+                AfterEncode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeDecode();
 
-			runtimeEntityId=default(long);
-			status=default(int);
-		}
 
-	}
+                AfterDecode();
+            }
 
-	public partial class McpeAvailableCommands : Packet
-	{
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-		public McpeAvailableCommands()
-		{
-			Id = 0x4c;
-			IsMcpe = true;
-		}
+public partial class McpeCommandRequest : Packet
+    {
+        public string command; // = null;
+        public uint commandType; // = null;
+        public bool isinternal; // = null;
+        public string requestId; // = null;
+        public UUID unknownUuid; // = null;
+        public int version; // = null;
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        public McpeCommandRequest()
+            {
+                Id = 0x4d;
+                IsMcpe = true;
+            }
 
-			BeforeEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
+                BeforeEncode();
 
-			AfterEncode();
-		}
+                Write(command);
+                WriteUnsignedVarInt(commandType);
+                Write(unknownUuid);
+                Write(requestId);
+                Write(isinternal);
+                WriteSignedVarInt(version);
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterEncode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
+                BeforeDecode();
 
-			AfterDecode();
-		}
+                command = ReadString();
+                commandType = ReadUnsignedVarInt();
+                unknownUuid = ReadUUID();
+                requestId = ReadString();
+                isinternal = ReadBool();
+                version = ReadSignedVarInt();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterDecode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-	}
+                command = default;
+                commandType = default;
+                unknownUuid = default;
+                requestId = default;
+                isinternal = default;
+                version = default;
+            }
+    }
 
-	public partial class McpeCommandRequest : Packet
-	{
+public partial class McpeCommandBlockUpdate : Packet
+    {
+        public bool isBlock; // = null;
 
-		public string command; // = null;
-		public uint commandType; // = null;
-		public UUID unknownUuid; // = null;
-		public string requestId; // = null;
-		public bool isinternal; // = null;
-		public int version; // = null;
+        public McpeCommandBlockUpdate()
+            {
+                Id = 0x4e;
+                IsMcpe = true;
+            }
 
-		public McpeCommandRequest()
-		{
-			Id = 0x4d;
-			IsMcpe = true;
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeEncode();
 
-			BeforeEncode();
+                Write(isBlock);
 
-			Write(command);
-			WriteUnsignedVarInt(commandType);
-			Write(unknownUuid);
-			Write(requestId);
-			Write(isinternal);
-			WriteSignedVarInt(version);
+                AfterEncode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeDecode();
 
-			BeforeDecode();
+                isBlock = ReadBool();
 
-			command = ReadString();
-			commandType = ReadUnsignedVarInt();
-			unknownUuid = ReadUUID();
-			requestId = ReadString();
-			isinternal = ReadBool();
-			version = ReadSignedVarInt();
+                AfterDecode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                isBlock = default;
+            }
+    }
 
-			command=default(string);
-			commandType=default(uint);
-			unknownUuid=default(UUID);
-			requestId=default(string);
-			isinternal=default(bool);
-			version=default(int);
-		}
+public partial class McpeCommandOutput : Packet
+    {
+        public McpeCommandOutput()
+            {
+                Id = 0x4f;
+                IsMcpe = true;
+            }
 
-	}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-	public partial class McpeCommandBlockUpdate : Packet
-	{
+                BeforeEncode();
 
-		public bool isBlock; // = null;
 
-		public McpeCommandBlockUpdate()
-		{
-			Id = 0x4e;
-			IsMcpe = true;
-		}
+                AfterEncode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			Write(isBlock);
+                BeforeDecode();
 
-			AfterEncode();
-		}
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterDecode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-			isBlock = ReadBool();
+public partial class McpeUpdateTrade : Packet
+    {
+        public string displayName; // = null;
+        public bool isWilling; // = null;
+        public Nbt namedtag; // = null;
+        public long playerEntityId; // = null;
+        public long traderEntityId; // = null;
+        public int unknown0; // = null;
+        public int unknown1; // = null;
+        public int unknown2; // = null;
 
-			AfterDecode();
-		}
+        public byte windowId; // = null;
+        public byte windowType; // = null;
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        public McpeUpdateTrade()
+            {
+                Id = 0x50;
+                IsMcpe = true;
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			isBlock=default(bool);
-		}
+                BeforeEncode();
 
-	}
+                Write(windowId);
+                Write(windowType);
+                WriteVarInt(unknown0);
+                WriteVarInt(unknown1);
+                WriteVarInt(unknown2);
+                Write(isWilling);
+                WriteSignedVarLong(traderEntityId);
+                WriteSignedVarLong(playerEntityId);
+                Write(displayName);
+                Write(namedtag);
 
-	public partial class McpeCommandOutput : Packet
-	{
+                AfterEncode();
+            }
 
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public McpeCommandOutput()
-		{
-			Id = 0x4f;
-			IsMcpe = true;
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeDecode();
 
-			BeforeEncode();
+                windowId = ReadByte();
+                windowType = ReadByte();
+                unknown0 = ReadVarInt();
+                unknown1 = ReadVarInt();
+                unknown2 = ReadVarInt();
+                isWilling = ReadBool();
+                traderEntityId = ReadSignedVarLong();
+                playerEntityId = ReadSignedVarLong();
+                displayName = ReadString();
+                namedtag = ReadNbt();
 
+                AfterDecode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                windowId = default;
+                windowType = default;
+                unknown0 = default;
+                unknown1 = default;
+                unknown2 = default;
+                isWilling = default;
+                traderEntityId = default;
+                playerEntityId = default;
+                displayName = default;
+                namedtag = default;
+            }
+    }
 
-			BeforeDecode();
+public partial class McpeUpdateEquipment : Packet
+    {
+        public long entityId; // = null;
+        public Nbt namedtag; // = null;
+        public byte unknown; // = null;
 
+        public byte windowId; // = null;
+        public byte windowType; // = null;
 
-			AfterDecode();
-		}
+        public McpeUpdateEquipment()
+            {
+                Id = 0x51;
+                IsMcpe = true;
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeEncode();
 
-		}
+                Write(windowId);
+                Write(windowType);
+                Write(unknown);
+                WriteSignedVarLong(entityId);
+                Write(namedtag);
 
-	}
+                AfterEncode();
+            }
 
-	public partial class McpeUpdateTrade : Packet
-	{
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public byte windowId; // = null;
-		public byte windowType; // = null;
-		public int unknown0; // = null;
-		public int unknown1; // = null;
-		public int unknown2; // = null;
-		public bool isWilling; // = null;
-		public long traderEntityId; // = null;
-		public long playerEntityId; // = null;
-		public string displayName; // = null;
-		public Nbt namedtag; // = null;
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		public McpeUpdateTrade()
-		{
-			Id = 0x50;
-			IsMcpe = true;
-		}
+                BeforeDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                windowId = ReadByte();
+                windowType = ReadByte();
+                unknown = ReadByte();
+                entityId = ReadSignedVarLong();
+                namedtag = ReadNbt();
 
-			BeforeEncode();
+                AfterDecode();
+            }
 
-			Write(windowId);
-			Write(windowType);
-			WriteVarInt(unknown0);
-			WriteVarInt(unknown1);
-			WriteVarInt(unknown2);
-			Write(isWilling);
-			WriteSignedVarLong(traderEntityId);
-			WriteSignedVarLong(playerEntityId);
-			Write(displayName);
-			Write(namedtag);
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterEncode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                windowId = default;
+                windowType = default;
+                unknown = default;
+                entityId = default;
+                namedtag = default;
+            }
+    }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+public partial class McpeResourcePackDataInfo : Packet
+    {
+        public uint chunkCount; // = null;
+        public ulong compressedPackageSize; // = null;
+        public byte[] hash; // = null;
+        public bool isPremium; // = null;
+        public uint maxChunkSize; // = null;
 
-			BeforeDecode();
+        public string packageId; // = null;
+        public byte packType; // = null;
 
-			windowId = ReadByte();
-			windowType = ReadByte();
-			unknown0 = ReadVarInt();
-			unknown1 = ReadVarInt();
-			unknown2 = ReadVarInt();
-			isWilling = ReadBool();
-			traderEntityId = ReadSignedVarLong();
-			playerEntityId = ReadSignedVarLong();
-			displayName = ReadString();
-			namedtag = ReadNbt();
+        public McpeResourcePackDataInfo()
+            {
+                Id = 0x52;
+                IsMcpe = true;
+            }
 
-			AfterDecode();
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                BeforeEncode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                Write(packageId);
+                Write(maxChunkSize);
+                Write(chunkCount);
+                Write(compressedPackageSize);
+                WriteByteArray(hash);
+                Write(isPremium);
+                Write(packType);
 
-			windowId=default(byte);
-			windowType=default(byte);
-			unknown0=default(int);
-			unknown1=default(int);
-			unknown2=default(int);
-			isWilling=default(bool);
-			traderEntityId=default(long);
-			playerEntityId=default(long);
-			displayName=default(string);
-			namedtag=default(Nbt);
-		}
+                AfterEncode();
+            }
 
-	}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-	public partial class McpeUpdateEquipment : Packet
-	{
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		public byte windowId; // = null;
-		public byte windowType; // = null;
-		public byte unknown; // = null;
-		public long entityId; // = null;
-		public Nbt namedtag; // = null;
+                BeforeDecode();
 
-		public McpeUpdateEquipment()
-		{
-			Id = 0x51;
-			IsMcpe = true;
-		}
+                packageId = ReadString();
+                maxChunkSize = ReadUint();
+                chunkCount = ReadUint();
+                compressedPackageSize = ReadUlong();
+                hash = ReadByteArray();
+                isPremium = ReadBool();
+                packType = ReadByte();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                AfterDecode();
+            }
 
-			BeforeEncode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			Write(windowId);
-			Write(windowType);
-			Write(unknown);
-			WriteSignedVarLong(entityId);
-			Write(namedtag);
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			AfterEncode();
-		}
+                packageId = default;
+                maxChunkSize = default;
+                chunkCount = default;
+                compressedPackageSize = default;
+                hash = default;
+                isPremium = default;
+                packType = default;
+            }
+    }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+public partial class McpeResourcePackChunkData : Packet
+    {
+        public uint chunkIndex; // = null;
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        public string packageId; // = null;
+        public byte[] payload; // = null;
+        public ulong progress; // = null;
 
-			BeforeDecode();
+        public McpeResourcePackChunkData()
+            {
+                Id = 0x53;
+                IsMcpe = true;
+            }
 
-			windowId = ReadByte();
-			windowType = ReadByte();
-			unknown = ReadByte();
-			entityId = ReadSignedVarLong();
-			namedtag = ReadNbt();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterDecode();
-		}
+                BeforeEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                Write(packageId);
+                Write(chunkIndex);
+                Write(progress);
+                WriteByteArray(payload);
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterEncode();
+            }
 
-			windowId=default(byte);
-			windowType=default(byte);
-			unknown=default(byte);
-			entityId=default(long);
-			namedtag=default(Nbt);
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-	}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	public partial class McpeResourcePackDataInfo : Packet
-	{
+                BeforeDecode();
 
-		public string packageId; // = null;
-		public uint maxChunkSize; // = null;
-		public uint chunkCount; // = null;
-		public ulong compressedPackageSize; // = null;
-		public byte[] hash; // = null;
-		public bool isPremium; // = null;
-		public byte packType; // = null;
+                packageId = ReadString();
+                chunkIndex = ReadUint();
+                progress = ReadUlong();
+                payload = ReadByteArray();
 
-		public McpeResourcePackDataInfo()
-		{
-			Id = 0x52;
-			IsMcpe = true;
-		}
+                AfterDecode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			Write(packageId);
-			Write(maxChunkSize);
-			Write(chunkCount);
-			Write(compressedPackageSize);
-			WriteByteArray(hash);
-			Write(isPremium);
-			Write(packType);
+                packageId = default;
+                chunkIndex = default;
+                progress = default;
+                payload = default;
+            }
+    }
 
-			AfterEncode();
-		}
+public partial class McpeResourcePackChunkRequest : Packet
+    {
+        public uint chunkIndex; // = null;
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        public string packageId; // = null;
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        public McpeResourcePackChunkRequest()
+            {
+                Id = 0x54;
+                IsMcpe = true;
+            }
 
-			BeforeDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			packageId = ReadString();
-			maxChunkSize = ReadUint();
-			chunkCount = ReadUint();
-			compressedPackageSize = ReadUlong();
-			hash = ReadByteArray();
-			isPremium = ReadBool();
-			packType = ReadByte();
+                BeforeEncode();
 
-			AfterDecode();
-		}
+                Write(packageId);
+                Write(chunkIndex);
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterEncode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			packageId=default(string);
-			maxChunkSize=default(uint);
-			chunkCount=default(uint);
-			compressedPackageSize=default(ulong);
-			hash=default(byte[]);
-			isPremium=default(bool);
-			packType=default(byte);
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	}
+                BeforeDecode();
 
-	public partial class McpeResourcePackChunkData : Packet
-	{
+                packageId = ReadString();
+                chunkIndex = ReadUint();
 
-		public string packageId; // = null;
-		public uint chunkIndex; // = null;
-		public ulong progress; // = null;
-		public byte[] payload; // = null;
+                AfterDecode();
+            }
 
-		public McpeResourcePackChunkData()
-		{
-			Id = 0x53;
-			IsMcpe = true;
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			BeforeEncode();
+                packageId = default;
+                chunkIndex = default;
+            }
+    }
 
-			Write(packageId);
-			Write(chunkIndex);
-			Write(progress);
-			WriteByteArray(payload);
+public partial class McpeTransfer : Packet
+    {
+        public ushort port; // = null;
 
-			AfterEncode();
-		}
+        public string serverAddress; // = null;
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        public McpeTransfer()
+            {
+                Id = 0x55;
+                IsMcpe = true;
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			BeforeDecode();
+                BeforeEncode();
 
-			packageId = ReadString();
-			chunkIndex = ReadUint();
-			progress = ReadUlong();
-			payload = ReadByteArray();
+                Write(serverAddress);
+                Write(port);
 
-			AfterDecode();
-		}
+                AfterEncode();
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			packageId=default(string);
-			chunkIndex=default(uint);
-			progress=default(ulong);
-			payload=default(byte[]);
-		}
+                BeforeDecode();
 
-	}
+                serverAddress = ReadString();
+                port = ReadUshort();
 
-	public partial class McpeResourcePackChunkRequest : Packet
-	{
+                AfterDecode();
+            }
 
-		public string packageId; // = null;
-		public uint chunkIndex; // = null;
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		public McpeResourcePackChunkRequest()
-		{
-			Id = 0x54;
-			IsMcpe = true;
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                serverAddress = default;
+                port = default;
+            }
+    }
 
-			BeforeEncode();
+public partial class McpePlaySound : Packet
+    {
+        public BlockCoordinates coordinates; // = null;
 
-			Write(packageId);
-			Write(chunkIndex);
+        public string name; // = null;
+        public float pitch; // = null;
+        public float volume; // = null;
 
-			AfterEncode();
-		}
+        public McpePlaySound()
+            {
+                Id = 0x56;
+                IsMcpe = true;
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeEncode();
 
-			BeforeDecode();
+                Write(name);
+                Write(coordinates);
+                Write(volume);
+                Write(pitch);
 
-			packageId = ReadString();
-			chunkIndex = ReadUint();
+                AfterEncode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeDecode();
 
-			packageId=default(string);
-			chunkIndex=default(uint);
-		}
+                name = ReadString();
+                coordinates = ReadBlockCoordinates();
+                volume = ReadFloat();
+                pitch = ReadFloat();
 
-	}
+                AfterDecode();
+            }
 
-	public partial class McpeTransfer : Packet
-	{
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		public string serverAddress; // = null;
-		public ushort port; // = null;
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		public McpeTransfer()
-		{
-			Id = 0x55;
-			IsMcpe = true;
-		}
+                name = default;
+                coordinates = default;
+                volume = default;
+                pitch = default;
+            }
+    }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+public partial class McpeStopSound : Packet
+    {
+        public string name; // = null;
+        public bool stopAll; // = null;
 
-			BeforeEncode();
+        public McpeStopSound()
+            {
+                Id = 0x57;
+                IsMcpe = true;
+            }
 
-			Write(serverAddress);
-			Write(port);
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterEncode();
-		}
+                BeforeEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                Write(name);
+                Write(stopAll);
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterEncode();
+            }
 
-			BeforeDecode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			serverAddress = ReadString();
-			port = ReadUshort();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterDecode();
-		}
+                BeforeDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                name = ReadString();
+                stopAll = ReadBool();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterDecode();
+            }
 
-			serverAddress=default(string);
-			port=default(ushort);
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-	}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-	public partial class McpePlaySound : Packet
-	{
+                name = default;
+                stopAll = default;
+            }
+    }
 
-		public string name; // = null;
-		public BlockCoordinates coordinates; // = null;
-		public float volume; // = null;
-		public float pitch; // = null;
+public partial class McpeSetTitle : Packet
+    {
+        public int fadeInTime; // = null;
+        public int fadeOutTime; // = null;
+        public string platformOnlineId; // = null;
+        public int stayTime; // = null;
+        public string text; // = null;
 
-		public McpePlaySound()
-		{
-			Id = 0x56;
-			IsMcpe = true;
-		}
+        public int type; // = null;
+        public string xuid; // = null;
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        public McpeSetTitle()
+            {
+                Id = 0x58;
+                IsMcpe = true;
+            }
 
-			BeforeEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			Write(name);
-			Write(coordinates);
-			Write(volume);
-			Write(pitch);
+                BeforeEncode();
 
-			AfterEncode();
-		}
+                WriteSignedVarInt(type);
+                Write(text);
+                WriteSignedVarInt(fadeInTime);
+                WriteSignedVarInt(stayTime);
+                WriteSignedVarInt(fadeOutTime);
+                Write(xuid);
+                Write(platformOnlineId);
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterEncode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			name = ReadString();
-			coordinates = ReadBlockCoordinates();
-			volume = ReadFloat();
-			pitch = ReadFloat();
+                BeforeDecode();
 
-			AfterDecode();
-		}
+                type = ReadSignedVarInt();
+                text = ReadString();
+                fadeInTime = ReadSignedVarInt();
+                stayTime = ReadSignedVarInt();
+                fadeOutTime = ReadSignedVarInt();
+                xuid = ReadString();
+                platformOnlineId = ReadString();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterDecode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			name=default(string);
-			coordinates=default(BlockCoordinates);
-			volume=default(float);
-			pitch=default(float);
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-	}
+                type = default;
+                text = default;
+                fadeInTime = default;
+                stayTime = default;
+                fadeOutTime = default;
+                xuid = default;
+                platformOnlineId = default;
+            }
+    }
 
-	public partial class McpeStopSound : Packet
-	{
+public partial class McpeAddBehaviorTree : Packet
+    {
+        public string behaviortree; // = null;
 
-		public string name; // = null;
-		public bool stopAll; // = null;
+        public McpeAddBehaviorTree()
+            {
+                Id = 0x59;
+                IsMcpe = true;
+            }
 
-		public McpeStopSound()
-		{
-			Id = 0x57;
-			IsMcpe = true;
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeEncode();
 
-			BeforeEncode();
+                Write(behaviortree);
 
-			Write(name);
-			Write(stopAll);
+                AfterEncode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeDecode();
 
-			BeforeDecode();
+                behaviortree = ReadString();
 
-			name = ReadString();
-			stopAll = ReadBool();
+                AfterDecode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                behaviortree = default;
+            }
+    }
 
-			name=default(string);
-			stopAll=default(bool);
-		}
+public partial class McpeStructureBlockUpdate : Packet
+    {
+        public McpeStructureBlockUpdate()
+            {
+                Id = 0x5a;
+                IsMcpe = true;
+            }
 
-	}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-	public partial class McpeSetTitle : Packet
-	{
+                BeforeEncode();
 
-		public int type; // = null;
-		public string text; // = null;
-		public int fadeInTime; // = null;
-		public int stayTime; // = null;
-		public int fadeOutTime; // = null;
-		public string xuid; // = null;
-		public string platformOnlineId; // = null;
 
-		public McpeSetTitle()
-		{
-			Id = 0x58;
-			IsMcpe = true;
-		}
+                AfterEncode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			WriteSignedVarInt(type);
-			Write(text);
-			WriteSignedVarInt(fadeInTime);
-			WriteSignedVarInt(stayTime);
-			WriteSignedVarInt(fadeOutTime);
-			Write(xuid);
-			Write(platformOnlineId);
+                BeforeDecode();
 
-			AfterEncode();
-		}
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterDecode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-			type = ReadSignedVarInt();
-			text = ReadString();
-			fadeInTime = ReadSignedVarInt();
-			stayTime = ReadSignedVarInt();
-			fadeOutTime = ReadSignedVarInt();
-			xuid = ReadString();
-			platformOnlineId = ReadString();
+public partial class McpeShowStoreOffer : Packet
+    {
+        public string unknown0; // = null;
+        public bool unknown1; // = null;
 
-			AfterDecode();
-		}
+        public McpeShowStoreOffer()
+            {
+                Id = 0x5b;
+                IsMcpe = true;
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeEncode();
 
-			type=default(int);
-			text=default(string);
-			fadeInTime=default(int);
-			stayTime=default(int);
-			fadeOutTime=default(int);
-			xuid=default(string);
-			platformOnlineId=default(string);
-		}
+                Write(unknown0);
+                Write(unknown1);
 
-	}
+                AfterEncode();
+            }
 
-	public partial class McpeAddBehaviorTree : Packet
-	{
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public string behaviortree; // = null;
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		public McpeAddBehaviorTree()
-		{
-			Id = 0x59;
-			IsMcpe = true;
-		}
+                BeforeDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                unknown0 = ReadString();
+                unknown1 = ReadBool();
 
-			BeforeEncode();
+                AfterDecode();
+            }
 
-			Write(behaviortree);
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterEncode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                unknown0 = default;
+                unknown1 = default;
+            }
+    }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+public partial class McpePurchaseReceipt : Packet
+    {
+        public McpePurchaseReceipt()
+            {
+                Id = 0x5c;
+                IsMcpe = true;
+            }
 
-			BeforeDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			behaviortree = ReadString();
+                BeforeEncode();
 
-			AfterDecode();
-		}
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterEncode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			behaviortree=default(string);
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	}
+                BeforeDecode();
 
-	public partial class McpeStructureBlockUpdate : Packet
-	{
 
+                AfterDecode();
+            }
 
-		public McpeStructureBlockUpdate()
-		{
-			Id = 0x5a;
-			IsMcpe = true;
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-			BeforeEncode();
+public partial class McpePlayerSkin : Packet
+    {
+        public bool isVerified; // = null;
+        public string oldSkinName; // = null;
+        public Skin skin; // = null;
+        public string skinName; // = null;
 
+        public UUID uuid; // = null;
 
-			AfterEncode();
-		}
+        public McpePlayerSkin()
+            {
+                Id = 0x5d;
+                IsMcpe = true;
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeEncode();
 
-			BeforeDecode();
+                Write(uuid);
+                Write(skin);
+                Write(skinName);
+                Write(oldSkinName);
+                Write(isVerified);
 
+                AfterEncode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeDecode();
 
-		}
+                uuid = ReadUUID();
+                skin = ReadSkin();
+                skinName = ReadString();
+                oldSkinName = ReadString();
+                isVerified = ReadBool();
 
-	}
+                AfterDecode();
+            }
 
-	public partial class McpeShowStoreOffer : Packet
-	{
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		public string unknown0; // = null;
-		public bool unknown1; // = null;
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		public McpeShowStoreOffer()
-		{
-			Id = 0x5b;
-			IsMcpe = true;
-		}
+                uuid = default;
+                skin = default;
+                skinName = default;
+                oldSkinName = default;
+                isVerified = default;
+            }
+    }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+public partial class McpeSubClientLogin : Packet
+    {
+        public McpeSubClientLogin()
+            {
+                Id = 0x5e;
+                IsMcpe = true;
+            }
 
-			BeforeEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			Write(unknown0);
-			Write(unknown1);
+                BeforeEncode();
 
-			AfterEncode();
-		}
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterEncode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			unknown0 = ReadString();
-			unknown1 = ReadBool();
+                BeforeDecode();
 
-			AfterDecode();
-		}
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterDecode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			unknown0=default(string);
-			unknown1=default(bool);
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-	}
+public partial class McpeInitiateWebSocketConnection : Packet
+    {
+        public string server; // = null;
 
-	public partial class McpePurchaseReceipt : Packet
-	{
+        public McpeInitiateWebSocketConnection()
+            {
+                Id = 0x5f;
+                IsMcpe = true;
+            }
 
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		public McpePurchaseReceipt()
-		{
-			Id = 0x5c;
-			IsMcpe = true;
-		}
+                BeforeEncode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                Write(server);
 
-			BeforeEncode();
+                AfterEncode();
+            }
 
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			AfterEncode();
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                BeforeDecode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                server = ReadString();
 
-			BeforeDecode();
+                AfterDecode();
+            }
 
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterDecode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                server = default;
+            }
+    }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+public partial class McpeSetLastHurtBy : Packet
+    {
+        public int unknown; // = null;
 
-		}
+        public McpeSetLastHurtBy()
+            {
+                Id = 0x60;
+                IsMcpe = true;
+            }
 
-	}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-	public partial class McpePlayerSkin : Packet
-	{
+                BeforeEncode();
 
-		public UUID uuid; // = null;
-		public Skin skin; // = null;
-		public string skinName; // = null;
-		public string oldSkinName; // = null;
-		public bool isVerified; // = null;
+                WriteVarInt(unknown);
 
-		public McpePlayerSkin()
-		{
-			Id = 0x5d;
-			IsMcpe = true;
-		}
+                AfterEncode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			Write(uuid);
-			Write(skin);
-			Write(skinName);
-			Write(oldSkinName);
-			Write(isVerified);
+                BeforeDecode();
 
-			AfterEncode();
-		}
+                unknown = ReadVarInt();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterDecode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			uuid = ReadUUID();
-			skin = ReadSkin();
-			skinName = ReadString();
-			oldSkinName = ReadString();
-			isVerified = ReadBool();
+                unknown = default;
+            }
+    }
 
-			AfterDecode();
-		}
+public partial class McpeBookEdit : Packet
+    {
+        public McpeBookEdit()
+            {
+                Id = 0x61;
+                IsMcpe = true;
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeEncode();
 
-			uuid=default(UUID);
-			skin=default(Skin);
-			skinName=default(string);
-			oldSkinName=default(string);
-			isVerified=default(bool);
-		}
 
-	}
+                AfterEncode();
+            }
 
-	public partial class McpeSubClientLogin : Packet
-	{
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		public McpeSubClientLogin()
-		{
-			Id = 0x5e;
-			IsMcpe = true;
-		}
+                BeforeDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
 
-			BeforeEncode();
+                AfterDecode();
+            }
 
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterEncode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+public partial class McpeNpcRequest : Packet
+    {
+        public long runtimeEntityId; // = null;
+        public byte unknown0; // = null;
+        public string unknown1; // = null;
+        public byte unknown2; // = null;
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        public McpeNpcRequest()
+            {
+                Id = 0x62;
+                IsMcpe = true;
+            }
 
-			BeforeDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
+                BeforeEncode();
 
-			AfterDecode();
-		}
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(unknown0);
+                Write(unknown1);
+                Write(unknown2);
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterEncode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	}
+                BeforeDecode();
 
-	public partial class McpeInitiateWebSocketConnection : Packet
-	{
+                runtimeEntityId = ReadUnsignedVarLong();
+                unknown0 = ReadByte();
+                unknown1 = ReadString();
+                unknown2 = ReadByte();
 
-		public string server; // = null;
+                AfterDecode();
+            }
 
-		public McpeInitiateWebSocketConnection()
-		{
-			Id = 0x5f;
-			IsMcpe = true;
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			BeforeEncode();
+                runtimeEntityId = default;
+                unknown0 = default;
+                unknown1 = default;
+                unknown2 = default;
+            }
+    }
 
-			Write(server);
+public partial class McpePhotoTransfer : Packet
+    {
+        public string fileName; // = null;
+        public string imageData; // = null;
+        public string unknown2; // = null;
 
-			AfterEncode();
-		}
+        public McpePhotoTransfer()
+            {
+                Id = 0x63;
+                IsMcpe = true;
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeEncode();
 
-			BeforeDecode();
+                Write(fileName);
+                Write(imageData);
+                Write(unknown2);
 
-			server = ReadString();
+                AfterEncode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeDecode();
 
-			server=default(string);
-		}
+                fileName = ReadString();
+                imageData = ReadString();
+                unknown2 = ReadString();
 
-	}
+                AfterDecode();
+            }
 
-	public partial class McpeSetLastHurtBy : Packet
-	{
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		public int unknown; // = null;
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		public McpeSetLastHurtBy()
-		{
-			Id = 0x60;
-			IsMcpe = true;
-		}
+                fileName = default;
+                imageData = default;
+                unknown2 = default;
+            }
+    }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+public partial class McpeModalFormRequest : Packet
+    {
+        public string data; // = null;
 
-			BeforeEncode();
+        public uint formId; // = null;
 
-			WriteVarInt(unknown);
+        public McpeModalFormRequest()
+            {
+                Id = 0x64;
+                IsMcpe = true;
+            }
 
-			AfterEncode();
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                BeforeEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                WriteUnsignedVarInt(formId);
+                Write(data);
 
-			BeforeDecode();
+                AfterEncode();
+            }
 
-			unknown = ReadVarInt();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			AfterDecode();
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                BeforeDecode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                formId = ReadUnsignedVarInt();
+                data = ReadString();
 
-			unknown=default(int);
-		}
+                AfterDecode();
+            }
 
-	}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-	public partial class McpeBookEdit : Packet
-	{
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
+                formId = default;
+                data = default;
+            }
+    }
 
-		public McpeBookEdit()
-		{
-			Id = 0x61;
-			IsMcpe = true;
-		}
+public partial class McpeModalFormResponse : Packet
+    {
+        public string data; // = null;
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        public uint formId; // = null;
 
-			BeforeEncode();
+        public McpeModalFormResponse()
+            {
+                Id = 0x65;
+                IsMcpe = true;
+            }
 
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterEncode();
-		}
+                BeforeEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                WriteUnsignedVarInt(formId);
+                Write(data);
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterEncode();
+            }
 
-			BeforeDecode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterDecode();
-		}
+                BeforeDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                formId = ReadUnsignedVarInt();
+                data = ReadString();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterDecode();
+            }
 
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-	}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-	public partial class McpeNpcRequest : Packet
-	{
+                formId = default;
+                data = default;
+            }
+    }
 
-		public long runtimeEntityId; // = null;
-		public byte unknown0; // = null;
-		public string unknown1; // = null;
-		public byte unknown2; // = null;
+public partial class McpeServerSettingsRequest : Packet
+    {
+        public McpeServerSettingsRequest()
+            {
+                Id = 0x66;
+                IsMcpe = true;
+            }
 
-		public McpeNpcRequest()
-		{
-			Id = 0x62;
-			IsMcpe = true;
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeEncode();
 
-			BeforeEncode();
 
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(unknown0);
-			Write(unknown1);
-			Write(unknown2);
+                AfterEncode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeDecode();
 
-			BeforeDecode();
 
-			runtimeEntityId = ReadUnsignedVarLong();
-			unknown0 = ReadByte();
-			unknown1 = ReadString();
-			unknown2 = ReadByte();
+                AfterDecode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+public partial class McpeServerSettingsResponse : Packet
+    {
+        public string data; // = null;
 
-			runtimeEntityId=default(long);
-			unknown0=default(byte);
-			unknown1=default(string);
-			unknown2=default(byte);
-		}
+        public long formId; // = null;
 
-	}
+        public McpeServerSettingsResponse()
+            {
+                Id = 0x67;
+                IsMcpe = true;
+            }
 
-	public partial class McpePhotoTransfer : Packet
-	{
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		public string fileName; // = null;
-		public string imageData; // = null;
-		public string unknown2; // = null;
+                BeforeEncode();
 
-		public McpePhotoTransfer()
-		{
-			Id = 0x63;
-			IsMcpe = true;
-		}
+                WriteUnsignedVarLong(formId);
+                Write(data);
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                AfterEncode();
+            }
 
-			BeforeEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			Write(fileName);
-			Write(imageData);
-			Write(unknown2);
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterEncode();
-		}
+                BeforeDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                formId = ReadUnsignedVarLong();
+                data = ReadString();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterDecode();
+            }
 
-			BeforeDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			fileName = ReadString();
-			imageData = ReadString();
-			unknown2 = ReadString();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			AfterDecode();
-		}
+                formId = default;
+                data = default;
+            }
+    }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+public partial class McpeShowProfile : Packet
+    {
+        public string xuid; // = null;
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        public McpeShowProfile()
+            {
+                Id = 0x68;
+                IsMcpe = true;
+            }
 
-			fileName=default(string);
-			imageData=default(string);
-			unknown2=default(string);
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-	}
+                BeforeEncode();
 
-	public partial class McpeModalFormRequest : Packet
-	{
+                Write(xuid);
 
-		public uint formId; // = null;
-		public string data; // = null;
+                AfterEncode();
+            }
 
-		public McpeModalFormRequest()
-		{
-			Id = 0x64;
-			IsMcpe = true;
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			BeforeEncode();
+                BeforeDecode();
 
-			WriteUnsignedVarInt(formId);
-			Write(data);
+                xuid = ReadString();
 
-			AfterEncode();
-		}
+                AfterDecode();
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			BeforeDecode();
+                xuid = default;
+            }
+    }
 
-			formId = ReadUnsignedVarInt();
-			data = ReadString();
+public partial class McpeSetDefaultGameType : Packet
+    {
+        public int gamemode; // = null;
 
-			AfterDecode();
-		}
+        public McpeSetDefaultGameType()
+            {
+                Id = 0x69;
+                IsMcpe = true;
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeEncode();
 
-			formId=default(uint);
-			data=default(string);
-		}
+                WriteVarInt(gamemode);
 
-	}
+                AfterEncode();
+            }
 
-	public partial class McpeModalFormResponse : Packet
-	{
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public uint formId; // = null;
-		public string data; // = null;
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		public McpeModalFormResponse()
-		{
-			Id = 0x65;
-			IsMcpe = true;
-		}
+                BeforeDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                gamemode = ReadVarInt();
 
-			BeforeEncode();
+                AfterDecode();
+            }
 
-			WriteUnsignedVarInt(formId);
-			Write(data);
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterEncode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                gamemode = default;
+            }
+    }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+public partial class McpeRemoveObjective : Packet
+    {
+        public string objectiveName; // = null;
 
-			BeforeDecode();
+        public McpeRemoveObjective()
+            {
+                Id = 0x6a;
+                IsMcpe = true;
+            }
 
-			formId = ReadUnsignedVarInt();
-			data = ReadString();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterDecode();
-		}
+                BeforeEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                Write(objectiveName);
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterEncode();
+            }
 
-			formId=default(uint);
-			data=default(string);
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-	}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	public partial class McpeServerSettingsRequest : Packet
-	{
+                BeforeDecode();
 
+                objectiveName = ReadString();
 
-		public McpeServerSettingsRequest()
-		{
-			Id = 0x66;
-			IsMcpe = true;
-		}
+                AfterDecode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
+                objectiveName = default;
+            }
+    }
 
-			AfterEncode();
-		}
+public partial class McpeSetDisplayObjective : Packet
+    {
+        public string criteriaName; // = null;
+        public string displayName; // = null;
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        public string displaySlot; // = null;
+        public string objectiveName; // = null;
+        public int sortOrder; // = null;
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        public McpeSetDisplayObjective()
+            {
+                Id = 0x6b;
+                IsMcpe = true;
+            }
 
-			BeforeDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
+                BeforeEncode();
 
-			AfterDecode();
-		}
+                Write(displaySlot);
+                Write(objectiveName);
+                Write(displayName);
+                Write(criteriaName);
+                WriteSignedVarInt(sortOrder);
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterEncode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	}
+                BeforeDecode();
 
-	public partial class McpeServerSettingsResponse : Packet
-	{
+                displaySlot = ReadString();
+                objectiveName = ReadString();
+                displayName = ReadString();
+                criteriaName = ReadString();
+                sortOrder = ReadSignedVarInt();
 
-		public long formId; // = null;
-		public string data; // = null;
+                AfterDecode();
+            }
 
-		public McpeServerSettingsResponse()
-		{
-			Id = 0x67;
-			IsMcpe = true;
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			BeforeEncode();
+                displaySlot = default;
+                objectiveName = default;
+                displayName = default;
+                criteriaName = default;
+                sortOrder = default;
+            }
+    }
 
-			WriteUnsignedVarLong(formId);
-			Write(data);
+public partial class McpeSetScore : Packet
+    {
+        public enum ChangeTypes
+            {
+                Player = 1,
+                Entity = 2,
+                FakePlayer = 3
+            }
 
-			AfterEncode();
-		}
+        public enum Types
+            {
+                Change = 0,
+                Remove = 1
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        public ScoreEntries entries; // = null;
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        public McpeSetScore()
+            {
+                Id = 0x6c;
+                IsMcpe = true;
+            }
 
-			BeforeDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			formId = ReadUnsignedVarLong();
-			data = ReadString();
+                BeforeEncode();
 
-			AfterDecode();
-		}
+                Write(entries);
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterEncode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			formId=default(long);
-			data=default(string);
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	}
+                BeforeDecode();
 
-	public partial class McpeShowProfile : Packet
-	{
+                entries = ReadScoreEntries();
 
-		public string xuid; // = null;
+                AfterDecode();
+            }
 
-		public McpeShowProfile()
-		{
-			Id = 0x68;
-			IsMcpe = true;
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			BeforeEncode();
+                entries = default;
+            }
+    }
 
-			Write(xuid);
+public partial class McpeLabTable : Packet
+    {
+        public int labTableX; // = null;
+        public int labTableY; // = null;
+        public int labTableZ; // = null;
+        public byte reactionType; // = null;
 
-			AfterEncode();
-		}
+        public byte uselessByte; // = null;
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        public McpeLabTable()
+            {
+                Id = 0x6d;
+                IsMcpe = true;
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			BeforeDecode();
+                BeforeEncode();
 
-			xuid = ReadString();
+                Write(uselessByte);
+                WriteVarInt(labTableX);
+                WriteVarInt(labTableY);
+                WriteVarInt(labTableZ);
+                Write(reactionType);
 
-			AfterDecode();
-		}
+                AfterEncode();
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			xuid=default(string);
-		}
+                BeforeDecode();
 
-	}
+                uselessByte = ReadByte();
+                labTableX = ReadVarInt();
+                labTableY = ReadVarInt();
+                labTableZ = ReadVarInt();
+                reactionType = ReadByte();
 
-	public partial class McpeSetDefaultGameType : Packet
-	{
+                AfterDecode();
+            }
 
-		public int gamemode; // = null;
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		public McpeSetDefaultGameType()
-		{
-			Id = 0x69;
-			IsMcpe = true;
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                uselessByte = default;
+                labTableX = default;
+                labTableY = default;
+                labTableZ = default;
+                reactionType = default;
+            }
+    }
 
-			BeforeEncode();
+public partial class McpeUpdateBlockSynced : Packet
+    {
+        public uint blockPriority; // = null;
+        public uint blockRuntimeId; // = null;
 
-			WriteVarInt(gamemode);
+        public BlockCoordinates coordinates; // = null;
+        public uint dataLayerId; // = null;
+        public long unknown0; // = null;
+        public long unknown1; // = null;
 
-			AfterEncode();
-		}
+        public McpeUpdateBlockSynced()
+            {
+                Id = 0x6e;
+                IsMcpe = true;
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeEncode();
 
-			BeforeDecode();
+                Write(coordinates);
+                WriteUnsignedVarInt(blockRuntimeId);
+                WriteUnsignedVarInt(blockPriority);
+                WriteUnsignedVarInt(dataLayerId);
+                WriteUnsignedVarLong(unknown0);
+                WriteUnsignedVarLong(unknown1);
 
-			gamemode = ReadVarInt();
+                AfterEncode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeDecode();
 
-			gamemode=default(int);
-		}
+                coordinates = ReadBlockCoordinates();
+                blockRuntimeId = ReadUnsignedVarInt();
+                blockPriority = ReadUnsignedVarInt();
+                dataLayerId = ReadUnsignedVarInt();
+                unknown0 = ReadUnsignedVarLong();
+                unknown1 = ReadUnsignedVarLong();
 
-	}
+                AfterDecode();
+            }
 
-	public partial class McpeRemoveObjective : Packet
-	{
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		public string objectiveName; // = null;
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		public McpeRemoveObjective()
-		{
-			Id = 0x6a;
-			IsMcpe = true;
-		}
+                coordinates = default;
+                blockRuntimeId = default;
+                blockPriority = default;
+                dataLayerId = default;
+                unknown0 = default;
+                unknown1 = default;
+            }
+    }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+public partial class McpeMoveEntityDelta : Packet
+    {
+        public ushort flags; // = null;
 
-			BeforeEncode();
+        public long runtimeEntityId; // = null;
 
-			Write(objectiveName);
+        public McpeMoveEntityDelta()
+            {
+                Id = 0x6f;
+                IsMcpe = true;
+            }
 
-			AfterEncode();
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                BeforeEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(flags);
 
-			BeforeDecode();
+                AfterEncode();
+            }
 
-			objectiveName = ReadString();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			AfterDecode();
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                BeforeDecode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                runtimeEntityId = ReadUnsignedVarLong();
+                flags = ReadUshort();
 
-			objectiveName=default(string);
-		}
+                AfterDecode();
+            }
 
-	}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-	public partial class McpeSetDisplayObjective : Packet
-	{
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		public string displaySlot; // = null;
-		public string objectiveName; // = null;
-		public string displayName; // = null;
-		public string criteriaName; // = null;
-		public int sortOrder; // = null;
+                runtimeEntityId = default;
+                flags = default;
+            }
+    }
 
-		public McpeSetDisplayObjective()
-		{
-			Id = 0x6b;
-			IsMcpe = true;
-		}
+public partial class McpeSetScoreboardIdentity : Packet
+    {
+        public enum Operations
+            {
+                RegisterIdentity = 0,
+                ClearIdentity = 1
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        public ScoreboardIdentityEntries entries; // = null;
 
-			BeforeEncode();
+        public McpeSetScoreboardIdentity()
+            {
+                Id = 0x70;
+                IsMcpe = true;
+            }
 
-			Write(displaySlot);
-			Write(objectiveName);
-			Write(displayName);
-			Write(criteriaName);
-			WriteSignedVarInt(sortOrder);
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterEncode();
-		}
+                BeforeEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                Write(entries);
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterEncode();
+            }
 
-			BeforeDecode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			displaySlot = ReadString();
-			objectiveName = ReadString();
-			displayName = ReadString();
-			criteriaName = ReadString();
-			sortOrder = ReadSignedVarInt();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterDecode();
-		}
+                BeforeDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                entries = ReadScoreboardIdentityEntries();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterDecode();
+            }
 
-			displaySlot=default(string);
-			objectiveName=default(string);
-			displayName=default(string);
-			criteriaName=default(string);
-			sortOrder=default(int);
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-	}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-	public partial class McpeSetScore : Packet
-	{
-		public enum Types
-		{
-			Change = 0,
-			Remove = 1,
-		}
-		public enum ChangeTypes
-		{
-			Player = 1,
-			Entity = 2,
-			FakePlayer = 3,
-		}
+                entries = default;
+            }
+    }
 
-		public ScoreEntries entries; // = null;
+public partial class McpeSetLocalPlayerAsInitialized : Packet
+    {
+        public long runtimeEntityId; // = null;
 
-		public McpeSetScore()
-		{
-			Id = 0x6c;
-			IsMcpe = true;
-		}
+        public McpeSetLocalPlayerAsInitialized()
+            {
+                Id = 0x71;
+                IsMcpe = true;
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			BeforeEncode();
+                BeforeEncode();
 
-			Write(entries);
+                WriteUnsignedVarLong(runtimeEntityId);
 
-			AfterEncode();
-		}
+                AfterEncode();
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			BeforeDecode();
+                BeforeDecode();
 
-			entries = ReadScoreEntries();
+                runtimeEntityId = ReadUnsignedVarLong();
 
-			AfterDecode();
-		}
+                AfterDecode();
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			entries=default(ScoreEntries);
-		}
+                runtimeEntityId = default;
+            }
+    }
 
-	}
+public partial class McpeUpdateSoftEnum : Packet
+    {
+        public McpeUpdateSoftEnum()
+            {
+                Id = 0x72;
+                IsMcpe = true;
+            }
 
-	public partial class McpeLabTable : Packet
-	{
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		public byte uselessByte; // = null;
-		public int labTableX; // = null;
-		public int labTableY; // = null;
-		public int labTableZ; // = null;
-		public byte reactionType; // = null;
+                BeforeEncode();
 
-		public McpeLabTable()
-		{
-			Id = 0x6d;
-			IsMcpe = true;
-		}
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                AfterEncode();
+            }
 
-			BeforeEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			Write(uselessByte);
-			WriteVarInt(labTableX);
-			WriteVarInt(labTableY);
-			WriteVarInt(labTableZ);
-			Write(reactionType);
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterEncode();
-		}
+                BeforeDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterDecode();
+            }
 
-			BeforeDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			uselessByte = ReadByte();
-			labTableX = ReadVarInt();
-			labTableY = ReadVarInt();
-			labTableZ = ReadVarInt();
-			reactionType = ReadByte();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-			AfterDecode();
-		}
+public partial class McpeNetworkStackLatency : Packet
+    {
+        public ulong timestamp; // = null;
+        public byte unknownFlag; // = null;
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        public McpeNetworkStackLatency()
+            {
+                Id = 0x73;
+                IsMcpe = true;
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			uselessByte=default(byte);
-			labTableX=default(int);
-			labTableY=default(int);
-			labTableZ=default(int);
-			reactionType=default(byte);
-		}
+                BeforeEncode();
 
-	}
+                Write(timestamp);
+                Write(unknownFlag);
 
-	public partial class McpeUpdateBlockSynced : Packet
-	{
+                AfterEncode();
+            }
 
-		public BlockCoordinates coordinates; // = null;
-		public uint blockRuntimeId; // = null;
-		public uint blockPriority; // = null;
-		public uint dataLayerId; // = null;
-		public long unknown0; // = null;
-		public long unknown1; // = null;
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public McpeUpdateBlockSynced()
-		{
-			Id = 0x6e;
-			IsMcpe = true;
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeDecode();
 
-			BeforeEncode();
+                timestamp = ReadUlong();
+                unknownFlag = ReadByte();
 
-			Write(coordinates);
-			WriteUnsignedVarInt(blockRuntimeId);
-			WriteUnsignedVarInt(blockPriority);
-			WriteUnsignedVarInt(dataLayerId);
-			WriteUnsignedVarLong(unknown0);
-			WriteUnsignedVarLong(unknown1);
+                AfterDecode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                timestamp = default;
+                unknownFlag = default;
+            }
+    }
 
-			BeforeDecode();
+public partial class McpeScriptCustomEvent : Packet
+    {
+        public string eventData; // = null;
 
-			coordinates = ReadBlockCoordinates();
-			blockRuntimeId = ReadUnsignedVarInt();
-			blockPriority = ReadUnsignedVarInt();
-			dataLayerId = ReadUnsignedVarInt();
-			unknown0 = ReadUnsignedVarLong();
-			unknown1 = ReadUnsignedVarLong();
+        public string eventName; // = null;
 
-			AfterDecode();
-		}
+        public McpeScriptCustomEvent()
+            {
+                Id = 0x75;
+                IsMcpe = true;
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeEncode();
 
-			coordinates=default(BlockCoordinates);
-			blockRuntimeId=default(uint);
-			blockPriority=default(uint);
-			dataLayerId=default(uint);
-			unknown0=default(long);
-			unknown1=default(long);
-		}
+                Write(eventName);
+                Write(eventData);
 
-	}
+                AfterEncode();
+            }
 
-	public partial class McpeMoveEntityDelta : Packet
-	{
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public long runtimeEntityId; // = null;
-		public ushort flags; // = null;
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		public McpeMoveEntityDelta()
-		{
-			Id = 0x6f;
-			IsMcpe = true;
-		}
+                BeforeDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                eventName = ReadString();
+                eventData = ReadString();
 
-			BeforeEncode();
+                AfterDecode();
+            }
 
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(flags);
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterEncode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                eventName = default;
+                eventData = default;
+            }
+    }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+public partial class McpeSpawnParticleEffect : Packet
+    {
+        public byte dimensionId; // = null;
+        public long entityId; // = null;
+        public string molangVariablesJson; // = null;
+        public string particleName; // = null;
+        public Vector3 position; // = null;
 
-			BeforeDecode();
+        public McpeSpawnParticleEffect()
+            {
+                Id = 0x76;
+                IsMcpe = true;
+            }
 
-			runtimeEntityId = ReadUnsignedVarLong();
-			flags = ReadUshort();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterDecode();
-		}
+                BeforeEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                Write(dimensionId);
+                WriteSignedVarLong(entityId);
+                Write(position);
+                Write(particleName);
+                Write(molangVariablesJson);
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterEncode();
+            }
 
-			runtimeEntityId=default(long);
-			flags=default(ushort);
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-	}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	public partial class McpeSetScoreboardIdentity : Packet
-	{
-		public enum Operations
-		{
-			RegisterIdentity = 0,
-			ClearIdentity = 1,
-		}
+                BeforeDecode();
 
-		public ScoreboardIdentityEntries entries; // = null;
+                dimensionId = ReadByte();
+                entityId = ReadSignedVarLong();
+                position = ReadVector3();
+                particleName = ReadString();
+                molangVariablesJson = ReadString();
 
-		public McpeSetScoreboardIdentity()
-		{
-			Id = 0x70;
-			IsMcpe = true;
-		}
+                AfterDecode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			Write(entries);
+                dimensionId = default;
+                entityId = default;
+                position = default;
+                particleName = default;
+                molangVariablesJson = default;
+            }
+    }
 
-			AfterEncode();
-		}
+public partial class McpeAvailableEntityIdentifiers : Packet
+    {
+        public Nbt namedtag; // = null;
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        public McpeAvailableEntityIdentifiers()
+            {
+                Id = 0x77;
+                IsMcpe = true;
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			BeforeDecode();
+                BeforeEncode();
 
-			entries = ReadScoreboardIdentityEntries();
+                Write(namedtag);
 
-			AfterDecode();
-		}
+                AfterEncode();
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			entries=default(ScoreboardIdentityEntries);
-		}
+                BeforeDecode();
 
-	}
+                namedtag = ReadNbt();
 
-	public partial class McpeSetLocalPlayerAsInitialized : Packet
-	{
+                AfterDecode();
+            }
 
-		public long runtimeEntityId; // = null;
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		public McpeSetLocalPlayerAsInitialized()
-		{
-			Id = 0x71;
-			IsMcpe = true;
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                namedtag = default;
+            }
+    }
 
-			BeforeEncode();
+public partial class McpeLevelSoundEventV2 : Packet
+    {
+        public int blockId; // = null;
+        public string entityType; // = null;
+        public bool isBabyMob; // = null;
+        public bool isGlobal; // = null;
+        public Vector3 position; // = null;
 
-			WriteUnsignedVarLong(runtimeEntityId);
+        public byte soundId; // = null;
 
-			AfterEncode();
-		}
+        public McpeLevelSoundEventV2()
+            {
+                Id = 0x78;
+                IsMcpe = true;
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeEncode();
 
-			BeforeDecode();
+                Write(soundId);
+                Write(position);
+                WriteSignedVarInt(blockId);
+                Write(entityType);
+                Write(isBabyMob);
+                Write(isGlobal);
 
-			runtimeEntityId = ReadUnsignedVarLong();
+                AfterEncode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeDecode();
 
-			runtimeEntityId=default(long);
-		}
+                soundId = ReadByte();
+                position = ReadVector3();
+                blockId = ReadSignedVarInt();
+                entityType = ReadString();
+                isBabyMob = ReadBool();
+                isGlobal = ReadBool();
 
-	}
+                AfterDecode();
+            }
 
-	public partial class McpeUpdateSoftEnum : Packet
-	{
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		public McpeUpdateSoftEnum()
-		{
-			Id = 0x72;
-			IsMcpe = true;
-		}
+                soundId = default;
+                position = default;
+                blockId = default;
+                entityType = default;
+                isBabyMob = default;
+                isGlobal = default;
+            }
+    }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+public partial class McpeNetworkChunkPublisherUpdate : Packet
+    {
+        public BlockCoordinates coordinates; // = null;
+        public uint radius; // = null;
+        public int savedChunks; // = null;
 
-			BeforeEncode();
+        public McpeNetworkChunkPublisherUpdate()
+            {
+                Id = 0x79;
+                IsMcpe = true;
+            }
 
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterEncode();
-		}
+                BeforeEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                Write(coordinates);
+                WriteUnsignedVarInt(radius);
+                Write(savedChunks);
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterEncode();
+            }
 
-			BeforeDecode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterDecode();
-		}
+                BeforeDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                coordinates = ReadBlockCoordinates();
+                radius = ReadUnsignedVarInt();
+                savedChunks = ReadInt();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterDecode();
+            }
 
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-	}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-	public partial class McpeNetworkStackLatency : Packet
-	{
+                coordinates = default;
+                radius = default;
+                savedChunks = default;
+            }
+    }
 
-		public ulong timestamp; // = null;
-		public byte unknownFlag; // = null;
+public partial class McpeBiomeDefinitionList : Packet
+    {
+        public Nbt namedtag; // = null;
 
-		public McpeNetworkStackLatency()
-		{
-			Id = 0x73;
-			IsMcpe = true;
-		}
+        public McpeBiomeDefinitionList()
+            {
+                Id = 0x7a;
+                IsMcpe = true;
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			BeforeEncode();
+                BeforeEncode();
 
-			Write(timestamp);
-			Write(unknownFlag);
+                Write(namedtag);
 
-			AfterEncode();
-		}
+                AfterEncode();
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			BeforeDecode();
+                BeforeDecode();
 
-			timestamp = ReadUlong();
-			unknownFlag = ReadByte();
+                namedtag = ReadNbt();
 
-			AfterDecode();
-		}
+                AfterDecode();
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			timestamp=default(ulong);
-			unknownFlag=default(byte);
-		}
+                namedtag = default;
+            }
+    }
 
-	}
+public partial class McpeLevelSoundEvent : Packet
+    {
+        public int blockId; // = null;
+        public string entityType; // = null;
+        public bool isBabyMob; // = null;
+        public bool isGlobal; // = null;
+        public Vector3 position; // = null;
 
-	public partial class McpeScriptCustomEvent : Packet
-	{
+        public uint soundId; // = null;
 
-		public string eventName; // = null;
-		public string eventData; // = null;
+        public McpeLevelSoundEvent()
+            {
+                Id = 0x7b;
+                IsMcpe = true;
+            }
 
-		public McpeScriptCustomEvent()
-		{
-			Id = 0x75;
-			IsMcpe = true;
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeEncode();
 
-			BeforeEncode();
+                WriteUnsignedVarInt(soundId);
+                Write(position);
+                WriteSignedVarInt(blockId);
+                Write(entityType);
+                Write(isBabyMob);
+                Write(isGlobal);
 
-			Write(eventName);
-			Write(eventData);
+                AfterEncode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeDecode();
 
-			BeforeDecode();
+                soundId = ReadUnsignedVarInt();
+                position = ReadVector3();
+                blockId = ReadSignedVarInt();
+                entityType = ReadString();
+                isBabyMob = ReadBool();
+                isGlobal = ReadBool();
 
-			eventName = ReadString();
-			eventData = ReadString();
+                AfterDecode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                soundId = default;
+                position = default;
+                blockId = default;
+                entityType = default;
+                isBabyMob = default;
+                isGlobal = default;
+            }
+    }
 
-			eventName=default(string);
-			eventData=default(string);
-		}
+public partial class McpeLevelEventGeneric : Packet
+    {
+        public McpeLevelEventGeneric()
+            {
+                Id = 0x7c;
+                IsMcpe = true;
+            }
 
-	}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-	public partial class McpeSpawnParticleEffect : Packet
-	{
+                BeforeEncode();
 
-		public byte dimensionId; // = null;
-		public long entityId; // = null;
-		public Vector3 position; // = null;
-		public string particleName; // = null;
-		public string molangVariablesJson; // = null;
 
-		public McpeSpawnParticleEffect()
-		{
-			Id = 0x76;
-			IsMcpe = true;
-		}
+                AfterEncode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			Write(dimensionId);
-			WriteSignedVarLong(entityId);
-			Write(position);
-			Write(particleName);
-			Write(molangVariablesJson);
+                BeforeDecode();
 
-			AfterEncode();
-		}
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterDecode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-			dimensionId = ReadByte();
-			entityId = ReadSignedVarLong();
-			position = ReadVector3();
-			particleName = ReadString();
-			molangVariablesJson = ReadString();
+public partial class McpeLecternUpdate : Packet
+    {
+        public McpeLecternUpdate()
+            {
+                Id = 0x7d;
+                IsMcpe = true;
+            }
 
-			AfterDecode();
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                BeforeEncode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
 
-			dimensionId=default(byte);
-			entityId=default(long);
-			position=default(Vector3);
-			particleName=default(string);
-			molangVariablesJson=default(string);
-		}
+                AfterEncode();
+            }
 
-	}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-	public partial class McpeAvailableEntityIdentifiers : Packet
-	{
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		public Nbt namedtag; // = null;
+                BeforeDecode();
 
-		public McpeAvailableEntityIdentifiers()
-		{
-			Id = 0x77;
-			IsMcpe = true;
-		}
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                AfterDecode();
+            }
 
-			BeforeEncode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			Write(namedtag);
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-			AfterEncode();
-		}
+public partial class McpeVideoStreamConnect : Packet
+    {
+        public byte action; // = null;
+        public float frameSendFrequency; // = null;
+        public int resolutionX; // = null;
+        public int resolutionY; // = null;
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        public string serverUri; // = null;
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        public McpeVideoStreamConnect()
+            {
+                Id = 0x7e;
+                IsMcpe = true;
+            }
 
-			BeforeDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			namedtag = ReadNbt();
+                BeforeEncode();
 
-			AfterDecode();
-		}
+                Write(serverUri);
+                Write(frameSendFrequency);
+                Write(action);
+                Write(resolutionX);
+                Write(resolutionY);
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterEncode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			namedtag=default(Nbt);
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	}
+                BeforeDecode();
 
-	public partial class McpeLevelSoundEventV2 : Packet
-	{
+                serverUri = ReadString();
+                frameSendFrequency = ReadFloat();
+                action = ReadByte();
+                resolutionX = ReadInt();
+                resolutionY = ReadInt();
 
-		public byte soundId; // = null;
-		public Vector3 position; // = null;
-		public int blockId; // = null;
-		public string entityType; // = null;
-		public bool isBabyMob; // = null;
-		public bool isGlobal; // = null;
+                AfterDecode();
+            }
 
-		public McpeLevelSoundEventV2()
-		{
-			Id = 0x78;
-			IsMcpe = true;
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			BeforeEncode();
+                serverUri = default;
+                frameSendFrequency = default;
+                action = default;
+                resolutionX = default;
+                resolutionY = default;
+            }
+    }
 
-			Write(soundId);
-			Write(position);
-			WriteSignedVarInt(blockId);
-			Write(entityType);
-			Write(isBabyMob);
-			Write(isGlobal);
+public partial class McpeClientCacheStatus : Packet
+    {
+        public bool enabled; // = null;
 
-			AfterEncode();
-		}
+        public McpeClientCacheStatus()
+            {
+                Id = 0x81;
+                IsMcpe = true;
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeEncode();
 
-			BeforeDecode();
+                Write(enabled);
 
-			soundId = ReadByte();
-			position = ReadVector3();
-			blockId = ReadSignedVarInt();
-			entityType = ReadString();
-			isBabyMob = ReadBool();
-			isGlobal = ReadBool();
+                AfterEncode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeDecode();
 
-			soundId=default(byte);
-			position=default(Vector3);
-			blockId=default(int);
-			entityType=default(string);
-			isBabyMob=default(bool);
-			isGlobal=default(bool);
-		}
+                enabled = ReadBool();
 
-	}
+                AfterDecode();
+            }
 
-	public partial class McpeNetworkChunkPublisherUpdate : Packet
-	{
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		public BlockCoordinates coordinates; // = null;
-		public uint radius; // = null;
-		public int savedChunks; // = null;
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		public McpeNetworkChunkPublisherUpdate()
-		{
-			Id = 0x79;
-			IsMcpe = true;
-		}
+                enabled = default;
+            }
+    }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+public partial class McpeOnScreenTextureAnimation : Packet
+    {
+        public McpeOnScreenTextureAnimation()
+            {
+                Id = 0x82;
+                IsMcpe = true;
+            }
 
-			BeforeEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			Write(coordinates);
-			WriteUnsignedVarInt(radius);
-			Write(savedChunks);
+                BeforeEncode();
 
-			AfterEncode();
-		}
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterEncode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			coordinates = ReadBlockCoordinates();
-			radius = ReadUnsignedVarInt();
-			savedChunks = ReadInt();
+                BeforeDecode();
 
-			AfterDecode();
-		}
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterDecode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			coordinates=default(BlockCoordinates);
-			radius=default(uint);
-			savedChunks=default(int);
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-	}
+public partial class McpeMapCreateLockedCopy : Packet
+    {
+        public McpeMapCreateLockedCopy()
+            {
+                Id = 0x83;
+                IsMcpe = true;
+            }
 
-	public partial class McpeBiomeDefinitionList : Packet
-	{
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		public Nbt namedtag; // = null;
+                BeforeEncode();
 
-		public McpeBiomeDefinitionList()
-		{
-			Id = 0x7a;
-			IsMcpe = true;
-		}
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                AfterEncode();
+            }
 
-			BeforeEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			Write(namedtag);
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterEncode();
-		}
+                BeforeDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterDecode();
+            }
 
-			BeforeDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			namedtag = ReadNbt();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-			AfterDecode();
-		}
+public partial class McpeStructureTemplateDataExportRequest : Packet
+    {
+        public McpeStructureTemplateDataExportRequest()
+            {
+                Id = 0x84;
+                IsMcpe = true;
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeEncode();
 
-			namedtag=default(Nbt);
-		}
 
-	}
+                AfterEncode();
+            }
 
-	public partial class McpeLevelSoundEvent : Packet
-	{
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public uint soundId; // = null;
-		public Vector3 position; // = null;
-		public int blockId; // = null;
-		public string entityType; // = null;
-		public bool isBabyMob; // = null;
-		public bool isGlobal; // = null;
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		public McpeLevelSoundEvent()
-		{
-			Id = 0x7b;
-			IsMcpe = true;
-		}
+                BeforeDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
 
-			BeforeEncode();
+                AfterDecode();
+            }
 
-			WriteUnsignedVarInt(soundId);
-			Write(position);
-			WriteSignedVarInt(blockId);
-			Write(entityType);
-			Write(isBabyMob);
-			Write(isGlobal);
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterEncode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+public partial class McpeStructureTemplateDataExportResponse : Packet
+    {
+        public McpeStructureTemplateDataExportResponse()
+            {
+                Id = 0x85;
+                IsMcpe = true;
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			BeforeDecode();
+                BeforeEncode();
 
-			soundId = ReadUnsignedVarInt();
-			position = ReadVector3();
-			blockId = ReadSignedVarInt();
-			entityType = ReadString();
-			isBabyMob = ReadBool();
-			isGlobal = ReadBool();
 
-			AfterDecode();
-		}
+                AfterEncode();
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			soundId=default(uint);
-			position=default(Vector3);
-			blockId=default(int);
-			entityType=default(string);
-			isBabyMob=default(bool);
-			isGlobal=default(bool);
-		}
+                BeforeDecode();
 
-	}
 
-	public partial class McpeLevelEventGeneric : Packet
-	{
+                AfterDecode();
+            }
 
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		public McpeLevelEventGeneric()
-		{
-			Id = 0x7c;
-			IsMcpe = true;
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+public partial class McpeUpdateBlockProperties : Packet
+    {
+        public Nbt namedtag; // = null;
 
-			BeforeEncode();
+        public McpeUpdateBlockProperties()
+            {
+                Id = 0x86;
+                IsMcpe = true;
+            }
 
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterEncode();
-		}
+                BeforeEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                Write(namedtag);
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterEncode();
+            }
 
-			BeforeDecode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterDecode();
-		}
+                BeforeDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                namedtag = ReadNbt();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterDecode();
+            }
 
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-	}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-	public partial class McpeLecternUpdate : Packet
-	{
+                namedtag = default;
+            }
+    }
 
+public partial class McpeClientCacheBlobStatus : Packet
+    {
+        public McpeClientCacheBlobStatus()
+            {
+                Id = 0x87;
+                IsMcpe = true;
+            }
 
-		public McpeLecternUpdate()
-		{
-			Id = 0x7d;
-			IsMcpe = true;
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeEncode();
 
-			BeforeEncode();
 
+                AfterEncode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeDecode();
 
-			BeforeDecode();
 
+                AfterDecode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+public partial class McpeClientCacheMissResponse : Packet
+    {
+        public McpeClientCacheMissResponse()
+            {
+                Id = 0x88;
+                IsMcpe = true;
+            }
 
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-	}
+                BeforeEncode();
 
-	public partial class McpeVideoStreamConnect : Packet
-	{
 
-		public string serverUri; // = null;
-		public float frameSendFrequency; // = null;
-		public byte action; // = null;
-		public int resolutionX; // = null;
-		public int resolutionY; // = null;
+                AfterEncode();
+            }
 
-		public McpeVideoStreamConnect()
-		{
-			Id = 0x7e;
-			IsMcpe = true;
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			BeforeEncode();
+                BeforeDecode();
 
-			Write(serverUri);
-			Write(frameSendFrequency);
-			Write(action);
-			Write(resolutionX);
-			Write(resolutionY);
 
-			AfterEncode();
-		}
+                AfterDecode();
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-			BeforeDecode();
+public partial class McpeNetworkSettings : Packet
+    {
+        public enum Compression
+            {
+                Nothing = 0,
+                Everything = 1
+            }
 
-			serverUri = ReadString();
-			frameSendFrequency = ReadFloat();
-			action = ReadByte();
-			resolutionX = ReadInt();
-			resolutionY = ReadInt();
+        public bool clientThrottleEnabled; // = null;
+        public float clientThrottleScalar; // = null;
+        public byte clientThrottleThreshold; // = null;
+        public short compressionAlgorithm; // = null;
 
-			AfterDecode();
-		}
+        public short compressionThreshold; // = null;
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        public McpeNetworkSettings()
+            {
+                Id = 0x8f;
+                IsMcpe = true;
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			serverUri=default(string);
-			frameSendFrequency=default(float);
-			action=default(byte);
-			resolutionX=default(int);
-			resolutionY=default(int);
-		}
+                BeforeEncode();
 
-	}
+                Write(compressionThreshold);
+                Write(compressionAlgorithm);
+                Write(clientThrottleEnabled);
+                Write(clientThrottleThreshold);
+                Write(clientThrottleScalar);
 
-	public partial class McpeClientCacheStatus : Packet
-	{
+                AfterEncode();
+            }
 
-		public bool enabled; // = null;
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public McpeClientCacheStatus()
-		{
-			Id = 0x81;
-			IsMcpe = true;
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeDecode();
 
-			BeforeEncode();
+                compressionThreshold = ReadShort();
+                compressionAlgorithm = ReadShort();
+                clientThrottleEnabled = ReadBool();
+                clientThrottleThreshold = ReadByte();
+                clientThrottleScalar = ReadFloat();
 
-			Write(enabled);
+                AfterDecode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                compressionThreshold = default;
+                compressionAlgorithm = default;
+                clientThrottleEnabled = default;
+                clientThrottleThreshold = default;
+                clientThrottleScalar = default;
+            }
+    }
 
-			BeforeDecode();
+public partial class McpePlayerAuthInput : Packet
+    {
+        public McpePlayerAuthInput()
+            {
+                Id = 0x90;
+                IsMcpe = true;
+            }
 
-			enabled = ReadBool();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterDecode();
-		}
+                BeforeEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterEncode();
+            }
 
-			enabled=default(bool);
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-	}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	public partial class McpeOnScreenTextureAnimation : Packet
-	{
+                BeforeDecode();
 
 
-		public McpeOnScreenTextureAnimation()
-		{
-			Id = 0x82;
-			IsMcpe = true;
-		}
+                AfterDecode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
+public partial class McpeCreativeContent : Packet
+    {
+        public CreativeItemStacks input; // = null;
 
-			AfterEncode();
-		}
+        public McpeCreativeContent()
+            {
+                Id = 0x91;
+                IsMcpe = true;
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeEncode();
 
-			BeforeDecode();
+                Write(input);
 
+                AfterEncode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeDecode();
 
-		}
+                input = ReadCreativeItemStacks();
 
-	}
+                AfterDecode();
+            }
 
-	public partial class McpeMapCreateLockedCopy : Packet
-	{
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		public McpeMapCreateLockedCopy()
-		{
-			Id = 0x83;
-			IsMcpe = true;
-		}
+                input = default;
+            }
+    }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+public partial class McpePlayerEnchantOptions : Packet
+    {
+        public EnchantOptions enchantOptions; // = null;
 
-			BeforeEncode();
+        public McpePlayerEnchantOptions()
+            {
+                Id = 0x92;
+                IsMcpe = true;
+            }
 
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterEncode();
-		}
+                BeforeEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                Write(enchantOptions);
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterEncode();
+            }
 
-			BeforeDecode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterDecode();
-		}
+                BeforeDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                enchantOptions = ReadEnchantOptions();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterDecode();
+            }
 
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-	}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-	public partial class McpeStructureTemplateDataExportRequest : Packet
-	{
+                enchantOptions = default;
+            }
+    }
 
+public partial class McpeItemStackRequest : Packet
+    {
+        public enum ActionType
+            {
+                Take = 0,
+                Place = 1,
+                Swap = 2,
+                Drop = 3,
+                Destroy = 4,
+                Consume = 5,
+                Create = 6,
+                PlaceIntoBundle = 7,
+                TakeFromBundle = 8,
+                LabTableCombine = 9,
+                BeaconPayment = 10,
+                MineBlock = 11,
+                CraftRecipe = 12,
+                CraftRecipeAuto = 13,
+                CraftCreative = 14,
+                CraftRecipeOptional = 15,
+                CraftGrindstone = 16,
+                CraftLoom = 17,
+                CraftNotImplementedDeprecated = 18,
+                CraftResultsDeprecated = 19
+            }
 
-		public McpeStructureTemplateDataExportRequest()
-		{
-			Id = 0x84;
-			IsMcpe = true;
-		}
+        public ItemStackRequests requests; // = null;
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        public McpeItemStackRequest()
+            {
+                Id = 0x93;
+                IsMcpe = true;
+            }
 
-			BeforeEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
+                BeforeEncode();
 
-			AfterEncode();
-		}
+                Write(requests);
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterEncode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
+                BeforeDecode();
 
-			AfterDecode();
-		}
+                requests = ReadItemStackRequests();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterDecode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-	}
+                requests = default;
+            }
+    }
 
-	public partial class McpeStructureTemplateDataExportResponse : Packet
-	{
+public partial class McpeItemStackResponse : Packet
+    {
+        public ItemStackResponses responses; // = null;
 
+        public McpeItemStackResponse()
+            {
+                Id = 0x94;
+                IsMcpe = true;
+            }
 
-		public McpeStructureTemplateDataExportResponse()
-		{
-			Id = 0x85;
-			IsMcpe = true;
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeEncode();
 
-			BeforeEncode();
+                Write(responses);
 
+                AfterEncode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeDecode();
 
-			BeforeDecode();
+                responses = ReadItemStackResponses();
 
+                AfterDecode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                responses = default;
+            }
+    }
 
-		}
+public partial class McpeUpdatePlayerGameType : Packet
+    {
+        public McpeUpdatePlayerGameType()
+            {
+                Id = 0x97;
+                IsMcpe = true;
+            }
 
-	}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-	public partial class McpeUpdateBlockProperties : Packet
-	{
+                BeforeEncode();
 
-		public Nbt namedtag; // = null;
 
-		public McpeUpdateBlockProperties()
-		{
-			Id = 0x86;
-			IsMcpe = true;
-		}
+                AfterEncode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			Write(namedtag);
+                BeforeDecode();
 
-			AfterEncode();
-		}
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterDecode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-			namedtag = ReadNbt();
+public partial class McpePacketViolationWarning : Packet
+    {
+        public int packetId; // = null;
+        public string reason; // = null;
+        public int severity; // = null;
 
-			AfterDecode();
-		}
+        public int violationType; // = null;
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        public McpePacketViolationWarning()
+            {
+                Id = 0x9c;
+                IsMcpe = true;
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			namedtag=default(Nbt);
-		}
+                BeforeEncode();
 
-	}
+                WriteSignedVarInt(violationType);
+                WriteSignedVarInt(severity);
+                WriteSignedVarInt(packetId);
+                Write(reason);
 
-	public partial class McpeClientCacheBlobStatus : Packet
-	{
+                AfterEncode();
+            }
 
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public McpeClientCacheBlobStatus()
-		{
-			Id = 0x87;
-			IsMcpe = true;
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeDecode();
 
-			BeforeEncode();
+                violationType = ReadSignedVarInt();
+                severity = ReadSignedVarInt();
+                packetId = ReadSignedVarInt();
+                reason = ReadString();
 
+                AfterDecode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                violationType = default;
+                severity = default;
+                packetId = default;
+                reason = default;
+            }
+    }
 
-			BeforeDecode();
+public partial class McpeItemComponent : Packet
+    {
+        public ItemComponentList entries; // = null;
 
+        public McpeItemComponent()
+            {
+                Id = 0xa2;
+                IsMcpe = true;
+            }
 
-			AfterDecode();
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                BeforeEncode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                Write(entries);
 
-		}
+                AfterEncode();
+            }
 
-	}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-	public partial class McpeClientCacheMissResponse : Packet
-	{
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
+                BeforeDecode();
 
-		public McpeClientCacheMissResponse()
-		{
-			Id = 0x88;
-			IsMcpe = true;
-		}
+                entries = ReadItemComponentList();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                AfterDecode();
+            }
 
-			BeforeEncode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			AfterEncode();
-		}
+                entries = default;
+            }
+    }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+public partial class McpeFilterTextPacket : Packet
+    {
+        public bool fromServer; // = null;
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        public string text; // = null;
 
-			BeforeDecode();
+        public McpeFilterTextPacket()
+            {
+                Id = 0xa3;
+                IsMcpe = true;
+            }
 
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			AfterDecode();
-		}
+                BeforeEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                Write(text);
+                Write(fromServer);
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                AfterEncode();
+            }
 
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-	}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	public partial class McpeNetworkSettings : Packet
-	{
-		public enum Compression
-		{
-			Nothing = 0,
-			Everything = 1,
-		}
+                BeforeDecode();
 
-		public short compressionThreshold; // = null;
-		public short compressionAlgorithm; // = null;
-		public bool clientThrottleEnabled; // = null;
-		public byte clientThrottleThreshold; // = null;
-		public float clientThrottleScalar; // = null;
+                text = ReadString();
+                fromServer = ReadBool();
 
-		public McpeNetworkSettings()
-		{
-			Id = 0x8f;
-			IsMcpe = true;
-		}
+                AfterDecode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			Write(compressionThreshold);
-			Write(compressionAlgorithm);
-			Write(clientThrottleEnabled);
-			Write(clientThrottleThreshold);
-			Write(clientThrottleScalar);
+                text = default;
+                fromServer = default;
+            }
+    }
 
-			AfterEncode();
-		}
+public partial class McpeEmotePacket : Packet
+    {
+        public string emoteid; // = null;
+        public byte flags; // = null;
+        public string platformid; // = null;
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        public long runtimeentityid; // = null;
+        public string xuid; // = null;
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        public McpeEmotePacket()
+            {
+                Id = 0x8a;
+                IsMcpe = true;
+            }
 
-			BeforeDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			compressionThreshold = ReadShort();
-			compressionAlgorithm = ReadShort();
-			clientThrottleEnabled = ReadBool();
-			clientThrottleThreshold = ReadByte();
-			clientThrottleScalar = ReadFloat();
+                BeforeEncode();
 
-			AfterDecode();
-		}
+                WriteUnsignedVarLong(runtimeentityid);
+                Write(xuid);
+                Write(platformid);
+                Write(emoteid);
+                Write(flags);
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterEncode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			compressionThreshold=default(short);
-			compressionAlgorithm=default(short);
-			clientThrottleEnabled=default(bool);
-			clientThrottleThreshold=default(byte);
-			clientThrottleScalar=default(float);
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	}
+                BeforeDecode();
 
-	public partial class McpePlayerAuthInput : Packet
-	{
+                runtimeentityid = ReadUnsignedVarLong();
+                xuid = ReadString();
+                platformid = ReadString();
+                emoteid = ReadString();
+                flags = ReadByte();
 
+                AfterDecode();
+            }
 
-		public McpePlayerAuthInput()
-		{
-			Id = 0x90;
-			IsMcpe = true;
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			BeforeEncode();
+                runtimeentityid = default;
+                xuid = default;
+                platformid = default;
+                emoteid = default;
+                flags = default;
+            }
+    }
 
+public partial class McpeEmoteList : Packet
+    {
+        public EmoteIds emoteids; // = null;
 
-			AfterEncode();
-		}
+        public long runtimeentityid; // = null;
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        public McpeEmoteList()
+            {
+                Id = 0x98;
+                IsMcpe = true;
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			BeforeDecode();
+                BeforeEncode();
 
+                WriteUnsignedVarLong(runtimeentityid);
+                Write(emoteids);
 
-			AfterDecode();
-		}
+                AfterEncode();
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		}
+                BeforeDecode();
 
-	}
+                runtimeentityid = ReadUnsignedVarLong();
+                emoteids = ReadEmoteId();
 
-	public partial class McpeCreativeContent : Packet
-	{
+                AfterDecode();
+            }
 
-		public CreativeItemStacks input; // = null;
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		public McpeCreativeContent()
-		{
-			Id = 0x91;
-			IsMcpe = true;
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                runtimeentityid = default;
+                emoteids = default;
+            }
+    }
 
-			BeforeEncode();
+public partial class McpePermissionRequest : Packet
+    {
+        public short flagss; // = null;
+        public uint permission; // = null;
 
-			Write(input);
+        public long runtimeentityid; // = null;
 
-			AfterEncode();
-		}
+        public McpePermissionRequest()
+            {
+                Id = 0xb9;
+                IsMcpe = true;
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeEncode();
 
-			BeforeDecode();
+                Write(runtimeentityid);
+                WriteUnsignedVarInt(permission);
+                Write(flagss);
 
-			input = ReadCreativeItemStacks();
+                AfterEncode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeDecode();
 
-			input=default(CreativeItemStacks);
-		}
+                runtimeentityid = ReadLong();
+                permission = ReadUnsignedVarInt();
+                flagss = ReadShort();
 
-	}
+                AfterDecode();
+            }
 
-	public partial class McpePlayerEnchantOptions : Packet
-	{
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		public EnchantOptions enchantOptions; // = null;
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		public McpePlayerEnchantOptions()
-		{
-			Id = 0x92;
-			IsMcpe = true;
-		}
+                runtimeentityid = default;
+                permission = default;
+                flagss = default;
+            }
+    }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+public partial class McpeSetInventoryOptions : Packet
+    {
+        public int craftinglayout; // = null;
+        public bool filtering; // = null;
+        public int inventorylayout; // = null;
 
-			BeforeEncode();
+        public int lefttab; // = null;
+        public int righttab; // = null;
 
-			Write(enchantOptions);
+        public McpeSetInventoryOptions()
+            {
+                Id = 0x133;
+                IsMcpe = true;
+            }
 
-			AfterEncode();
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                BeforeEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                WriteSignedVarInt(lefttab);
+                WriteSignedVarInt(righttab);
+                Write(filtering);
+                WriteSignedVarInt(inventorylayout);
+                WriteSignedVarInt(craftinglayout);
 
-			BeforeDecode();
+                AfterEncode();
+            }
 
-			enchantOptions = ReadEnchantOptions();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			AfterDecode();
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                BeforeDecode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                lefttab = ReadSignedVarInt();
+                righttab = ReadSignedVarInt();
+                filtering = ReadBool();
+                inventorylayout = ReadSignedVarInt();
+                craftinglayout = ReadSignedVarInt();
 
-			enchantOptions=default(EnchantOptions);
-		}
+                AfterDecode();
+            }
 
-	}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-	public partial class McpeItemStackRequest : Packet
-	{
-		public enum ActionType
-		{
-			Take = 0,
-			Place = 1,
-			Swap = 2,
-			Drop = 3,
-			Destroy = 4,
-			Consume = 5,
-			Create = 6,
-			PlaceIntoBundle = 7,
-			TakeFromBundle = 8,
-			LabTableCombine = 9,
-			BeaconPayment = 10,
-			MineBlock = 11,
-			CraftRecipe = 12,
-			CraftRecipeAuto = 13,
-			CraftCreative = 14,
-			CraftRecipeOptional = 15,
-			CraftGrindstone = 16,
-			CraftLoom = 17,
-			CraftNotImplementedDeprecated = 18,
-			CraftResultsDeprecated = 19,
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		public ItemStackRequests requests; // = null;
+                lefttab = default;
+                righttab = default;
+                filtering = default;
+                inventorylayout = default;
+                craftinglayout = default;
+            }
+    }
 
-		public McpeItemStackRequest()
-		{
-			Id = 0x93;
-			IsMcpe = true;
-		}
+public partial class McpePlayerFog : Packet
+    {
+        public fogStack fogstack; // = null;
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        public McpePlayerFog()
+            {
+                Id = 0xa0;
+                IsMcpe = true;
+            }
 
-			BeforeEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			Write(requests);
+                BeforeEncode();
 
-			AfterEncode();
-		}
+                Write(fogstack);
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterEncode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			requests = ReadItemStackRequests();
+                BeforeDecode();
 
-			AfterDecode();
-		}
+                fogstack = Read();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterDecode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			requests=default(ItemStackRequests);
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-	}
+                fogstack = default;
+            }
+    }
 
-	public partial class McpeItemStackResponse : Packet
-	{
+public partial class McpeAnvilDamage : Packet
+    {
+        public BlockCoordinates coordinates; // = null;
 
-		public ItemStackResponses responses; // = null;
+        public byte damageamount; // = null;
 
-		public McpeItemStackResponse()
-		{
-			Id = 0x94;
-			IsMcpe = true;
-		}
+        public McpeAnvilDamage()
+            {
+                Id = 0x8d;
+                IsMcpe = true;
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			BeforeEncode();
+                BeforeEncode();
 
-			Write(responses);
+                Write(damageamount);
+                Write(coordinates);
 
-			AfterEncode();
-		}
+                AfterEncode();
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			BeforeDecode();
+                BeforeDecode();
 
-			responses = ReadItemStackResponses();
+                damageamount = ReadByte();
+                coordinates = ReadBlockCoordinates();
 
-			AfterDecode();
-		}
+                AfterDecode();
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			responses=default(ItemStackResponses);
-		}
+                damageamount = default;
+                coordinates = default;
+            }
+    }
 
-	}
+public partial class McpeUpdateSubChunkBlocksPacket : Packet
+    {
+        public UpdateSubChunkBlocksPacketEntry[] layerOneUpdates; // = null;
+        public UpdateSubChunkBlocksPacketEntry[] layerZeroUpdates; // = null;
 
-	public partial class McpeUpdatePlayerGameType : Packet
-	{
+        public BlockCoordinates subchunkCoordinates; // = null;
 
+        public McpeUpdateSubChunkBlocksPacket()
+            {
+                Id = 0xac;
+                IsMcpe = true;
+            }
 
-		public McpeUpdatePlayerGameType()
-		{
-			Id = 0x97;
-			IsMcpe = true;
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeEncode();
 
-			BeforeEncode();
+                Write(subchunkCoordinates);
+                Write(layerZeroUpdates);
+                Write(layerOneUpdates);
 
+                AfterEncode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeDecode();
 
-			BeforeDecode();
+                subchunkCoordinates = ReadBlockCoordinates();
+                layerZeroUpdates = ReadUpdateSubChunkBlocksPacketEntrys();
+                layerOneUpdates = ReadUpdateSubChunkBlocksPacketEntrys();
 
+                AfterDecode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                subchunkCoordinates = default;
+                layerZeroUpdates = default;
+                layerOneUpdates = default;
+            }
+    }
 
-		}
+public partial class McpeSubChunkPacket : Packet
+    {
+        public bool cacheEnabled; // = null;
+        public int dimension; // = null;
+        public BlockCoordinates subchunkCoordinates; // = null;
 
-	}
+        public McpeSubChunkPacket()
+            {
+                Id = 0xae;
+                IsMcpe = true;
+            }
 
-	public partial class McpePacketViolationWarning : Packet
-	{
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		public int violationType; // = null;
-		public int severity; // = null;
-		public int packetId; // = null;
-		public string reason; // = null;
+                BeforeEncode();
 
-		public McpePacketViolationWarning()
-		{
-			Id = 0x9c;
-			IsMcpe = true;
-		}
+                Write(cacheEnabled);
+                WriteVarInt(dimension);
+                Write(subchunkCoordinates);
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                AfterEncode();
+            }
 
-			BeforeEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			WriteSignedVarInt(violationType);
-			WriteSignedVarInt(severity);
-			WriteSignedVarInt(packetId);
-			Write(reason);
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterEncode();
-		}
+                BeforeDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                cacheEnabled = ReadBool();
+                dimension = ReadVarInt();
+                subchunkCoordinates = ReadBlockCoordinates();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterDecode();
+            }
 
-			BeforeDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			violationType = ReadSignedVarInt();
-			severity = ReadSignedVarInt();
-			packetId = ReadSignedVarInt();
-			reason = ReadString();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			AfterDecode();
-		}
+                cacheEnabled = default;
+                dimension = default;
+                subchunkCoordinates = default;
+            }
+    }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+public partial class McpeSubChunkRequestPacket : Packet
+    {
+        public BlockCoordinates basePosition; // = null;
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        public int dimension; // = null;
+        public SubChunkPositionOffset[] offsets; // = null;
 
-			violationType=default(int);
-			severity=default(int);
-			packetId=default(int);
-			reason=default(string);
-		}
+        public McpeSubChunkRequestPacket()
+            {
+                Id = 0xaf;
+                IsMcpe = true;
+            }
 
-	}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-	public partial class McpeItemComponent : Packet
-	{
+                BeforeEncode();
 
-		public ItemComponentList entries; // = null;
+                WriteVarInt(dimension);
+                Write(basePosition);
+                Write(offsets);
 
-		public McpeItemComponent()
-		{
-			Id = 0xa2;
-			IsMcpe = true;
-		}
+                AfterEncode();
+            }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeEncode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			Write(entries);
+                BeforeDecode();
 
-			AfterEncode();
-		}
+                dimension = ReadVarInt();
+                basePosition = ReadBlockCoordinates();
+                offsets = ReadSubChunkPositionOffsets();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterDecode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			BeforeDecode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			entries = ReadItemComponentList();
+                dimension = default;
+                basePosition = default;
+                offsets = default;
+            }
+    }
 
-			AfterDecode();
-		}
+public partial class McpeDimensionData : Packet
+    {
+        public DimensionDefinitions definitions; // = null;
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        public McpeDimensionData()
+            {
+                Id = 0xb4;
+                IsMcpe = true;
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			entries=default(ItemComponentList);
-		}
+                BeforeEncode();
 
-	}
+                Write(definitions);
 
-	public partial class McpeFilterTextPacket : Packet
-	{
+                AfterEncode();
+            }
 
-		public string text; // = null;
-		public bool fromServer; // = null;
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public McpeFilterTextPacket()
-		{
-			Id = 0xa3;
-			IsMcpe = true;
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeDecode();
 
-			BeforeEncode();
+                definitions = ReadDimensionDefinitions();
 
-			Write(text);
-			Write(fromServer);
+                AfterDecode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                definitions = default;
+            }
+    }
 
-			BeforeDecode();
+public partial class McpeUpdateAbilities : Packet
+    {
+        public byte commandPermissions; // = null;
 
-			text = ReadString();
-			fromServer = ReadBool();
+        public long entityUniqueId; // = null;
+        public AbilityLayers layers; // = null;
+        public byte playerPermissions; // = null;
 
-			AfterDecode();
-		}
+        public McpeUpdateAbilities()
+            {
+                Id = 0xbb;
+                IsMcpe = true;
+            }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeEncode();
 
-			text=default(string);
-			fromServer=default(bool);
-		}
+                Write(entityUniqueId);
+                Write(playerPermissions);
+                Write(commandPermissions);
+                Write(layers);
 
-	}
+                AfterEncode();
+            }
 
-	public partial class McpeEmotePacket : Packet
-	{
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public long runtimeentityid; // = null;
-		public string xuid; // = null;
-		public string platformid; // = null;
-		public string emoteid; // = null;
-		public byte flags; // = null;
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		public McpeEmotePacket()
-		{
-			Id = 0x8a;
-			IsMcpe = true;
-		}
+                BeforeDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                entityUniqueId = ReadLong();
+                playerPermissions = ReadByte();
+                commandPermissions = ReadByte();
+                layers = ReadAbilityLayers();
 
-			BeforeEncode();
+                AfterDecode();
+            }
 
-			WriteUnsignedVarLong(runtimeentityid);
-			Write(xuid);
-			Write(platformid);
-			Write(emoteid);
-			Write(flags);
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterEncode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                entityUniqueId = default;
+                playerPermissions = default;
+                commandPermissions = default;
+                layers = default;
+            }
+    }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+public partial class McpeUpdateAdventureSettings : Packet
+    {
+        public bool autoJump; // = null;
+        public bool immutableWorld; // = null;
+        public bool noMvp; // = null;
 
-			BeforeDecode();
+        public bool noPvm; // = null;
+        public bool showNametags; // = null;
 
-			runtimeentityid = ReadUnsignedVarLong();
-			xuid = ReadString();
-			platformid = ReadString();
-			emoteid = ReadString();
-			flags = ReadByte();
+        public McpeUpdateAdventureSettings()
+            {
+                Id = 0xbc;
+                IsMcpe = true;
+            }
 
-			AfterDecode();
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                BeforeEncode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                Write(noPvm);
+                Write(noMvp);
+                Write(immutableWorld);
+                Write(showNametags);
+                Write(autoJump);
 
-			runtimeentityid=default(long);
-			xuid=default(string);
-			platformid=default(string);
-			emoteid=default(string);
-			flags=default(byte);
-		}
+                AfterEncode();
+            }
 
-	}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-	public partial class McpeEmoteList : Packet
-	{
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		public long runtimeentityid; // = null;
-		public EmoteIds emoteids; // = null;
+                BeforeDecode();
 
-		public McpeEmoteList()
-		{
-			Id = 0x98;
-			IsMcpe = true;
-		}
+                noPvm = ReadBool();
+                noMvp = ReadBool();
+                immutableWorld = ReadBool();
+                showNametags = ReadBool();
+                autoJump = ReadBool();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                AfterDecode();
+            }
 
-			BeforeEncode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			WriteUnsignedVarLong(runtimeentityid);
-			Write(emoteids);
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			AfterEncode();
-		}
+                noPvm = default;
+                noMvp = default;
+                immutableWorld = default;
+                showNametags = default;
+                autoJump = default;
+            }
+    }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+public partial class McpeRequestAbility : Packet
+    {
+        public int ability; // = null;
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        public McpeRequestAbility()
+            {
+                Id = 0xb8;
+                IsMcpe = true;
+            }
 
-			BeforeDecode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			runtimeentityid = ReadUnsignedVarLong();
-			emoteids = ReadEmoteId();
+                BeforeEncode();
 
-			AfterDecode();
-		}
+                WriteVarInt(ability);
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterEncode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			runtimeentityid=default(long);
-			emoteids=default(EmoteIds);
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-	}
+                BeforeDecode();
 
-	public partial class McpePermissionRequest : Packet
-	{
+                ability = ReadVarInt();
 
-		public long runtimeentityid; // = null;
-		public uint permission; // = null;
-		public short flagss; // = null;
+                AfterDecode();
+            }
 
-		public McpePermissionRequest()
-		{
-			Id = 0xb9;
-			IsMcpe = true;
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			BeforeEncode();
+                ability = default;
+            }
+    }
 
-			Write(runtimeentityid);
-			WriteUnsignedVarInt(permission);
-			Write(flagss);
+public partial class McpeRequestNetworkSettings : Packet
+    {
+        public int protocolVersion; // = null;
 
-			AfterEncode();
-		}
+        public McpeRequestNetworkSettings()
+            {
+                Id = 0xc1;
+                IsMcpe = true;
+            }
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                BeforeEncode();
 
-			BeforeDecode();
+                WriteBe(protocolVersion);
 
-			runtimeentityid = ReadLong();
-			permission = ReadUnsignedVarInt();
-			flagss = ReadShort();
+                AfterEncode();
+            }
 
-			AfterDecode();
-		}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                BeforeDecode();
 
-			runtimeentityid=default(long);
-			permission=default(uint);
-			flagss=default(short);
-		}
+                protocolVersion = ReadIntBe();
 
-	}
+                AfterDecode();
+            }
 
-	public partial class McpeSetInventoryOptions : Packet
-	{
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		public int lefttab; // = null;
-		public int righttab; // = null;
-		public bool filtering; // = null;
-		public int inventorylayout; // = null;
-		public int craftinglayout; // = null;
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		public McpeSetInventoryOptions()
-		{
-			Id = 0x133;
-			IsMcpe = true;
-		}
+                protocolVersion = default;
+            }
+    }
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+public partial class McpeTrimData : Packet
+    {
+        public McpeTrimData()
+            {
+                Id = 0x12e;
+                IsMcpe = true;
+            }
 
-			BeforeEncode();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			WriteSignedVarInt(lefttab);
-			WriteSignedVarInt(righttab);
-			Write(filtering);
-			WriteSignedVarInt(inventorylayout);
-			WriteSignedVarInt(craftinglayout);
+                BeforeEncode();
 
-			AfterEncode();
-		}
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                AfterEncode();
+            }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			BeforeDecode();
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			lefttab = ReadSignedVarInt();
-			righttab = ReadSignedVarInt();
-			filtering = ReadBool();
-			inventorylayout = ReadSignedVarInt();
-			craftinglayout = ReadSignedVarInt();
+                BeforeDecode();
 
-			AfterDecode();
-		}
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                AfterDecode();
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			lefttab=default(int);
-			righttab=default(int);
-			filtering=default(bool);
-			inventorylayout=default(int);
-			craftinglayout=default(int);
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-	}
+public partial class McpeOpenSign : Packet
+    {
+        public BlockCoordinates coordinates; // = null;
+        public bool front; // = null;
 
-	public partial class McpePlayerFog : Packet
-	{
+        public McpeOpenSign()
+            {
+                Id = 0x12f;
+                IsMcpe = true;
+            }
 
-		public fogStack fogstack; // = null;
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		public McpePlayerFog()
-		{
-			Id = 0xa0;
-			IsMcpe = true;
-		}
+                BeforeEncode();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                Write(coordinates);
+                Write(front);
 
-			BeforeEncode();
+                AfterEncode();
+            }
 
-			Write(fogstack);
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			AfterEncode();
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                BeforeDecode();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                coordinates = ReadBlockCoordinates();
+                front = ReadBool();
 
-			BeforeDecode();
+                AfterDecode();
+            }
 
-			fogstack = Read();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			AfterDecode();
-		}
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                coordinates = default;
+                front = default;
+            }
+    }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+public partial class McpeAlexEntityAnimation : Packet
+    {
+        public string boneId; // = null;
+        public AnimationKey[] keys; // = null;
 
-			fogstack=default(fogStack);
-		}
+        public long runtimeEntityId; // = null;
 
-	}
+        public McpeAlexEntityAnimation()
+            {
+                Id = 0xe0;
+                IsMcpe = true;
+            }
 
-	public partial class McpeAnvilDamage : Packet
-	{
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		public byte damageamount; // = null;
-		public BlockCoordinates coordinates; // = null;
+                BeforeEncode();
 
-		public McpeAnvilDamage()
-		{
-			Id = 0x8d;
-			IsMcpe = true;
-		}
+                WriteUnsignedVarLong(runtimeEntityId);
+                Write(boneId);
+                Write(keys);
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                AfterEncode();
+            }
 
-			BeforeEncode();
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-			Write(damageamount);
-			Write(coordinates);
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-			AfterEncode();
-		}
+                BeforeDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+                runtimeEntityId = ReadUnsignedVarLong();
+                boneId = ReadString();
+                keys = ReadAnimationKeys();
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+                AfterDecode();
+            }
 
-			BeforeDecode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			damageamount = ReadByte();
-			coordinates = ReadBlockCoordinates();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			AfterDecode();
-		}
+                runtimeEntityId = default;
+                boneId = default;
+                keys = default;
+            }
+    }
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+public partial class McpeWrapper : Packet
+    {
+        public McpeWrapper()
+            {
+                Id = 0xfe;
+                IsMcpe = false;
+            }
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-			damageamount=default(byte);
-			coordinates=default(BlockCoordinates);
-		}
+                BeforeEncode();
 
-	}
 
-	public partial class McpeUpdateSubChunkBlocksPacket : Packet
-	{
+                AfterEncode();
+            }
 
-		public BlockCoordinates subchunkCoordinates; // = null;
-		public UpdateSubChunkBlocksPacketEntry[] layerZeroUpdates; // = null;
-		public UpdateSubChunkBlocksPacketEntry[] layerOneUpdates; // = null;
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-		public McpeUpdateSubChunkBlocksPacket()
-		{
-			Id = 0xac;
-			IsMcpe = true;
-		}
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                BeforeDecode();
 
-			BeforeEncode();
 
-			Write(subchunkCoordinates);
-			Write(layerZeroUpdates);
-			Write(layerOneUpdates);
+                AfterDecode();
+            }
 
-			AfterEncode();
-		}
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-		partial void BeforeEncode();
-		partial void AfterEncode();
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
+            }
+    }
 
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
+public partial class FtlCreatePlayer : Packet
+    {
+        public long clientId; // = null;
+        public UUID clientuuid; // = null;
+        public string serverAddress; // = null;
+        public Skin skin; // = null;
 
-			BeforeDecode();
+        public string username; // = null;
 
-			subchunkCoordinates = ReadBlockCoordinates();
-			layerZeroUpdates = ReadUpdateSubChunkBlocksPacketEntrys();
-			layerOneUpdates = ReadUpdateSubChunkBlocksPacketEntrys();
+        public FtlCreatePlayer()
+            {
+                Id = 0x01;
+                IsMcpe = false;
+            }
 
-			AfterDecode();
-		}
+        protected override void EncodePacket()
+            {
+                base.EncodePacket();
 
-		partial void BeforeDecode();
-		partial void AfterDecode();
+                BeforeEncode();
 
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
+                Write(username);
+                Write(clientuuid);
+                Write(serverAddress);
+                Write(clientId);
+                Write(skin);
 
-			subchunkCoordinates=default(BlockCoordinates);
-			layerZeroUpdates=default(UpdateSubChunkBlocksPacketEntry[]);
-			layerOneUpdates=default(UpdateSubChunkBlocksPacketEntry[]);
-		}
+                AfterEncode();
+            }
 
-	}
+        partial void BeforeEncode();
+        partial void AfterEncode();
 
-	public partial class McpeSubChunkPacket : Packet
-	{
+        protected override void DecodePacket()
+            {
+                base.DecodePacket();
 
-		public bool cacheEnabled; // = null;
-		public int dimension; // = null;
-		public BlockCoordinates subchunkCoordinates; // = null;
+                BeforeDecode();
 
-		public McpeSubChunkPacket()
-		{
-			Id = 0xae;
-			IsMcpe = true;
-		}
+                username = ReadString();
+                clientuuid = ReadUUID();
+                serverAddress = ReadString();
+                clientId = ReadLong();
+                skin = ReadSkin();
 
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
+                AfterDecode();
+            }
 
-			BeforeEncode();
+        partial void BeforeDecode();
+        partial void AfterDecode();
 
-			Write(cacheEnabled);
-			WriteVarInt(dimension);
-			Write(subchunkCoordinates);
+        protected override void ResetPacket()
+            {
+                base.ResetPacket();
 
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			cacheEnabled = ReadBool();
-			dimension = ReadVarInt();
-			subchunkCoordinates = ReadBlockCoordinates();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			cacheEnabled=default(bool);
-			dimension=default(int);
-			subchunkCoordinates=default(BlockCoordinates);
-		}
-
-	}
-
-	public partial class McpeSubChunkRequestPacket : Packet
-	{
-
-		public int dimension; // = null;
-		public BlockCoordinates basePosition; // = null;
-		public SubChunkPositionOffset[] offsets; // = null;
-
-		public McpeSubChunkRequestPacket()
-		{
-			Id = 0xaf;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteVarInt(dimension);
-			Write(basePosition);
-			Write(offsets);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			dimension = ReadVarInt();
-			basePosition = ReadBlockCoordinates();
-			offsets = ReadSubChunkPositionOffsets();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			dimension=default(int);
-			basePosition=default(BlockCoordinates);
-			offsets=default(SubChunkPositionOffset[]);
-		}
-
-	}
-
-	public partial class McpeDimensionData : Packet
-	{
-
-		public DimensionDefinitions definitions; // = null;
-
-		public McpeDimensionData()
-		{
-			Id = 0xb4;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(definitions);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			definitions = ReadDimensionDefinitions();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			definitions=default(DimensionDefinitions);
-		}
-
-	}
-
-	public partial class McpeUpdateAbilities : Packet
-	{
-
-		public long entityUniqueId; // = null;
-		public byte playerPermissions; // = null;
-		public byte commandPermissions; // = null;
-		public AbilityLayers layers; // = null;
-
-		public McpeUpdateAbilities()
-		{
-			Id = 0xbb;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(entityUniqueId);
-			Write(playerPermissions);
-			Write(commandPermissions);
-			Write(layers);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			entityUniqueId = ReadLong();
-			playerPermissions = ReadByte();
-			commandPermissions = ReadByte();
-			layers = ReadAbilityLayers();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			entityUniqueId=default(long);
-			playerPermissions=default(byte);
-			commandPermissions=default(byte);
-			layers=default(AbilityLayers);
-		}
-
-	}
-
-	public partial class McpeUpdateAdventureSettings : Packet
-	{
-
-		public bool noPvm; // = null;
-		public bool noMvp; // = null;
-		public bool immutableWorld; // = null;
-		public bool showNametags; // = null;
-		public bool autoJump; // = null;
-
-		public McpeUpdateAdventureSettings()
-		{
-			Id = 0xbc;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(noPvm);
-			Write(noMvp);
-			Write(immutableWorld);
-			Write(showNametags);
-			Write(autoJump);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			noPvm = ReadBool();
-			noMvp = ReadBool();
-			immutableWorld = ReadBool();
-			showNametags = ReadBool();
-			autoJump = ReadBool();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			noPvm=default(bool);
-			noMvp=default(bool);
-			immutableWorld=default(bool);
-			showNametags=default(bool);
-			autoJump=default(bool);
-		}
-
-	}
-
-	public partial class McpeRequestAbility : Packet
-	{
-
-		public int ability; // = null;
-
-		public McpeRequestAbility()
-		{
-			Id = 0xb8;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteVarInt(ability);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			ability = ReadVarInt();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			ability=default(int);
-		}
-
-	}
-
-	public partial class McpeRequestNetworkSettings : Packet
-	{
-
-		public int protocolVersion; // = null;
-
-		public McpeRequestNetworkSettings()
-		{
-			Id = 0xc1;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteBe(protocolVersion);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			protocolVersion = ReadIntBe();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			protocolVersion=default(int);
-		}
-
-	}
-
-	public partial class McpeTrimData : Packet
-	{
-
-
-		public McpeTrimData()
-		{
-			Id = 0x12e;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-		}
-
-	}
-
-	public partial class McpeOpenSign : Packet
-	{
-
-		public BlockCoordinates coordinates; // = null;
-		public bool front; // = null;
-
-		public McpeOpenSign()
-		{
-			Id = 0x12f;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(coordinates);
-			Write(front);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			coordinates = ReadBlockCoordinates();
-			front = ReadBool();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			coordinates=default(BlockCoordinates);
-			front=default(bool);
-		}
-
-	}
-
-	public partial class McpeAlexEntityAnimation : Packet
-	{
-
-		public long runtimeEntityId; // = null;
-		public string boneId; // = null;
-		public AnimationKey[] keys; // = null;
-
-		public McpeAlexEntityAnimation()
-		{
-			Id = 0xe0;
-			IsMcpe = true;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			WriteUnsignedVarLong(runtimeEntityId);
-			Write(boneId);
-			Write(keys);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			runtimeEntityId = ReadUnsignedVarLong();
-			boneId = ReadString();
-			keys = ReadAnimationKeys();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			runtimeEntityId=default(long);
-			boneId=default(string);
-			keys=default(AnimationKey[]);
-		}
-
-	}
-
-	public partial class McpeWrapper : Packet
-	{
-		
-
-		public McpeWrapper()
-		{
-			Id = 0xfe;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-		}
-
-	}
-
-	public partial class FtlCreatePlayer : Packet
-	{
-
-		public string username; // = null;
-		public UUID clientuuid; // = null;
-		public string serverAddress; // = null;
-		public long clientId; // = null;
-		public Skin skin; // = null;
-
-		public FtlCreatePlayer()
-		{
-			Id = 0x01;
-			IsMcpe = false;
-		}
-
-		protected override void EncodePacket()
-		{
-			base.EncodePacket();
-
-			BeforeEncode();
-
-			Write(username);
-			Write(clientuuid);
-			Write(serverAddress);
-			Write(clientId);
-			Write(skin);
-
-			AfterEncode();
-		}
-
-		partial void BeforeEncode();
-		partial void AfterEncode();
-
-		protected override void DecodePacket()
-		{
-			base.DecodePacket();
-
-			BeforeDecode();
-
-			username = ReadString();
-			clientuuid = ReadUUID();
-			serverAddress = ReadString();
-			clientId = ReadLong();
-			skin = ReadSkin();
-
-			AfterDecode();
-		}
-
-		partial void BeforeDecode();
-		partial void AfterDecode();
-
-		protected override void ResetPacket()
-		{
-			base.ResetPacket();
-
-			username=default(string);
-			clientuuid=default(UUID);
-			serverAddress=default(string);
-			clientId=default(long);
-			skin=default(Skin);
-		}
-
-	}
-
-}
-
+                username = default;
+                clientuuid = default;
+                serverAddress = default;
+                clientId = default;
+                skin = default;
+            }
+    }

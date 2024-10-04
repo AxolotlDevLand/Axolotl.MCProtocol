@@ -1,20 +1,16 @@
-﻿using System.Collections.Generic;
+﻿namespace Axolotl.Util;
 
-namespace Axolotl.Util
-{
-    public class Experiments : List<Experiments.Experiment>
+public class Experiments : List<Experiments.Experiment>
     {
-
         public class Experiment
-        {
-            public string Name { get; }
-            public bool Enabled { get; }
-
-            public Experiment(string name, bool enabled)
             {
-                Name = name;
-                Enabled = enabled;
+                public Experiment(string name, bool enabled)
+                    {
+                        Name = name;
+                        Enabled = enabled;
+                    }
+
+                public string Name { get; }
+                public bool Enabled { get; }
             }
-        }
     }
-}

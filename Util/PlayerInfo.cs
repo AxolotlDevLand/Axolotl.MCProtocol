@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Axolotl.MCProtocol;
-using Axolotl.Auth;
-using Axolotl.Skins;
+﻿namespace Axolotl.Util;
 
-namespace Axolotl.Util
-{
-    public class PlayerInfo
-	{
-		public Skin Skin { get; set; }
-		public int ADRole { get; set; }
+using Auth;
+using MCProtocol;
+using Skins;
+
+public class PlayerInfo
+    {
+        public string Xuid { get; set; }
+        public dynamic SkinJson { get; set; }
+        public Skin Skin { get; set; }
+        public int ADRole { get; set; }
         public CertificateData CertificateData { get; set; }
         public string Username { get; set; }
         public UUID ClientUuid { get; set; }
+        public ExtraData ExtraData { get; set; }
         public string ServerAddress { get; set; }
         public long ClientId { get; set; }
         public int CurrentInputMode { get; set; }
@@ -33,4 +31,3 @@ namespace Axolotl.Util
         public string ThirdPartyName { get; set; }
         public string TenantId { get; set; }
     }
-}

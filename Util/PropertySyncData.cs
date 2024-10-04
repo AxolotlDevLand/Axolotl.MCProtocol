@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
+﻿namespace Axolotl.Util;
 
-namespace Axolotl.Util
-{
-    public class PropertySyncData
+public class PropertySyncData
     {
-        public Dictionary<uint, int> intProperties = new Dictionary<uint, int>();
-        public Dictionary<uint, float> floatProperties = new Dictionary<uint, float>();
-
+        public Dictionary<uint, float> floatProperties = new();
+        public Dictionary<uint, int> intProperties = new();
     }
-}

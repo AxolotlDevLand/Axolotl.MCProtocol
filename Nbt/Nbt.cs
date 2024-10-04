@@ -23,12 +23,11 @@
 
 #endregion
 
+namespace Axolotl.Nbts;
+
 using fNbt;
 
-namespace Axolotl.Nbts
-{
-	public class Nbt
-	{
-		public NbtFile NbtFile { get; set; }
-	}
-}
+public class Nbt
+    {
+        public NbtFile NbtFile { get; set; }
+    }

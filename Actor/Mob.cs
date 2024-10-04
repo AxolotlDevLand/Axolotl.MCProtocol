@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using Axolotl.Util;
+﻿namespace Axolotl.Actor;
 
-namespace Axolotl.Actor
-{
-   public class Mob
+using System.Numerics;
+using Util;
+
+public class Mob
     {
         public Level Level { get; set; }
 
@@ -54,4 +49,3 @@ namespace Axolotl.Actor
         public double RiderMaxRotation { get; set; }
         public double RiderMinRotation { get; set; }
     }
-}

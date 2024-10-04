@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Axolotl.Actor;
-using Axolotl.MCProtocol;
-using Axolotl.Auth;
-using Axolotl.Util;
-using Axolotl.Skins;
+﻿namespace Axolotl.Actor;
 
-namespace Axolotl.Actor
-{
-    public class Player : Mob
+using System.Net;
+using Auth;
+using MCProtocol;
+using Skins;
+using Util;
+
+public class Player : Mob
     {
-        public Player() { }
+        public Player()
+            {
+            }
+
         public Player(object server, IPEndPoint endPoint)
-        {
-            EndPoint = endPoint;
-        }
+            {
+                EndPoint = endPoint;
+            }
+
         public IPEndPoint EndPoint { get; private set; }
         public PlayerLocation SpawnPosition { get; set; }
         public bool IsSleeping { get; set; } = false;
@@ -41,4 +39,3 @@ namespace Axolotl.Actor
         public float MovementSpeed { get; set; } = 0.1f;
         public Skin Skin { get; set; }
     }
-}

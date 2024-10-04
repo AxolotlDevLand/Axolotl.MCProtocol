@@ -23,13 +23,10 @@
 
 #endregion
 
-using System.Collections.Generic;
+namespace Axolotl.Skins;
 
-namespace Axolotl.Skins
-{
-	public class SkinPiece
-	{
-		public string PieceType { get; set; }
-		public List<string> Colors { get; set; } = new List<string>();
-	}
-}
+public class SkinPiece
+    {
+        public string PieceType { get; set; }
+        public List<string> Colors { get; set; } = new();
+    }

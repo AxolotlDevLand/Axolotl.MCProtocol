@@ -4,7 +4,7 @@
 
 	<constants>
 		<constant id="OFFLINE_MESSAGE_DATA_ID" type="byte[]"
-				value="{ 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 }" />
+		          value="{ 0x00, 0xff, 0xff, 0x00, 0xfe, 0xfe, 0xfe, 0xfe, 0xfd, 0xfd, 0xfd, 0xfd, 0x12, 0x34, 0x56, 0x78 }" />
 	</constants>
 
 	<pdu namespace="raknet" id="0x00" online="false" client="true" server="true" name="ID_CONNECTED_PING">
@@ -665,7 +665,7 @@
 
 		<enum id="Default" value="(BuildAndMine | DoorsAndSwitches | OpenContainers | AttackPlayers | AttackMobs )" />
 		<enum id="All"
-			value="(BuildAndMine | DoorsAndSwitches | OpenContainers | AttackPlayers | AttackMobs | Operator | Teleport)" />
+		      value="(BuildAndMine | DoorsAndSwitches | OpenContainers | AttackPlayers | AttackMobs | Operator | Teleport)" />
 	</enums>
 
 	<pdu id="0x37" online="false" client="true" server="true" name="MCPE_ADVENTURE_SETTINGS">
@@ -1170,14 +1170,14 @@
 			<enum id="Take from bundle" value="8" />
 			<enum id="Lab table combine" value="9" />
 			<enum id="Beacon payment" value="10" />
-			<enum id="Mine Block" value="11"/>
+			<enum id="Mine Block" value="11" />
 			<enum id="Craft recipe" value="12" />
 			<enum id="Craft recipe Auto" value="13" />
 			<enum id="Craft creative" value="14" />
 			<enum id="Craft recipe optional" value="15" />
-			<enum id="Craft Grindstone" value="16"/>
-			<enum id="Craft loom" value="17"/>
-			<enum id="Craft not implemented deprecated" value="18"/>
+			<enum id="Craft Grindstone" value="16" />
+			<enum id="Craft loom" value="17" />
+			<enum id="Craft not implemented deprecated" value="18" />
 			<enum id="Craft results deprecated" value="19" />
 		</enums>
 		<field name="Requests" type="ItemStackRequests" />
@@ -1202,55 +1202,55 @@
 
 	<pdu id="0xa3" online="false" client="true" server="true" name="MCPE_FILTER_TEXT_PACKET">
 		<field name="Text" type="string" />
-		<field name="From server" type="bool"/>
+		<field name="From server" type="bool" />
 	</pdu>
 	<pdu id="0x8a" online="false" client="true" server="true" name="MCPE_EMOTE_PACKET">
 		<field name="runtimeEntityId" type="UnsignedVarLong" />
-		<field name="xuid" type="string"/>
-		<field name="platformId" type="string"/>
-		<field name="emoteId" type="string"/>
-		<field name="flags" type="byte"/>
+		<field name="xuid" type="string" />
+		<field name="platformId" type="string" />
+		<field name="emoteId" type="string" />
+		<field name="flags" type="byte" />
 	</pdu>
 	<pdu id="0x98" online="false" client="true" server="true" name="MCPE_EMOTE_LIST">
 		<field name="runtimeEntityId" type="UnsignedVarLong" />
-		<field name="emoteids" type="EmoteIds"/>
+		<field name="emoteids" type="EmoteIds" />
 	</pdu>
 	<pdu id="0xb9" online="false" client="true" server="true" name="MCPE_PERMISSION_REQUEST">
 		<field name="runtimeEntityId" type="long" />
-		<field name="permission" type="UnsignedVarInt"/>
-		<field name="flagss" type="short"/>
+		<field name="permission" type="UnsignedVarInt" />
+		<field name="flagss" type="short" />
 	</pdu>
 	<pdu id="0x133" online="false" client="true" server="true" name="MCPE_SET_INVENTORY_OPTIONS">
 		<field name="leftTab" type="SignedVarInt" />
-		<field name="rightTab" type="SignedVarInt"/>
-		<field name="filtering" type="bool"/>
-		<field name="inventoryLayout" type="SignedVarInt"/>
-		<field name="craftingLayout" type="SignedVarInt"/>
+		<field name="rightTab" type="SignedVarInt" />
+		<field name="filtering" type="bool" />
+		<field name="inventoryLayout" type="SignedVarInt" />
+		<field name="craftingLayout" type="SignedVarInt" />
 	</pdu>
 	<pdu id="0xa0" online="false" client="true" server="true" name="MCPE_PLAYER_FOG">
 		<field name="fogStack" type="fogStack" />
 	</pdu>
 	<pdu id="0x8D" online="false" client="true" server="true" name="MCPE_ANVIL_DAMAGE">
 		<field name="damageAmount" type="byte" />
-		<field name="coordinates" type="BlockCoordinates"/>
+		<field name="coordinates" type="BlockCoordinates" />
 	</pdu>
 	<pdu id="0xac" online="false" client="true" server="true" name="MCPE_UPDATE_SUB_CHUNK_BLOCKS_PACKET">
-		<field name="Subchunk coordinates" type="BlockCoordinates"/>
-		<field name="Layer zero updates" type="UpdateSubChunkBlocksPacketEntry[]"/>
-		<field name="Layer one updates" type="UpdateSubChunkBlocksPacketEntry[]"/>
+		<field name="Subchunk coordinates" type="BlockCoordinates" />
+		<field name="Layer zero updates" type="UpdateSubChunkBlocksPacketEntry[]" />
+		<field name="Layer one updates" type="UpdateSubChunkBlocksPacketEntry[]" />
 	</pdu>
 
 	<pdu id="0xae" online="false" client="false" server="true" name="MCPE_SUB_CHUNK_PACKET">
 		<field name="Cache enabled" type="bool" />
 		<field name="Dimension" type="VarInt" />
-		<field name="Subchunk coordinates" type="BlockCoordinates"/>
+		<field name="Subchunk coordinates" type="BlockCoordinates" />
 
 	</pdu>
 
 	<pdu id="0xaf" online="false" client="true" server="false" name="MCPE_SUB_CHUNK_REQUEST_PACKET">
 		<field name="Dimension" type="VarInt" />
-		<field name="Base Position" type="BlockCoordinates"/>
-		<field name="Offsets" type="SubChunkPositionOffset[]"/>
+		<field name="Base Position" type="BlockCoordinates" />
+		<field name="Offsets" type="SubChunkPositionOffset[]" />
 	</pdu>
 
 	<pdu id="0xb4" online="false" client="false" server="true" name="MCPE_DIMENSION_DATA">

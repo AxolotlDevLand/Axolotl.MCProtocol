@@ -23,29 +23,26 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
+namespace Axolotl;
 
-using Axolotl.MCProtocol;
-using Axolotl.Items;
+using Items;
+using MCProtocol;
 
-namespace Axolotl
-{
-    public class Recipes : List<Recipe>
+public class Recipes : List<Recipe>
     {
     }
 
-    public abstract class Recipe
+public abstract class Recipe
     {
-        public UUID Id { get; set; } = new UUID(Guid.NewGuid().ToString());
+        public UUID Id { get; set; } = new(Guid.NewGuid().ToString());
         public string Block { get; set; }
     }
 
-    /// <summary>
-    /// These are recipe keys to indicate special recipe actions that doesn't
-    /// fit into normal recipes.
-    /// </summary>
-    public class MultiRecipe : Recipe
+/// <summary>
+///     These are recipe keys to indicate special recipe actions that doesn't
+///     fit into normal recipes.
+/// </summary>
+public class MultiRecipe : Recipe
     {
         // From PMMP
         //public const TYPE_REPAIR_ITEM = "00000000-0000-0000-0000-000000000001";
@@ -64,139 +61,140 @@ namespace Axolotl
         public int UniqueId { get; set; }
     }
 
-    public class ShapelessRecipe : Recipe
+public class ShapelessRecipe : Recipe
     {
-        public int UniqueId { get; set; }
-        public List<Item> Input { get; private set; }
-        public List<Item> Result { get; private set; }
-
         public ShapelessRecipe()
-        {
-            Input = new List<Item>();
-            Result = new List<Item>();
-        }
+            {
+                Input = new List<Item>();
+                Result = new List<Item>();
+            }
 
         public ShapelessRecipe(List<Item> result, List<Item> input, string block = null) : this()
-        {
-            Result = result;
-            Input = input;
-            Block = block;
-        }
+            {
+                Result = result;
+                Input = input;
+                Block = block;
+            }
 
         public ShapelessRecipe(Item result, List<Item> input, string block = null) : this()
-        {
-            Result.Add(result);
-            Input = input;
-            Block = block;
-        }
+            {
+                Result.Add(result);
+                Input = input;
+                Block = block;
+            }
 
+        public int UniqueId { get; set; }
+        public List<Item> Input { get; private set; }
+        public List<Item> Result { get; }
     }
 
-    public class ShapedRecipe : Recipe
+public class ShapedRecipe : Recipe
     {
+        public ShapedRecipe(int width, int height)
+            {
+                Width = width;
+                Height = height;
+                Input = new Item[Width * height];
+                Result = new List<Item>();
+            }
+
+        public ShapedRecipe(int width, int height, Item result, Item[] input, string block = null) : this(width, height)
+            {
+                Result.Add(result);
+                Input = input;
+                Block = block;
+            }
+
+        public ShapedRecipe(int width, int height, List<Item> result, Item[] input, string block = null) : this(width,
+            height)
+            {
+                Result = result;
+                Input = input;
+                Block = block;
+            }
+
         public int UniqueId { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
         public Item[] Input { get; set; }
         public List<Item> Result { get; set; }
-
-        public ShapedRecipe(int width, int height)
-        {
-            Width = width;
-            Height = height;
-            Input = new Item[Width * height];
-            Result = new List<Item>();
-        }
-
-        public ShapedRecipe(int width, int height, Item result, Item[] input, string block = null) : this(width, height)
-        {
-            Result.Add(result);
-            Input = input;
-            Block = block;
-        }
-
-        public ShapedRecipe(int width, int height, List<Item> result, Item[] input, string block = null) : this(width, height)
-        {
-            Result = result;
-            Input = input;
-            Block = block;
-        }
-
     }
 
-    public class SmeltingRecipe : Recipe
+public class SmeltingRecipe : Recipe
     {
-        public Item Input { get; set; }
-        public Item Result { get; set; }
-
         public SmeltingRecipe()
-        {
-        }
+            {
+            }
 
         public SmeltingRecipe(Item result, Item input, string block = null) : this()
-        {
-            Result = result;
-            Input = input;
-            Block = block;
-        }
+            {
+                Result = result;
+                Input = input;
+                Block = block;
+            }
+
+        public Item Input { get; set; }
+        public Item Result { get; set; }
     }
 
-    public class SmithingTransformRecipe : Recipe
+public class SmithingTransformRecipe : Recipe
     {
-        public String RecipeId { get; set; }
-        public int UniqueId { get; set; }
-        public Item Template { get; set; }
-        public Item Input { get; set; }
-        public Item Addition { get; set; }
-        public Item Output { get; set; }
-
         public SmithingTransformRecipe()
-        {
-        }
+            {
+            }
 
-        public SmithingTransformRecipe(String recipeid, Item output, Item template, Item input, Item addition, string block) : this()
-        {
-            RecipeId = recipeid;
-            Output = output;
-            Template = template;
-            Input = input;
-            Addition = addition;
-            Block = block;
-        }
-    }
+        public SmithingTransformRecipe(string recipeid, Item output, Item template, Item input, Item addition,
+            string block) : this()
+            {
+                RecipeId = recipeid;
+                Output = output;
+                Template = template;
+                Input = input;
+                Addition = addition;
+                Block = block;
+            }
 
-    public class SmithingTrimRecipe : Recipe
-    {
-        public String RecipeId { get; set; }
+        public string RecipeId { get; set; }
         public int UniqueId { get; set; }
         public Item Template { get; set; }
         public Item Input { get; set; }
         public Item Addition { get; set; }
         public Item Output { get; set; }
-
-        public SmithingTrimRecipe()
-        {
-        }
-
-        public SmithingTrimRecipe(string recipeid, Item output, Item template, Item input, Item addition, string block) : this()
-        {
-            RecipeId = recipeid;
-            Output = output;
-            Template = template;
-            Input = input;
-            Addition = addition;
-            Block = block;
-        }
     }
 
-    public class PotionContainerChangeRecipe
+public class SmithingTrimRecipe : Recipe
+    {
+        public SmithingTrimRecipe()
+            {
+            }
+
+        public SmithingTrimRecipe(string recipeid, Item output, Item template, Item input, Item addition,
+            string block) : this()
+            {
+                RecipeId = recipeid;
+                Output = output;
+                Template = template;
+                Input = input;
+                Addition = addition;
+                Block = block;
+            }
+
+        public string RecipeId { get; set; }
+        public int UniqueId { get; set; }
+        public Item Template { get; set; }
+        public Item Input { get; set; }
+        public Item Addition { get; set; }
+        public Item Output { get; set; }
+    }
+
+public class PotionContainerChangeRecipe
     {
         public int Input { get; set; }
         public int Ingredient { get; set; }
         public int Output { get; set; }
     }
 
-    public class PotionTypeRecipe
+public class PotionTypeRecipe
     {
         public int Input { get; set; }
         public int InputMeta { get; set; }
@@ -206,42 +204,38 @@ namespace Axolotl
         public int OutputMeta { get; set; }
     }
 
-    public class MaterialReducerRecipe
+public class MaterialReducerRecipe
     {
+        public MaterialReducerRecipe()
+            {
+            }
+
+        public MaterialReducerRecipe(int inputId, int inputMeta, params MaterialReducerRecipeOutput[] outputs)
+            {
+                Input = inputId;
+                InputMeta = inputMeta;
+
+                Output = outputs;
+            }
+
         public int Input { get; set; }
         public int InputMeta { get; set; }
 
         public MaterialReducerRecipeOutput[] Output { get; set; }
 
-        public MaterialReducerRecipe()
-        {
-
-        }
-
-        public MaterialReducerRecipe(int inputId, int inputMeta, params MaterialReducerRecipeOutput[] outputs)
-        {
-            Input = inputId;
-            InputMeta = inputMeta;
-
-            Output = outputs;
-        }
-
         public class MaterialReducerRecipeOutput
-        {
-            public int ItemId { get; set; }
-            public int ItemCount { get; set; }
-
-            public MaterialReducerRecipeOutput()
             {
+                public MaterialReducerRecipeOutput()
+                    {
+                    }
 
-            }
+                public MaterialReducerRecipeOutput(int itemId, int itemCount)
+                    {
+                        ItemId = itemId;
+                        ItemCount = itemCount;
+                    }
 
-            public MaterialReducerRecipeOutput(int itemId, int itemCount)
-            {
-                ItemId = itemId;
-                ItemCount = itemCount;
+                public int ItemId { get; set; }
+                public int ItemCount { get; set; }
             }
-        }
     }
-
-}

@@ -1,6 +1,8 @@
-﻿namespace fNbt {
-    /// <summary> Enumeration of named binary tag types, and their corresponding codes. </summary>
-    public enum NbtTagType : byte {
+﻿namespace fNbt;
+
+/// <summary> Enumeration of named binary tag types, and their corresponding codes. </summary>
+public enum NbtTagType : byte
+    {
         /// <summary> Placeholder TagType used to indicate unknown/undefined tag type in NbtList. </summary>
         Unknown = 0xff,
 
@@ -40,7 +42,6 @@
         /// <summary> TAG_Byte_Array: A length-prefixed array of signed 32-bit integers. </summary>
         IntArray = 0x0b,
 
-		/// <summary> TAG_Long_Array: A length-prefixed array of signed 64-bit integers. </summary>
-	    LongArray = 12
-	}
-}
+        /// <summary> TAG_Long_Array: A length-prefixed array of signed 64-bit integers. </summary>
+        LongArray = 12
+    }

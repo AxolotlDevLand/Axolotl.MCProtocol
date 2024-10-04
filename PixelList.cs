@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
+﻿namespace Axolotl;
 
-namespace Axolotl
-{
-    public class pixelList
+public class pixelList
     {
-        public List<pixelsData> mapData = new List<pixelsData>();
+        public List<pixelsData> mapData = new();
     }
-    public class pixelsData
+
+public class pixelsData
     {
-        public uint pixel;
         public short index;
+        public uint pixel;
     }
-}

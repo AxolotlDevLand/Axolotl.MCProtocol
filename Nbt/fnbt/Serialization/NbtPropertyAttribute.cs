@@ -1,17 +1,14 @@
-﻿using System;
+﻿namespace fNbt.Serialization;
 
-namespace fNbt.Serialization
-{
-	[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-	public class NbtPropertyAttribute : Attribute
-	{
-		public string Name { get; }
-		public bool HideDefault { get; }
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+public class NbtPropertyAttribute : Attribute
+    {
+        public NbtPropertyAttribute(string name = null, bool hideDefault = true)
+            {
+                Name = name;
+                HideDefault = hideDefault;
+            }
 
-		public NbtPropertyAttribute(string name = null, bool hideDefault = true)
-		{
-			Name = name;
-			HideDefault = hideDefault;
-		}
-	}
-}
+        public string Name { get; }
+        public bool HideDefault { get; }
+    }

@@ -23,45 +23,43 @@
 
 #endregion
 
-using System;
+namespace Axolotl.Skins;
+
 using System.Numerics;
 using Newtonsoft.Json;
 
-namespace Axolotl.Skins
-{
-	public enum Face
-	{
-		None,
-		Inside,
-		Top,
-		Bottom,
-		Right,
-		Front,
-		Left,
-		Back,
-	}
+public enum Face
+    {
+        None,
+        Inside,
+        Top,
+        Bottom,
+        Right,
+        Front,
+        Left,
+        Back
+    }
 
-	public class Cube : ICloneable
-	{
-		public float[] Origin { get; set; } = new float[3];
-		public float[] Size { get; set; } = new float[3];
-		public float[] Uv { get; set; } = new float[3];
-		public float Inflate { get; set; }
-		public bool Mirror { get; set; }
+public class Cube : ICloneable
+    {
+        public float[] Origin { get; set; } = new float[3];
+        public float[] Size { get; set; } = new float[3];
+        public float[] Uv { get; set; } = new float[3];
+        public float Inflate { get; set; }
+        public bool Mirror { get; set; }
 
-		[JsonIgnore] public Vector3 Velocity { get; set; } = Vector3.Zero;
+        [JsonIgnore] public Vector3 Velocity { get; set; } = Vector3.Zero;
 
-		[JsonIgnore] public Face Face { get; set; } = Face.None;
+        [JsonIgnore] public Face Face { get; set; } = Face.None;
 
-		public object Clone()
-		{
-			var cube = (Cube) MemberwiseClone();
+        public object Clone()
+            {
+                Cube cube = (Cube)MemberwiseClone();
 
-			cube.Origin = (float[]) Origin?.Clone();
-			cube.Size = (float[]) Size?.Clone();
-			cube.Uv = (float[]) Uv?.Clone();
+                cube.Origin = (float[])Origin?.Clone();
+                cube.Size = (float[])Size?.Clone();
+                cube.Uv = (float[])Uv?.Clone();
 
-			return cube;
-		}
-	}
-}
+                return cube;
+            }
+    }

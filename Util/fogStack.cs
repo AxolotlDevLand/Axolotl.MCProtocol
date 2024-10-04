@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
+﻿namespace Axolotl.Util;
 
-namespace Axolotl.Util
-{
-    public class fogStack
+public class fogStack
     {
-        public List<string> fogList = new List<string>();
+        public List<string> fogList = new();
 
         public fogStack(params string[] efects)
-        {
-            fogList.AddRange(efects);
-        }
+            {
+                fogList.AddRange(efects);
+            }
     }
-}

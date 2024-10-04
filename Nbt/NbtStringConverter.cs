@@ -23,75 +23,60 @@
 
 #endregion
 
-using System;
+namespace Axolotl.Nbts;
+
 using fNbt;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Axolotl.Nbts{
-	public class NbtStringConverter : JsonConverter
-	{
-		public override bool CanConvert(Type objectType)
-		{
-			return (objectType == typeof(NbtString));
-		}
+public class NbtStringConverter : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+            {
+                return objectType == typeof(NbtString);
+            }
 
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-		{
-		}
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+            }
 
-		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-		{
-			JToken token = JToken.Load(reader);
-			return token.Value<string>();
-		}
-	}
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+            JsonSerializer serializer)
+            {
+                JToken token = JToken.Load(reader);
+                return token.Value<string>();
+            }
+    }
 
-	public class NbtIntConverter : JsonConverter
-	{
-		public override bool CanConvert(Type objectType)
-		{
-			return objectType == typeof(NbtLong) || objectType == typeof(NbtInt) || objectType == typeof(NbtShort) || objectType == typeof(NbtByte) || objectType == typeof(NbtByteArray) || objectType == typeof(NbtFloat);
-		}
+public class NbtIntConverter : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+            {
+                return objectType == typeof(NbtLong) || objectType == typeof(NbtInt) ||
+                       objectType == typeof(NbtShort) || objectType == typeof(NbtByte) ||
+                       objectType == typeof(NbtByteArray) || objectType == typeof(NbtFloat);
+            }
 
-		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-		{
-		}
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+            {
+            }
 
-		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-		{
-			JToken token = JToken.Load(reader);
-			if (objectType == typeof(NbtLong))
-			{
-				return token.Value<long>();
-			}
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+            JsonSerializer serializer)
+            {
+                JToken token = JToken.Load(reader);
+                if (objectType == typeof(NbtLong)) return token.Value<long>();
 
-			if (objectType == typeof(NbtInt))
-			{
-				return token.Value<int>();
-			}
+                if (objectType == typeof(NbtInt)) return token.Value<int>();
 
-			if (objectType == typeof(NbtShort))
-			{
-				return token.Value<short>();
-			}
+                if (objectType == typeof(NbtShort)) return token.Value<short>();
 
-			if (objectType == typeof(NbtByte))
-			{
-				return token.Value<byte>();
-			}
+                if (objectType == typeof(NbtByte)) return token.Value<byte>();
 
-			if (objectType == typeof(NbtByteArray))
-			{
-				return token.Value<byte[]>();
-			}
+                if (objectType == typeof(NbtByteArray)) return token.Value<byte[]>();
 
-			if (objectType == typeof(NbtFloat))
-			{
-				return token.Value<float>();
-			}
+                if (objectType == typeof(NbtFloat)) return token.Value<float>();
 
-			return 0;
-		}
-	}
-}
+                return 0;
+            }
+    }

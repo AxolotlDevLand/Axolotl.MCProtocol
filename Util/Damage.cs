@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Axolotl.Util;
 
-namespace Axolotl.Util
-{
-    public enum DamageCause
+using System.ComponentModel;
+
+public enum DamageCause
     {
         [Description("{0} went MIA")] Unknown,
 
@@ -42,7 +37,7 @@ namespace Axolotl.Util
         Custom
     }
 
-    public class HealthManager
+public class HealthManager
     {
         public int MaxHealth { get; set; } = 200;
         public int Health { get; set; }
@@ -58,5 +53,3 @@ namespace Axolotl.Util
         public bool IsInvulnerable { get; set; }
         public DamageCause LastDamageCause { get; set; }
     }
-
-}

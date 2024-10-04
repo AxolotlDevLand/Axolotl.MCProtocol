@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Axolotl.Util;
 
-namespace Axolotl.Util
-{
-    public enum Dimension
+public enum Dimension
     {
         Overworld = 0,
         Nether = 1,
         TheEnd = 2
     }
-    public enum GameMode
+
+public enum GameMode
     {
         /// <summary>
         ///     Players fight against the enviornment, mobs, and players
@@ -40,7 +35,8 @@ namespace Axolotl.Util
         /// </summary>
         Spectator = 3
     }
-    public enum Difficulty
+
+public enum Difficulty
     {
         Peaceful,
         Easy,
@@ -48,4 +44,3 @@ namespace Axolotl.Util
         Hard,
         Hardcore
     }
-}

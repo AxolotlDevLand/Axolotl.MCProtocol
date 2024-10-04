@@ -1,329 +1,311 @@
-﻿using System;
+﻿namespace fNbt.Serialization;
+
 using System.Collections;
-using System.Linq;
 using System.Reflection;
 
-namespace fNbt.Serialization
-{
-	/// <summary>
-	///		Basic NBT Serializer implementation provided by https://github.com/DarkLexFirst
-	/// </summary>
-	public static class NbtSerializer
-	{
-		private const BindingFlags MemberBindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
+/// <summary>
+///     Basic NBT Serializer implementation provided by https://github.com/DarkLexFirst
+/// </summary>
+public static class NbtSerializer
+    {
+        private const BindingFlags MemberBindingFlags =
+            BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
 
-		public static NbtCompound SerializeObject(object value)
-		{
-			return (NbtCompound)SerializeChild(null, value);
-		}
+        public static NbtCompound SerializeObject(object value)
+            {
+                return (NbtCompound)SerializeChild(null, value);
+            }
 
-		public static T DeserializeObject<T>(NbtTag tag)
-		{
-			return (T)DeserializeChild(typeof(T), tag);
-		}
+        public static T DeserializeObject<T>(NbtTag tag)
+            {
+                return (T)DeserializeChild(typeof(T), tag);
+            }
 
-		public static void FillObject<T>(T value, NbtTag tag) where T : class
-		{
-			FillObject(value, value.GetType(), tag);
-		}
+        public static void FillObject<T>(T value, NbtTag tag) where T : class
+            {
+                FillObject(value, value.GetType(), tag);
+            }
 
-		private static NbtTag SerializeChild(string name, object value)
-		{
-			if (value is NbtTag normalValue)
-			{
-				normalValue = (NbtTag)normalValue.Clone();
-				normalValue.Name = name;
-				return normalValue;
-			}
+        private static NbtTag SerializeChild(string name, object value)
+            {
+                if (value is NbtTag normalValue)
+                    {
+                        normalValue = (NbtTag)normalValue.Clone();
+                        normalValue.Name = name;
+                        return normalValue;
+                    }
 
-			var tag = CreateBaseTag(name, value);
-			if (tag != null) return tag;
+                NbtTag? tag = CreateBaseTag(name, value);
+                if (tag != null) return tag;
 
-			if (value is IList list)
-			{
-				return GetNbtList(name, list);
-			}
-			else if (value is IDictionary dictionary)
-			{
-				return GetNbtCompound(name, dictionary);
-			}
+                if (value is IList list)
+                    return GetNbtList(name, list);
+                if (value is IDictionary dictionary) return GetNbtCompound(name, dictionary);
 
-			var type = value.GetType();
+                Type type = value.GetType();
 
-			var properties = type.GetProperties(MemberBindingFlags);
-			var fields = type.GetFields(MemberBindingFlags);
+                PropertyInfo[] properties = type.GetProperties(MemberBindingFlags);
+                FieldInfo[] fields = type.GetFields(MemberBindingFlags);
 
-			if (properties.Length == 0 && fields.Length == 0) return null;
+                if (properties.Length == 0 && fields.Length == 0) return null;
 
-			var nbt = new NbtCompound();
-			if (name != null) nbt.Name = name;
+                NbtCompound nbt = new();
+                if (name != null) nbt.Name = name;
 
-			foreach (var property in properties)
-			{
-				var child = SerializeMember(property, property.GetValue(value));
-				if (child != null) nbt.Add(child);
-			}
+                foreach (PropertyInfo property in properties)
+                    {
+                        NbtTag? child = SerializeMember(property, property.GetValue(value));
+                        if (child != null) nbt.Add(child);
+                    }
 
-			foreach (var filed in fields)
-			{
-				var child = SerializeMember(filed, filed.GetValue(value));
-				if (child != null) nbt.Add(child);
-			}
+                foreach (FieldInfo filed in fields)
+                    {
+                        NbtTag? child = SerializeMember(filed, filed.GetValue(value));
+                        if (child != null) nbt.Add(child);
+                    }
 
-			if (nbt.Count == 0) return null;
+                if (nbt.Count == 0) return null;
 
-			return nbt;
-		}
+                return nbt;
+            }
 
-		private static NbtTag SerializeMember(MemberInfo memberInfo, object value)
-		{
-			var attribute = GetAttribute(memberInfo);
-			if (attribute == null) return null;
+        private static NbtTag SerializeMember(MemberInfo memberInfo, object value)
+            {
+                NbtPropertyAttribute? attribute = GetAttribute(memberInfo);
+                if (attribute == null) return null;
 
-			if (attribute.HideDefault && value.Equals(GetDefaultValue(value))) return null;
+                if (attribute.HideDefault && value.Equals(GetDefaultValue(value))) return null;
 
-			string childName = attribute.Name ?? memberInfo.Name;
-			return SerializeChild(childName, value);
-		}
+                string childName = attribute.Name ?? memberInfo.Name;
+                return SerializeChild(childName, value);
+            }
 
-		public static object GetDefaultValue(object value)
-		{
-			var type = value.GetType();
+        public static object GetDefaultValue(object value)
+            {
+                Type type = value.GetType();
 
-			if (type == typeof(byte) || type == typeof(sbyte) ||
-				type == typeof(short) || type == typeof(ushort) ||
-				type == typeof(int) || type == typeof(uint) ||
-				type == typeof(long) || type == typeof(ulong) ||
-				type == typeof(double) || type == typeof(float))
-				return 0;
-			else if (type == typeof(bool))
-				return false;
+                if (type == typeof(byte) || type == typeof(sbyte) ||
+                    type == typeof(short) || type == typeof(ushort) ||
+                    type == typeof(int) || type == typeof(uint) ||
+                    type == typeof(long) || type == typeof(ulong) ||
+                    type == typeof(double) || type == typeof(float))
+                    return 0;
+                if (type == typeof(bool))
+                    return false;
 
-			return null;
-		}
+                return null;
+            }
 
-		private static object DeserializeChild(Type type, NbtTag tag)
-		{
-			if (typeof(NbtTag).IsAssignableFrom(type))
-			{
-				tag = (NbtTag)tag.Clone();
-				tag.Name = null;
-				return tag;
-			}
+        private static object DeserializeChild(Type type, NbtTag tag)
+            {
+                if (typeof(NbtTag).IsAssignableFrom(type))
+                    {
+                        tag = (NbtTag)tag.Clone();
+                        tag.Name = null;
+                        return tag;
+                    }
 
-			var value = GetValueFromTag(tag, type);
-			if (value != null) return value;
+                object? value = GetValueFromTag(tag, type);
+                if (value != null) return value;
 
-			if (typeof(IList).IsAssignableFrom(type))
-			{
-				return GetList(type, (NbtList)tag);
-			}
-			else if (typeof(IDictionary).IsAssignableFrom(type))
-			{
-				return GetDictionary(type, (NbtCompound)tag);
-			}
+                if (typeof(IList).IsAssignableFrom(type))
+                    return GetList(type, (NbtList)tag);
+                if (typeof(IDictionary).IsAssignableFrom(type)) return GetDictionary(type, (NbtCompound)tag);
 
-			value = Activator.CreateInstance(type);
+                value = Activator.CreateInstance(type);
 
-			DeserializeBase(value, type, tag);
+                DeserializeBase(value, type, tag);
 
-			return value;
-		}
+                return value;
+            }
 
-		private static void DeserializeBase(object value, Type type, NbtTag tag)
-		{
-			var compound = (NbtCompound)tag;
+        private static void DeserializeBase(object value, Type type, NbtTag tag)
+            {
+                NbtCompound compound = (NbtCompound)tag;
 
-			var properties = type.GetProperties();
-			var fields = type.GetFields();
+                PropertyInfo[] properties = type.GetProperties();
+                FieldInfo[] fields = type.GetFields();
 
-			if (compound.Count == 0) return;
+                if (compound.Count == 0) return;
 
-			foreach (var property in properties)
-			{
-				if (!TryGetMemberTag(property, compound, out NbtTag child)) continue;
+                foreach (PropertyInfo property in properties)
+                    {
+                        if (!TryGetMemberTag(property, compound, out NbtTag child)) continue;
 
-				if (property.SetMethod == null)
-				{
-					FillObject(property.GetValue(value), property.PropertyType, child);
-					continue;
-				}
+                        if (property.SetMethod == null)
+                            {
+                                FillObject(property.GetValue(value), property.PropertyType, child);
+                                continue;
+                            }
 
-				property.SetValue(value, DeserializeChild(property.PropertyType, child));
-			}
+                        property.SetValue(value, DeserializeChild(property.PropertyType, child));
+                    }
 
-			foreach (var filed in fields)
-			{
-				if (!TryGetMemberTag(filed, compound, out NbtTag child)) continue;
-				filed.SetValue(value, DeserializeChild(filed.FieldType, child));
-			}
-		}
+                foreach (FieldInfo filed in fields)
+                    {
+                        if (!TryGetMemberTag(filed, compound, out NbtTag child)) continue;
+                        filed.SetValue(value, DeserializeChild(filed.FieldType, child));
+                    }
+            }
 
-		private static bool TryGetMemberTag(MemberInfo memberInfo, NbtCompound compound, out NbtTag tag)
-		{
-			tag = null;
+        private static bool TryGetMemberTag(MemberInfo memberInfo, NbtCompound compound, out NbtTag tag)
+            {
+                tag = null;
 
-			var attribute = GetAttribute(memberInfo);
-			if (attribute == null) return false;
+                NbtPropertyAttribute? attribute = GetAttribute(memberInfo);
+                if (attribute == null) return false;
 
-			string childName = attribute.Name ?? memberInfo.Name;
-			return compound.TryGet(childName, out tag);
-		}
+                string childName = attribute.Name ?? memberInfo.Name;
+                return compound.TryGet(childName, out tag);
+            }
 
-		private static void FillObject(object value, Type type, NbtTag tag)
-		{
-			var baseTypeValue = GetValueFromTag(tag, type);
-			if (baseTypeValue != null) return;
+        private static void FillObject(object value, Type type, NbtTag tag)
+            {
+                object? baseTypeValue = GetValueFromTag(tag, type);
+                if (baseTypeValue != null) return;
 
-			if (value is IList list)
-			{
-				list.Clear();
-				FillList(list, list.GetType(), (NbtList)tag);
-				return;
-			}
-			else if (value is IDictionary dictionary)
-			{
-				dictionary.Clear();
-				FillDictionary(dictionary, dictionary.GetType(), (NbtCompound)tag);
-				return;
-			}
+                if (value is IList list)
+                    {
+                        list.Clear();
+                        FillList(list, list.GetType(), (NbtList)tag);
+                        return;
+                    }
 
-			DeserializeBase(value, type, tag);
-		}
+                if (value is IDictionary dictionary)
+                    {
+                        dictionary.Clear();
+                        FillDictionary(dictionary, dictionary.GetType(), (NbtCompound)tag);
+                        return;
+                    }
 
-		private static NbtPropertyAttribute GetAttribute(MemberInfo memberInfo)
-		{
-			return memberInfo.GetCustomAttribute<NbtPropertyAttribute>();
-		}
+                DeserializeBase(value, type, tag);
+            }
 
-		private static NbtTag CreateBaseTag(string name, object value)
-		{
-			var type = value.GetType();
+        private static NbtPropertyAttribute GetAttribute(MemberInfo memberInfo)
+            {
+                return memberInfo.GetCustomAttribute<NbtPropertyAttribute>();
+            }
 
-			if (type == typeof(byte) || type == typeof(sbyte) || type == typeof(bool))
-				return new NbtByte(name, Convert.ToByte(value));
-			else if (type == typeof(short) || type == typeof(ushort))
-				return new NbtShort(name, Convert.ToInt16(value));
-			else if (type == typeof(int) || type == typeof(uint))
-				return new NbtInt(name, Convert.ToInt32(value));
-			else if (type == typeof(long) || type == typeof(ulong))
-				return new NbtLong(name, Convert.ToInt64(value));
-			else if (type == typeof(double))
-				return new NbtDouble(name, (double)value);
-			else if (type == typeof(float))
-				return new NbtFloat(name, (float)value);
-			else if (type == typeof(string))
-				return new NbtString(name, (string)value);
-			else if (type == typeof(byte[]))
-				return new NbtByteArray(name, (byte[])value);
-			else if (type == typeof(int[]))
-				return new NbtIntArray(name, (int[])value);
+        private static NbtTag CreateBaseTag(string name, object value)
+            {
+                Type type = value.GetType();
 
-			return null;
-		}
+                if (type == typeof(byte) || type == typeof(sbyte) || type == typeof(bool))
+                    return new NbtByte(name, Convert.ToByte(value));
+                if (type == typeof(short) || type == typeof(ushort))
+                    return new NbtShort(name, Convert.ToInt16(value));
+                if (type == typeof(int) || type == typeof(uint))
+                    return new NbtInt(name, Convert.ToInt32(value));
+                if (type == typeof(long) || type == typeof(ulong))
+                    return new NbtLong(name, Convert.ToInt64(value));
+                if (type == typeof(double))
+                    return new NbtDouble(name, (double)value);
+                if (type == typeof(float))
+                    return new NbtFloat(name, (float)value);
+                if (type == typeof(string))
+                    return new NbtString(name, (string)value);
+                if (type == typeof(byte[]))
+                    return new NbtByteArray(name, (byte[])value);
+                if (type == typeof(int[]))
+                    return new NbtIntArray(name, (int[])value);
 
-		private static object GetValueFromTag(NbtTag tag, Type type)
-		{
-			switch (tag)
-			{
-				case NbtByte _value:
-					if (type == typeof(bool))
-						return Convert.ToBoolean(_value.Value);
-					else if (type == typeof(sbyte))
-						return (sbyte)_value.Value;
-					return _value.Value;
-				case NbtShort _value:
-					if (type == typeof(ushort))
-						return (ushort)_value.Value;
-					return _value.Value;
-				case NbtInt _value:
-					if (type == typeof(uint))
-						return (uint)_value.Value;
-					return _value.Value;
-				case NbtLong _value:
-					if (type == typeof(ulong))
-						return (ulong)_value.Value;
-					return _value.Value;
-				case NbtDouble _value: return _value.Value;
-				case NbtFloat _value: return _value.Value;
-				case NbtString _value: return _value.Value;
-				case NbtByteArray _value: return _value.Value;
-				case NbtIntArray _value: return _value.Value;
-				default: return null;
-			};
-		}
+                return null;
+            }
 
-		private static NbtList GetNbtList(string name, IList list)
-		{
-			if (list.Count == 0) return null;
+        private static object GetValueFromTag(NbtTag tag, Type type)
+            {
+                switch (tag)
+                    {
+                        case NbtByte _value:
+                            if (type == typeof(bool))
+                                return Convert.ToBoolean(_value.Value);
+                            if (type == typeof(sbyte))
+                                return (sbyte)_value.Value;
+                            return _value.Value;
+                        case NbtShort _value:
+                            if (type == typeof(ushort))
+                                return (ushort)_value.Value;
+                            return _value.Value;
+                        case NbtInt _value:
+                            if (type == typeof(uint))
+                                return (uint)_value.Value;
+                            return _value.Value;
+                        case NbtLong _value:
+                            if (type == typeof(ulong))
+                                return (ulong)_value.Value;
+                            return _value.Value;
+                        case NbtDouble _value: return _value.Value;
+                        case NbtFloat _value: return _value.Value;
+                        case NbtString _value: return _value.Value;
+                        case NbtByteArray _value: return _value.Value;
+                        case NbtIntArray _value: return _value.Value;
+                        default: return null;
+                    }
 
-			var nbt = new NbtList();
-			if (name != null) nbt.Name = name;
+                ;
+            }
 
-			foreach (var value in list)
-			{
-				nbt.Add(SerializeChild(null, value));
-			}
+        private static NbtList GetNbtList(string name, IList list)
+            {
+                if (list.Count == 0) return null;
 
-			return nbt;
-		}
+                NbtList nbt = new();
+                if (name != null) nbt.Name = name;
 
-		private static IList GetList(Type type, NbtList tag)
-		{
-			var list = (IList)Activator.CreateInstance(type);
+                foreach (object? value in list) nbt.Add(SerializeChild(null, value));
 
-			FillList(list, type, tag);
-			return list;
-		}
+                return nbt;
+            }
 
-		private static void FillList(IList list, Type type, NbtList tag)
-		{
-			if (tag.Count == 0) return;
+        private static IList GetList(Type type, NbtList tag)
+            {
+                IList? list = (IList)Activator.CreateInstance(type);
 
-			var listType = type.GetGenericArguments().First();
+                FillList(list, type, tag);
+                return list;
+            }
 
-			foreach (var child in tag)
-			{
-				list.Add(DeserializeChild(listType, child));
-			}
-		}
+        private static void FillList(IList list, Type type, NbtList tag)
+            {
+                if (tag.Count == 0) return;
 
-		private static NbtCompound GetNbtCompound(string name, IDictionary dictionary)
-		{
-			if (dictionary.Count == 0) return null;
-			if (dictionary.GetType().GetGenericArguments().First() != typeof(string)) return null;
+                Type listType = type.GetGenericArguments().First();
 
-			var keys = dictionary.Keys.GetEnumerator();
-			var values = dictionary.Values.GetEnumerator();
+                foreach (NbtTag child in tag) list.Add(DeserializeChild(listType, child));
+            }
 
-			var nbt = new NbtCompound();
-			if (name != null) nbt.Name = name;
+        private static NbtCompound GetNbtCompound(string name, IDictionary dictionary)
+            {
+                if (dictionary.Count == 0) return null;
+                if (dictionary.GetType().GetGenericArguments().First() != typeof(string)) return null;
 
-			while (keys.MoveNext() && values.MoveNext())
-			{
-				var childName = (string)keys.Current;
-				nbt.Add(SerializeChild(childName, values.Current));
-			}
+                IEnumerator keys = dictionary.Keys.GetEnumerator();
+                IEnumerator values = dictionary.Values.GetEnumerator();
 
-			return nbt;
-		}
+                NbtCompound nbt = new();
+                if (name != null) nbt.Name = name;
 
-		private static IDictionary GetDictionary(Type type, NbtCompound tag)
-		{
-			var dictionary = (IDictionary)Activator.CreateInstance(type);
+                while (keys.MoveNext() && values.MoveNext())
+                    {
+                        string childName = (string)keys.Current;
+                        nbt.Add(SerializeChild(childName, values.Current));
+                    }
 
-			FillDictionary(dictionary, type, tag);
-			return dictionary;
-		}
+                return nbt;
+            }
 
-		private static void FillDictionary(IDictionary dictionary, Type type, NbtCompound tag)
-		{
-			var dictionaryType = type.GetGenericArguments().Last();
+        private static IDictionary GetDictionary(Type type, NbtCompound tag)
+            {
+                IDictionary? dictionary = (IDictionary)Activator.CreateInstance(type);
 
-			foreach (var child in tag)
-			{
-				dictionary.Add(child.Name, DeserializeChild(dictionaryType, child));
-			}
-		}
-	}
-}
+                FillDictionary(dictionary, type, tag);
+                return dictionary;
+            }
+
+        private static void FillDictionary(IDictionary dictionary, Type type, NbtCompound tag)
+            {
+                Type dictionaryType = type.GetGenericArguments().Last();
+
+                foreach (NbtTag child in tag) dictionary.Add(child.Name, DeserializeChild(dictionaryType, child));
+            }
+    }

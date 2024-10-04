@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
+﻿namespace Axolotl.Util;
 
-using Axolotl.MCProtocol;
+using MCProtocol;
 
-namespace Axolotl.Util
-{
-    public class EmoteIds
+public class EmoteIds
     {
-        public List<UUID> emoteId = new List<UUID>();
+        public List<UUID> emoteId = new();
     }
-}

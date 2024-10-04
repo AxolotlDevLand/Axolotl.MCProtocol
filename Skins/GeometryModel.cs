@@ -23,76 +23,68 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+namespace Axolotl.Skins;
+
 using Newtonsoft.Json;
 
-namespace Axolotl.Skins
-{
-	public class GeometryModel : ICloneable
-	{
-		[JsonProperty(PropertyName = "format_version")]
-		public string FormatVersion { get; set; } = "1.12.0";
+public class GeometryModel : ICloneable
+    {
+        [JsonProperty(PropertyName = "format_version")]
+        public string FormatVersion { get; set; } = "1.12.0";
 
-		[JsonProperty(PropertyName = "minecraft:geometry")]
-		public List<Geometry> Geometry { get; set; } = new List<Geometry>();
+        [JsonProperty(PropertyName = "minecraft:geometry")]
+        public List<Geometry> Geometry { get; set; } = new();
 
-		public Geometry FindGeometry(string geometryName, bool matchPartial = true)
-		{
-			string fullName = Geometry.FirstOrDefault(g => matchPartial ? 
-				g.Description.Identifier.StartsWith(geometryName, StringComparison.InvariantCultureIgnoreCase) 
-				: g.Description.Identifier.Equals(geometryName, StringComparison.InvariantCultureIgnoreCase))
-				?.Description.Identifier;
+        public object Clone()
+            {
+                GeometryModel model = (GeometryModel)MemberwiseClone();
+                model.Geometry = new List<Geometry>();
+                foreach (Geometry records in Geometry) model.Geometry.Add((Geometry)records.Clone());
 
-			if (fullName == null) return null;
+                return model;
+            }
 
-			Geometry geometry = Geometry.First(g => g.Description.Identifier == fullName);
-			geometry.Name = fullName;
+        public Geometry FindGeometry(string geometryName, bool matchPartial = true)
+            {
+                string fullName = Geometry.FirstOrDefault(g => matchPartial
+                        ? g.Description.Identifier.StartsWith(geometryName, StringComparison.InvariantCultureIgnoreCase)
+                        : g.Description.Identifier.Equals(geometryName, StringComparison.InvariantCultureIgnoreCase))
+                    ?.Description.Identifier;
 
-			//if (fullName.Contains(":"))
-			//{
-			//	geometry.BaseGeometry = fullName.Split(':')[1];
-			//}
+                if (fullName == null) return null;
 
-			return geometry;
-		}
+                Geometry geometry = Geometry.First(g => g.Description.Identifier == fullName);
+                geometry.Name = fullName;
 
-		public Geometry CollapseToDerived(Geometry derived)
-		{
-			if(derived == null) throw new ArgumentNullException(nameof(derived));
+                //if (fullName.Contains(":"))
+                //{
+                //	geometry.BaseGeometry = fullName.Split(':')[1];
+                //}
 
-			return derived;
+                return geometry;
+            }
 
-			/*var collapsed = (Geometry) derived.Clone();
+        public Geometry CollapseToDerived(Geometry derived)
+            {
+                if (derived == null) throw new ArgumentNullException(nameof(derived));
 
-			if (collapsed.BaseGeometry != null)
-			{
-				Geometry baseGeometry = (Geometry) FindGeometry(collapsed.BaseGeometry).Clone();
+                return derived;
 
-				foreach (var bone in baseGeometry.Bones)
-				{
-					if (collapsed.Bones.SingleOrDefault(b => b.Name == bone.Name) == null)
-					{
-						collapsed.Bones.Add(bone);
-					}
-				}
-			}
+                /*var collapsed = (Geometry) derived.Clone();
 
-			return collapsed;*/
-		}
+                if (collapsed.BaseGeometry != null)
+                {
+                    Geometry baseGeometry = (Geometry) FindGeometry(collapsed.BaseGeometry).Clone();
 
-		public object Clone()
-		{
-			var model = (GeometryModel) MemberwiseClone();
-			model.Geometry = new List<Geometry>();
-			foreach (var records in Geometry)
-			{
-				model.Geometry.Add((Geometry) records.Clone());
-			}
+                    foreach (var bone in baseGeometry.Bones)
+                    {
+                        if (collapsed.Bones.SingleOrDefault(b => b.Name == bone.Name) == null)
+                        {
+                            collapsed.Bones.Add(bone);
+                        }
+                    }
+                }
 
-			return model;
-		}
-	}
-}
+                return collapsed;*/
+            }
+    }

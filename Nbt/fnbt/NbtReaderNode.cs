@@ -1,10 +1,11 @@
-﻿namespace fNbt {
-    // Represents state of a node in the NBT file tree, used by NbtReader
-    internal sealed class NbtReaderNode {
-        public string ParentName;
-        public NbtTagType ParentTagType;
-        public NbtTagType ListType;
-        public int ParentTagLength;
+﻿namespace fNbt;
+
+// Represents state of a node in the NBT file tree, used by NbtReader
+internal sealed class NbtReaderNode
+    {
         public int ListIndex;
+        public NbtTagType ListType;
+        public string ParentName;
+        public int ParentTagLength;
+        public NbtTagType ParentTagType;
     }
-}

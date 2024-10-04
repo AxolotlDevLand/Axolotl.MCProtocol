@@ -23,68 +23,58 @@
 
 #endregion
 
-using System;
-using System.IO;
+namespace Axolotl.Metadata;
+
 using System.Text;
 
+public class MetadataString : MetadataEntry
+    {
+        public MetadataString()
+            {
+            }
 
-namespace Axolotl.Metadata
-{
-	public class MetadataString : MetadataEntry
-	{
-		public override byte Identifier
-		{
-			get { return 4; }
-		}
+        public MetadataString(string value)
+            {
+                Value = value;
+            }
 
-		public override string FriendlyName
-		{
-			get { return "string"; }
-		}
+        public override byte Identifier => 4;
 
-		public string Value { get; set; }
+        public override string FriendlyName => "string";
 
-		public static implicit operator MetadataString(string value)
-		{
-			return new MetadataString(value);
-		}
+        public string Value { get; set; }
 
-		public MetadataString()
-		{
-		}
+        public static implicit operator MetadataString(string value)
+            {
+                return new MetadataString(value);
+            }
 
-		public MetadataString(string value)
-		{
-			Value = value;
-		}
+        public override void FromStream(BinaryReader reader)
+            {
+                try
+                    {
+                        int len = VarInt.ReadInt32(reader.BaseStream);
 
-		public override void FromStream(BinaryReader reader)
-		{
-			try
-			{
-				var len = VarInt.ReadInt32(reader.BaseStream);
+                        byte[] bytes = new byte[len];
+                        reader.BaseStream.Read(bytes, 0, len);
+                        Value = Encoding.UTF8.GetString(bytes);
+                    }
+                catch (Exception e)
+                    {
+                        throw e;
+                    }
+            }
 
-				byte[] bytes = new byte[len];
-				reader.BaseStream.Read(bytes, 0, len);
-				Value = Encoding.UTF8.GetString(bytes);
-			}
-			catch (Exception e)
-			{
-				throw e;
-			}
-		}
+        public override void WriteTo(BinaryWriter stream)
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(Value);
+                VarInt.WriteInt32(stream.BaseStream, bytes.Length);
 
-		public override void WriteTo(BinaryWriter stream)
-		{
-			byte[] bytes = Encoding.UTF8.GetBytes(Value);
-			VarInt.WriteInt32(stream.BaseStream, bytes.Length);
+                stream.Write(bytes);
+            }
 
-			stream.Write(bytes);
-		}
-
-		public override string ToString()
-		{
-			return string.Format("({0}) '{2}'", FriendlyName, Identifier, Value);
-		}
-	}
-}
+        public override string ToString()
+            {
+                return string.Format("({0}) '{2}'", FriendlyName, Identifier, Value);
+            }
+    }

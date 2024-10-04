@@ -23,47 +23,40 @@
 
 #endregion
 
-using System.IO;
-using Axolotl.MCProtocol.Packet;
+namespace Axolotl.Metadata;
+
 using fNbt;
+using MCProtocol.Packet;
 
-namespace Axolotl.Metadata {
-	public class MetadataNbt : MetadataEntry
-	{
-		public override byte Identifier
-		{
-			get { return 5; }
-		}
+public class MetadataNbt : MetadataEntry
+    {
+        public MetadataNbt()
+            {
+            }
 
-		public override string FriendlyName
-		{
-			get { return "nbt"; }
-		}
+        public MetadataNbt(NbtCompound value)
+            {
+                Value = value;
+            }
 
-		public NbtCompound Value { get; set; }
+        public override byte Identifier => 5;
 
-		public MetadataNbt()
-		{
-		}
+        public override string FriendlyName => "nbt";
 
-		public MetadataNbt(NbtCompound value)
-		{
-			Value = value;
-		}
+        public NbtCompound Value { get; set; }
 
-		public override void FromStream(BinaryReader reader)
-		{
-			Value = (NbtCompound) Packet.ReadNbt(reader.BaseStream).NbtFile.RootTag;
-		}
+        public override void FromStream(BinaryReader reader)
+            {
+                Value = (NbtCompound)Packet.ReadNbt(reader.BaseStream).NbtFile.RootTag;
+            }
 
-		public override void WriteTo(BinaryWriter stream)
-		{
-			NbtCompound nbt = Value;
+        public override void WriteTo(BinaryWriter stream)
+            {
+                NbtCompound nbt = Value;
 
-			byte[] bytes = Packet.GetNbtData(nbt);
-			stream.Write((ushort) 0xffff);
-			stream.Write((byte) 0x01);
-			stream.Write(bytes);
-		}
-	}
-}
+                byte[] bytes = Packet.GetNbtData(nbt);
+                stream.Write((ushort)0xffff);
+                stream.Write((byte)0x01);
+                stream.Write(bytes);
+            }
+    }

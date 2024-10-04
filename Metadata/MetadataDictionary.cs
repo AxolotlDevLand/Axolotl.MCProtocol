@@ -23,202 +23,191 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
+namespace Axolotl.Metadata;
+
 using System.Globalization;
-using System.IO;
-using System.Linq;
 using System.Text;
 
-namespace Axolotl.Metadata
-{
-	/// <summary>
-	///     Used to send metadata with entities
-	/// </summary>
-	public class MetadataDictionary
-	{
+/// <summary>
+///     Used to send metadata with entities
+/// </summary>
+public class MetadataDictionary
+    {
+        public delegate MetadataEntry CreateEntryInstance();
 
-		public readonly Dictionary<int, MetadataEntry> _entries;
+        public static readonly CreateEntryInstance[] EntryTypes =
+            {
+                () => new MetadataByte(), // 0
+                () => new MetadataShort(), // 1
+                () => new MetadataInt(), // 2
+                () => new MetadataFloat(), // 3
+                () => new MetadataString(), // 4
+                () => new MetadataNbt(), // 5
+                () => new MetadataIntCoordinates(), // 6
+                () => new MetadataLong(), // 7
+                () => new MetadataVector3() // 8
+            };
 
-		public MetadataDictionary()
-		{
-			_entries = new Dictionary<int, MetadataEntry>();
-		}
+        public readonly Dictionary<int, MetadataEntry> _entries;
 
-		public int Count
-		{
-			get { return _entries.Count; }
-		}
+        public MetadataDictionary()
+            {
+                _entries = new Dictionary<int, MetadataEntry>();
+            }
 
-		public MetadataEntry this[int index]
-		{
-			get { return _entries[index]; }
-			set { _entries[index] = value; }
-		}
+        public int Count => _entries.Count;
 
-		public MetadataEntry[] GetValues()
-		{
-			return _entries.Values.ToArray();
-		}
+        public MetadataEntry this[int index]
+            {
+                get => _entries[index];
+                set => _entries[index] = value;
+            }
 
-		public bool Contains(byte index)
-		{
-			return _entries.ContainsKey(index);
-		}
+        public MetadataEntry[] GetValues()
+            {
+                return _entries.Values.ToArray();
+            }
 
-		public static MetadataDictionary FromStream(BinaryReader reader)
-		{
-			Stream stream = reader.BaseStream;
-			MetadataDictionary metadata = new MetadataDictionary();
+        public bool Contains(byte index)
+            {
+                return _entries.ContainsKey(index);
+            }
 
-			{
-				var count = VarInt.ReadInt32(stream);
+        public static MetadataDictionary FromStream(BinaryReader reader)
+            {
+                Stream stream = reader.BaseStream;
+                MetadataDictionary metadata = new();
 
-				for (int i = 0; i < count; i++)
-				{
-					int index = VarInt.ReadInt32(stream);
-					int type = VarInt.ReadInt32(stream);
-					var entry = EntryTypes[type]();
+                {
+                    int count = VarInt.ReadInt32(stream);
 
-					entry.FromStream(reader);
-					entry.Index = (byte) index;
+                    for (int i = 0; i < count; i++)
+                        {
+                            int index = VarInt.ReadInt32(stream);
+                            int type = VarInt.ReadInt32(stream);
+                            MetadataEntry entry = EntryTypes[type]();
 
-					metadata[index] = entry;
-				}
-			}
+                            entry.FromStream(reader);
+                            entry.Index = (byte)index;
 
-			return metadata;
-		}
+                            metadata[index] = entry;
+                        }
+                }
 
-		public void WriteTo(BinaryWriter writer)
-		{
-			Stream stream = writer.BaseStream;
+                return metadata;
+            }
 
-			VarInt.WriteInt32(stream, _entries.Count);
-			foreach (var entry in _entries)
-			{
-				VarInt.WriteInt32(stream, entry.Key);
-				VarInt.WriteInt32(stream, entry.Value.Identifier);
-				entry.Value.WriteTo(writer);
-			}
-		}
+        public void WriteTo(BinaryWriter writer)
+            {
+                Stream stream = writer.BaseStream;
 
-		public delegate MetadataEntry CreateEntryInstance();
+                VarInt.WriteInt32(stream, _entries.Count);
+                foreach (KeyValuePair<int, MetadataEntry> entry in _entries)
+                    {
+                        VarInt.WriteInt32(stream, entry.Key);
+                        VarInt.WriteInt32(stream, entry.Value.Identifier);
+                        entry.Value.WriteTo(writer);
+                    }
+            }
 
-		public static readonly CreateEntryInstance[] EntryTypes = new CreateEntryInstance[]
-		{
-			() => new MetadataByte(), // 0
-			() => new MetadataShort(), // 1
-			() => new MetadataInt(), // 2
-			() => new MetadataFloat(), // 3
-			() => new MetadataString(), // 4
-			() => new MetadataNbt(), // 5
-			() => new MetadataIntCoordinates(), // 6
-			() => new MetadataLong(), // 7
-			() => new MetadataVector3(), // 8
-		};
+        public override string ToString()
+            {
+                StringBuilder sb = null;
 
-		public override string ToString()
-		{
-			StringBuilder sb = null;
+                foreach (KeyValuePair<int, MetadataEntry> entry in _entries)
+                    {
+                        if (sb != null)
+                            sb.Append(", ");
+                        else
+                            sb = new StringBuilder();
 
-			foreach (var entry in _entries)
-			{
-				if (sb != null)
-					sb.Append(", ");
-				else
-					sb = new StringBuilder();
+                        sb.Append("[" + entry.Key + "]");
+                        sb.Append(entry.Value);
+                    }
 
-				sb.Append("[" + entry.Key + "]");
-				sb.Append(entry.Value.ToString());
-			}
+                if (sb != null)
+                    return sb.ToString();
 
-			if (sb != null)
-				return sb.ToString();
+                return string.Empty;
+            }
 
-			return string.Empty;
-		}
 
-		
+        public static string MetadataToCode(MetadataDictionary metadata)
+            {
+                StringBuilder sb = new();
 
-		public static string MetadataToCode(MetadataDictionary metadata)
-		{
-			StringBuilder sb = new StringBuilder();
+                sb.AppendLine();
+                sb.AppendLine("MetadataDictionary metadata = new MetadataDictionary();");
 
-			sb.AppendLine();
-			sb.AppendLine("MetadataDictionary metadata = new MetadataDictionary();");
+                foreach (KeyValuePair<int, MetadataEntry> kvp in metadata._entries)
+                    {
+                        int idx = kvp.Key;
+                        MetadataEntry entry = kvp.Value;
 
-			foreach (var kvp in metadata._entries)
-			{
-				int idx = kvp.Key;
-				MetadataEntry entry = kvp.Value;
+                        sb.Append($"metadata[{idx}] = new ");
+                        switch (entry.Identifier)
+                            {
+                                case 0:
+                                    {
+                                        MetadataByte e = (MetadataByte)entry;
+                                        sb.Append($"{e.GetType().Name}({e.Value});");
+                                        break;
+                                    }
+                                case 1:
+                                    {
+                                        MetadataShort e = (MetadataShort)entry;
+                                        sb.Append($"{e.GetType().Name}({e.Value});");
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        MetadataInt e = (MetadataInt)entry;
+                                        sb.Append($"{e.GetType().Name}({e.Value});");
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        MetadataFloat e = (MetadataFloat)entry;
+                                        sb.Append(
+                                            $"{e.GetType().Name}({e.Value.ToString(NumberFormatInfo.InvariantInfo)}f);");
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        MetadataString e = (MetadataString)entry;
+                                        sb.Append($"{e.GetType().Name}(\"{e.Value}\");");
+                                        break;
+                                    }
+                                case 5:
+                                    {
+                                        MetadataNbt e = (MetadataNbt)entry;
+                                        sb.Append($"{e.GetType().Name}({e.Value});");
+                                        break;
+                                    }
+                                case 6:
+                                    {
+                                        MetadataIntCoordinates e = (MetadataIntCoordinates)entry;
+                                        sb.Append($"{e.GetType().Name}({e.Value});");
+                                        break;
+                                    }
+                                case 7:
+                                    {
+                                        MetadataLong e = (MetadataLong)entry;
+                                        sb.Append($"{e.GetType().Name}({e.Value});");
+                                        if (idx == 0) sb.Append($" // {Convert.ToString(e.Value, 2)}");
+                                        break;
+                                    }
+                                case 8:
+                                    {
+                                        MetadataVector3 e = (MetadataVector3)entry;
+                                        sb.Append($"{e.GetType().Name}({e.Value});");
+                                        break;
+                                    }
+                            }
 
-				sb.Append($"metadata[{idx}] = new ");
-				switch (entry.Identifier)
-				{
-					case 0:
-					{
-						var e = (MetadataByte) entry;
-						sb.Append($"{e.GetType().Name}({e.Value});");
-						break;
-					}
-					case 1:
-					{
-						var e = (MetadataShort) entry;
-						sb.Append($"{e.GetType().Name}({e.Value});");
-						break;
-					}
-					case 2:
-					{
-						var e = (MetadataInt) entry;
-						sb.Append($"{e.GetType().Name}({e.Value});");
-						break;
-					}
-					case 3:
-					{
-						var e = (MetadataFloat) entry;
-						sb.Append($"{e.GetType().Name}({e.Value.ToString(NumberFormatInfo.InvariantInfo)}f);");
-						break;
-					}
-					case 4:
-					{
-						var e = (MetadataString) entry;
-						sb.Append($"{e.GetType().Name}(\"{e.Value}\");");
-						break;
-					}
-					case 5:
-					{
-						var e = (MetadataNbt) entry;
-						sb.Append($"{e.GetType().Name}({e.Value});");
-						break;
-					}
-					case 6:
-					{
-						var e = (MetadataIntCoordinates) entry;
-						sb.Append($"{e.GetType().Name}({e.Value});");
-						break;
-					}
-					case 7:
-					{
-						var e = (MetadataLong) entry;
-						sb.Append($"{e.GetType().Name}({e.Value});");
-						if (idx == 0)
-						{
-							sb.Append($" // {Convert.ToString(e.Value, 2)}");
-						}
-						break;
-					}
-					case 8:
-					{
-						var e = (MetadataVector3) entry;
-						sb.Append($"{e.GetType().Name}({e.Value});");
-						break;
-					}
-				}
-				sb.AppendLine();
-			}
+                        sb.AppendLine();
+                    }
 
-			return sb.ToString();
-		}
-	}
-}
+                return sb.ToString();
+            }
+    }
