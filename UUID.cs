@@ -2,10 +2,9 @@
 
 public class UUID
     {
-        private readonly Guid _guid;
-
         private readonly ulong _a;
         private readonly ulong _b;
+        private readonly Guid _guid;
 
         public UUID(byte[] rfc4122Bytes)
             {

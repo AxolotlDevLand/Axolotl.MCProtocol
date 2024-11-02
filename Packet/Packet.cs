@@ -19,7 +19,7 @@ using Nbts;
 using Newtonsoft.Json;
 using Skins;
 using Util;
-using VarInt = System.VarInt;
+using VarInt = VarInt;
 
 public abstract class Packet
     {
@@ -43,10 +43,10 @@ public abstract class Packet
 
         private static readonly RecyclableMemoryStreamManager _streamManager = new();
         private static readonly ConcurrentDictionary<int, bool> _isLob = new();
-        private protected Stream _buffer;
-        private byte[] _encodedMessage;
 
         private readonly object _encodeSync = new();
+        private protected Stream _buffer;
+        private byte[] _encodedMessage;
         protected MemoryStreamReader _reader; // new construct for reading
         private BinaryWriter _writer;
         public int Id;

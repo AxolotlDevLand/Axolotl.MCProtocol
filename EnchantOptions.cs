@@ -102,7 +102,7 @@ public class Enchant
 
         private List<EnchantmentLevel> GetEnchantmentLevels()
             {
-                List<EnchantmentLevel> enchantmentLevels = new List<EnchantmentLevel>();
+                List<EnchantmentLevel> enchantmentLevels = new();
                 switch ((EnchantingType)Id)
                     {
                         case EnchantingType.Protection:

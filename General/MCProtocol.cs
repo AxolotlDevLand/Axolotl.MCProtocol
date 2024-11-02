@@ -4,6 +4,7 @@
 
 // friendly name
 
+#pragma warning disable
 namespace Axolotl.MCProtocol.Packet;
 
 using System.Net;
@@ -16,8 +17,8 @@ using Util;
 
 public class McpeProtocolInfo
     {
-        public const int ProtocolVersion = 582;
-        public const string GameVersion = "1.19.80";
+        public const int ProtocolVersion = 729;
+        public const string GameVersion = "1.21.31";
     }
 
 public enum AdventureFlags
@@ -377,7 +378,7 @@ public partial class OpenConnectionReply1 : Packet
         public short mtuSize; // = null;
         public long serverGuid; // = null;
         public byte serverHasSecurity; // = null;
-
+        public int Cookie;
         public OpenConnectionReply1()
             {
                 Id = 0x06;
@@ -393,6 +394,10 @@ public partial class OpenConnectionReply1 : Packet
                 Write(offlineMessageDataId);
                 Write(serverGuid);
                 Write(serverHasSecurity);
+                if (serverHasSecurity == 0x01)
+                    {
+                        Write(Cookie);
+                    }
                 WriteBe(mtuSize);
 
                 AfterEncode();
@@ -410,8 +415,11 @@ public partial class OpenConnectionReply1 : Packet
                 ReadBytes(offlineMessageDataId.Length);
                 serverGuid = ReadLong();
                 serverHasSecurity = ReadByte();
+                if (serverHasSecurity == 0x01)
+                    {
+                       Cookie = ReadInt();
+                    }
                 mtuSize = ReadShortBe();
-
                 AfterDecode();
             }
 
@@ -425,6 +433,7 @@ public partial class OpenConnectionReply1 : Packet
                 serverGuid = default;
                 serverHasSecurity = default;
                 mtuSize = default;
+                Cookie = default;
             }
     }
 
@@ -438,7 +447,8 @@ public partial class OpenConnectionRequest2 : Packet
         public long clientGuid; // = null;
         public short mtuSize; // = null;
         public IPEndPoint remoteBindingAddress; // = null;
-
+        public int Cookie;
+        public byte Client_supports_security;
         public OpenConnectionRequest2()
             {
                 Id = 0x07;
@@ -452,6 +462,12 @@ public partial class OpenConnectionRequest2 : Packet
                 BeforeEncode();
 
                 Write(offlineMessageDataId);
+                
+                if (Client_supports_security == 0x01)
+                    {
+                        Write(Cookie);
+                        Write(Client_supports_security);
+                    }
                 Write(remoteBindingAddress);
                 WriteBe(mtuSize);
                 Write(clientGuid);
@@ -469,6 +485,12 @@ public partial class OpenConnectionRequest2 : Packet
                 BeforeDecode();
 
                 ReadBytes(offlineMessageDataId.Length);
+               
+                if (Client_supports_security == 0x01)
+                    {
+                        Cookie = ReadInt();
+                        ReadByte();
+                    }
                 remoteBindingAddress = ReadIPEndPoint();
                 mtuSize = ReadShortBe();
                 clientGuid = ReadLong();
@@ -4433,9 +4455,10 @@ public partial class McpeSetDifficulty : Packet
 public partial class McpeChangeDimension : Packet
     {
         public int dimension; // = null;
+        private readonly byte fix = 0x00;
         public Vector3 position; // = null;
         public bool respawn; // = null;
-        private byte fix = 0x00;
+
         public McpeChangeDimension()
             {
                 Id = 0x3d;
@@ -4467,7 +4490,7 @@ public partial class McpeChangeDimension : Packet
                 dimension = ReadSignedVarInt();
                 position = ReadVector3();
                 respawn = ReadBool();
-            
+
                 AfterDecode();
             }
 
@@ -4481,7 +4504,6 @@ public partial class McpeChangeDimension : Packet
                 dimension = default;
                 position = default;
                 respawn = default;
-             
             }
     }
 

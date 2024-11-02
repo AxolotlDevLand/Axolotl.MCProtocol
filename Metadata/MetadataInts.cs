@@ -29,7 +29,7 @@ public class MetadataInts : MetadataDictionary
     {
         public new static MetadataInts FromStream(BinaryReader stream)
             {
-                MetadataInts value = new MetadataInts();
+                MetadataInts value = new();
                 while (true)
                     {
                         byte key = stream.ReadByte();

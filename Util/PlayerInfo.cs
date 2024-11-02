@@ -2,12 +2,13 @@
 
 using Auth;
 using MCProtocol;
+using Newtonsoft.Json.Linq;
 using Skins;
 
 public class PlayerInfo
     {
         public string Xuid { get; set; }
-        public dynamic SkinJson { get; set; }
+        public JObject SkinJson { get; set; }
         public Skin Skin { get; set; }
         public int ADRole { get; set; }
         public CertificateData CertificateData { get; set; }
