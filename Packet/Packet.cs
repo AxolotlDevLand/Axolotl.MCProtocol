@@ -2046,9 +2046,7 @@ public abstract class Packet
                             });
                     }
 
-                string fileNameItemstates = "newResources/itemstates.json";
-                File.WriteAllText(fileNameItemstates, JsonConvert.SerializeObject(result, Formatting.Indented));
-                throw new Exception("Received item runtime ids exported to newResources/itemstates.json\n");
+                
                 return result;
             }
 

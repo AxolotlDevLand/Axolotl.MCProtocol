@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="General\MCProtocol.tt">
+    <None Update="General\MCProtocol.tt.bak">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>MCProtocol.cs</LastGenOutput>
     </None>
@@ -28,10 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="General\MCProtocol.cs">
+    <Compile Update="MCProtocol.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>MCProtocol.tt</DependentUpon>
+      <DependentUpon>MCProtocol.tt.bak</DependentUpon>
     </Compile>
   </ItemGroup>
 
