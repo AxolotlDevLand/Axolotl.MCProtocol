@@ -1,15 +1,5 @@
 #pragma warning disable
 namespace Axolotl.MCProtocol.Packet;
-
-using System.Net;
-using System.Numerics;
-using Items;
-using Metadata;
-using Nbts;
-using Skins;
-using Util;
-
-
 public partial class McpeSetTime : Packet
     {
         public int time; // = null;

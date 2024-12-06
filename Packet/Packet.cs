@@ -912,9 +912,6 @@ public abstract class Packet
                         WriteVarInt(record.Slot);
                         Write(record.OldItem);
                         Write(record.NewItem);
-
-                        //if (transaction.HasNetworkIds)
-                        //	WriteSignedVarInt(record.StackNetworkId);
                     }
 
                 switch (transaction)
