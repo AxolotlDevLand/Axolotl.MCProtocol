@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+      <TargetFramework>net9.0</TargetFramework>
+      <ImplicitUsings>enable</ImplicitUsings>
+      <Nullable>enable</Nullable>
+      <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	  <WarningLevel>0</WarningLevel>
+	  <LangVersion>13.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,21 +18,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="General\MCProtocol.tt.bak">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>MCProtocol.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="MCProtocol.cs">
+    <Compile Update="Detils\McpeProtocolInfo.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>MCProtocol.tt.bak</DependentUpon>
     </Compile>
   </ItemGroup>
 

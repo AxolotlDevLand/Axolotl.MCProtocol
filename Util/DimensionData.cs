@@ -31,7 +31,3 @@ public class DimensionData
         public int MinHeight { get; set; }
         public int Generator { get; set; }
     }
-
-public class DimensionDefinitions : Dictionary<string, DimensionData>
-    {
-    }

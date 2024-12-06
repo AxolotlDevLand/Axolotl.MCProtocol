@@ -26,8 +26,10 @@
 namespace Axolotl.Nbts;
 
 using fNbt;
+using MCProtocol.Packet;
 
 public class Nbt
     {
         public NbtFile NbtFile { get; set; }
+
     }

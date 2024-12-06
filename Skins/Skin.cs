@@ -31,35 +31,6 @@ using Newtonsoft.Json.Serialization;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-public class SkinResourcePatch : ICloneable
-    {
-        public GeometryIdentifier Geometry { get; set; }
-
-        [JsonProperty(PropertyName = "persona_reset_resource_definitions")]
-        public bool PersonaResetResourceDefinitions { get; set; }
-
-        public object Clone()
-            {
-                SkinResourcePatch cloned = (SkinResourcePatch)MemberwiseClone();
-                cloned.Geometry = (GeometryIdentifier)Geometry?.Clone();
-
-                return cloned;
-            }
-    }
-
-public class GeometryIdentifier : ICloneable
-    {
-        public string Default { get; set; }
-
-        [JsonProperty(PropertyName = "animated_face")]
-        public string AnimatedFace { get; set; }
-
-        public object Clone()
-            {
-                return MemberwiseClone();
-            }
-    }
-
 public class Skin : ICloneable
     {
         public bool Slim { get; set; }
@@ -119,7 +90,8 @@ public class Skin : ICloneable
 
                 if (size != 0x2000 && size != 0x4000 && size != 0x10000)
                     return null;
-
+                //htttp Get
+                
                 byte[] bytes = new byte[size];
 
                 int i = 0;

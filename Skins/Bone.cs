@@ -27,34 +27,6 @@ namespace Axolotl.Skins;
 
 using Newtonsoft.Json;
 
-public enum BoneName
-    {
-        Unknown,
-        Root,
-        Body,
-        Waist,
-        Head,
-        Hat,
-        LeftArm,
-        RightArm,
-        LeftLeg,
-        RightLeg,
-        Cape,
-        LeftItem,
-        RightItem,
-        LeftSleeve,
-        RightSleeve,
-        LeftPants,
-        RightPants,
-        Jacket
-    }
-
-public class Locators
-    {
-        [JsonProperty(PropertyName = "lead_hold")]
-        public float[] LeadHold { get; set; }
-    }
-
 public class Bone : ICloneable
     {
         public string Name { get; set; }

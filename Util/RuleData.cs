@@ -25,10 +25,6 @@
 
 namespace Axolotl.Util;
 
-public class Rules : List<RuleData>
-    {
-    }
-
 public class RuleData
     {
         public string Name { get; set; }

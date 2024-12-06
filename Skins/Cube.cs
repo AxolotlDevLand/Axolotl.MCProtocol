@@ -28,18 +28,6 @@ namespace Axolotl.Skins;
 using System.Numerics;
 using Newtonsoft.Json;
 
-public enum Face
-    {
-        None,
-        Inside,
-        Top,
-        Bottom,
-        Right,
-        Front,
-        Left,
-        Back
-    }
-
 public class Cube : ICloneable
     {
         public float[] Origin { get; set; } = new float[3];

@@ -32,7 +32,3 @@ public class ItemComponent
         public string Name { get; set; }
         public Nbt Nbt { get; set; }
     }
-
-public class ItemComponentList : List<ItemComponent>
-    {
-    }
